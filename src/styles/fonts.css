@@ -1,0 +1,94 @@
+/**
+* @license
+*
+* Font Family: Sentient
+* Designed by: Noopur Choksi
+* URL: https://www.fontshare.com/fonts/sentient
+* © 2025 Indian Type Foundry
+*
+* Sentient Variable (Variable font)
+*
+*/
+
+/* Archivo Variable Font */
+@font-face {
+	font-family: 'Archivo Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url(@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2)
+		format('woff2-variations');
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Sentient Variable Font - Normal */
+@font-face {
+	font-family: 'Sentient-Variable';
+	src:
+		url('../lib/assets/fonts/sentient/Sentient-Variable.woff2') format('woff2'),
+		url('../lib/assets/fonts/sentient/Sentient-Variable.woff') format('woff'),
+		url('../lib/assets/fonts/sentient/Sentient-Variable.ttf') format('truetype');
+	font-weight: 200 700;
+	font-display: swap;
+	font-style: normal;
+}
+
+/* Sentient Variable Font - Italic */
+@font-face {
+	font-family: 'Sentient-Variable';
+	src:
+		url('../lib/assets/fonts/sentient/Sentient-VariableItalic.woff2') format('woff2'),
+		url('../lib/assets/fonts/sentient/Sentient-VariableItalic.woff') format('woff'),
+		url('../lib/assets/fonts/sentient/Sentient-VariableItalic.ttf') format('truetype');
+	font-weight: 200 700;
+	font-display: swap;
+	font-style: italic;
+}
+
+/* League Gothic - Regular */
+@font-face {
+	font-family: 'League Gothic';
+	src: url('../lib/assets/fonts/LeagueGothic-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+	font-style: normal;
+}
+
+/* League Gothic - Italic */
+@font-face {
+	font-family: 'League Gothic';
+	src: url('../lib/assets/fonts/LeagueGothic-Italic.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+	font-style: italic;
+}
+
+/* League Gothic Condensed - Regular */
+@font-face {
+	font-family: 'League Gothic Condensed';
+	src: url('../lib/assets/fonts/LeagueGothic-Condensed.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+	font-style: normal;
+}
+
+/* League Gothic Condensed - Italic */
+@font-face {
+	font-family: 'League Gothic Condensed';
+	src: url('../lib/assets/fonts/LeagueGothic-CondensedItalic.woff2') format('woff2');
+	font-weight: 400;
+	font-display: swap;
+	font-style: italic;
+}
+
+/* Atkinson Hyperlegible Variable Font */
+@font-face {
+	font-family: 'Atkinson Hyperlegible';
+	src: url('../lib/assets/fonts/AtkinsonHyperlegibleNextVF-Variable.woff2')
+		format('woff2-variations');
+	font-weight: 100 900;
+	font-display: swap;
+	font-style: normal;
+}

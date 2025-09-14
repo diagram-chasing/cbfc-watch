@@ -1,0 +1,958 @@
+---
+title: "Analyzing Film Censorship in India: CBFC Watch"
+author: "Analysis by Aman Bhargava and Vivek Matthew, Diagram Chasing"
+date: "Updated: `r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    theme: united
+    highlight: tango
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    code_folding: show
+    code_download: true
+    df_print: paged
+    number_sections: true
+    fig_width: 10
+    fig_height: 6
+    fig_caption: true
+    self_contained: true
+    keep_md: false
+editor_options:
+  chunk_output_type: console
+---
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+body {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  background-color: var(--color-sepia);
+  color: var(--color-sepia-brown);
+  line-height: 1.6;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+</style>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(zoo)
+library(jsonlite)
+library(knitr)
+library(tidytext)
+library(widyr)
+library(igraph)
+library(ggraph)
+library(broom)
+library(forcats)
+library(wesanderson)
+library(gt)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 10,
+  fig.height = 6,
+  dpi = 300,
+  out.width = "100%"
+)
+
+options(scipen = 999)
+
+wes_colors <- wes_palette("Darjeeling1", 8, type = "continuous")
+primary_color <- "#3182bd"
+secondary_color <- "#de77ae"
+tertiary_color <- "#2c7fb8"
+
+theme_cbfc <- function() {
+  theme_minimal(base_family = "sans") +
+    theme(
+      plot.title = element_text(face = "bold", size = 16, margin = margin(b = 8)),
+      plot.subtitle = element_text(size = 11, color = "gray40", margin = margin(b = 15)),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.text = element_text(size = 10, color = "gray40"),
+      strip.text = element_text(size = 11, face = "bold", color = "gray20"),
+      plot.margin = margin(20, 25, 20, 25)
+    )
+}
+
+clean_name <- function(name) {
+  if (is.na(name) || name == "") return("")
+  name <- str_trim(name) %>%
+    str_replace("[\\.,!?;:]+$", "") %>%
+    str_replace("^[\\.,!?;:]+", "") %>%
+    str_replace('^"{2,3}(.+?)"{2,3}$', "\\1") %>%
+    str_replace("^'(.+?)'$", "\\1") %>%
+    str_replace("\\*+$", "") %>%
+    str_replace_all("\\s+", " ")
+  str_trim(name)
+}
+
+make_slug <- function(name, year) {
+  if (is.na(name) || name == "") return("unknown")
+  slug <- clean_name(name) %>% 
+    str_to_lower() %>%
+    str_replace_all("[^\\w\\s-]", "") %>%
+    str_replace_all("[\\s-]+", "-") %>%
+    str_replace_all("^-+|-+$", "")
+  
+  if (!is.na(year) && year != "") {
+    paste0(slug, "-", year)
+  } else {
+    slug
+  }
+}
+
+extract_year <- function(cert_date, cert_no = NULL) {
+  if (is.null(cert_date)) cert_date <- NA
+  if (is.null(cert_no)) cert_no <- NA
+  
+  if (!is.na(cert_date)) {
+    cert_date_str <- as.character(cert_date)
+    if (cert_date_str != "" && cert_date_str != "NA") {
+      tryCatch({
+        year_from_date <- year(as.Date(cert_date_str, format = "%Y-%m-%d"))
+        if (!is.na(year_from_date)) return(year_from_date)
+      }, error = function(e) {})
+    }
+  }
+  
+  if (!is.na(cert_no)) {
+    cert_no_str <- as.character(cert_no)
+    if (cert_no_str != "" && cert_no_str != "NA") {
+      tryCatch({
+        parts <- str_split(cert_no_str, "-")[[1]]
+        if (length(parts) >= 2) {
+          before_last <- parts[length(parts) - 1]
+          year_match <- str_extract(before_last, "\\d{4}$")
+          if (!is.na(year_match)) {
+            year_val <- as.numeric(year_match)
+            if (year_val >= 1900 && year_val <= 2090) {
+              return(year_val)
+            }
+          }
+        }
+      }, error = function(e) {})
+    }
+  }
+  
+  return(NA_real_)
+}
+
+format_seconds <- function(secs) {
+  minutes <- floor(secs / 60)
+  seconds <- round(secs %% 60)
+  return(sprintf("%dm %02ds", minutes, seconds))
+}
+```
+
+# Introduction
+
+This notebook contains the data analysis for the charts and numbers used on our site, [CBFC.WATCH](https://cbfc.watch). To ensure full transparency with our readers, we are publishing our methodology and the R code used to generate the statistics for various parts of the site, as well as to provide a starting point for others who may be curious about how to use the data.
+
+We explore these questions:
+
+1. Do some regional CBFC offices require more modifications than others?
+2. How have the primary reasons for censorship (e.g., violence, profanity, sexual content) trended over time?
+3. How much footage is typically removed from a film?
+4. Which specific censorship categories are becoming more frequent, and which are declining?
+5. What specific words and themes are most associated with each major censorship category?
+6. Which specific films have had the most footage removed by each regional office?
+
+## Data Loading and Preparation
+
+Importing the dataset, correcting data types, and standardizing categorical information like language and regional office names.
+
+```{r load-and-clean-data}
+data <- read_csv("https://github.com/diagram-chasing/censor-board-cuts/raw/refs/heads/master/data/data.csv", 
+                 col_types = cols(.default = "c")) %>%
+  mutate(
+    cert_date = as.Date(cert_date),
+    total_modified_time_secs = as.numeric(total_modified_time_secs),
+    deleted_secs = as.numeric(deleted_secs),
+    replaced_secs = as.numeric(replaced_secs),
+    inserted_secs = as.numeric(inserted_secs)
+  ) %>%
+  # The 'certifier' column contains a string like "Examining Committee, Mumbai".
+  # We extract the regional office name by splitting the string by the comma
+  # and taking the last element.
+  mutate(
+    office = str_split(certifier, ",") %>%
+      map_chr(last) %>%
+      str_trim()
+  ) %>%
+  separate_rows(ai_content_types, sep = "\\|") %>%
+  mutate(ai_content_types = str_trim(ai_content_types)) %>%
+  # Filter out any rows where the content type is empty after separation.
+  filter(ai_content_types != "") %>%
+  # Standardize language names to correct for typos and variations in the raw data
+  mutate(
+    language = case_when(
+      language == "Oriya" ~ "Odia",
+      language == "Gujrati" ~ "Gujarati",
+      language == "Chhatisgarhi" ~ "Chhattisgarhi",
+      language == "Hariyanvi" ~ "Haryanvi",
+      language == "Hindi Dub" ~ "Hindi Dubbed",
+      TRUE ~ language
+    )
+  ) %>%
+  filter(!is.na(language))
+```
+
+```{r output-bad-words, include=FALSE}
+
+# Process the ai_reference column to find the most common words we can blur out on the site in SFW mode
+# Focus on the most offensive categories: profanity and sexual content
+common_words_to_blur <- data %>%
+  filter(!is.na(ai_reference), 
+         ai_content_types %in% c("profanity", "sexual_explicit", "sexual_suggestive")) %>%
+  mutate(word = str_split(tolower(ai_reference), "\\|")) %>%
+  unnest(word) %>%
+  filter(word != "", 
+ !word %in% c('abuse', 'acid', 'aditya', 'alcohol', 'amman', 'amma', 'anjali', 'anitha', 'anuradha', 'arjun', 'arun', 'aryan', 'asha', 'aunty', 'bad language', 'bad words', 'banana', 'bed', 'beer', 'belly', 'bit', 'blood', 'blouse', 'body', 'bomb', 'boy', 'boys', 'bum', 'chest', 'christ', 'clothes', 'cocaine', 'couple', 'crime', 'cuss word', 'dance', 'dancing', 'darling', 'dead body', 'derogatory word', 'dialogue', 'dog', 'doll', 'donga', 'double meaning', 'dress', 'drug', 'drugs', 'elizabeth', 'enjoy', 'face', 'fight', 'figure', 'film', 'finger', 'foul word', 'fresh', 'gay', 'geetha', 'ghost', 'girl', 'girls', 'god', 'gopi', 'gun', 'hand', 'haram', 'hell', 'hero', 'heroin', 'heroine', 'hot', 'hugging', 'idiot', 'indian', 'indu', 'item', 'item song', 'jai', 'jayamalini', 'jenny', 'jesus', 'kasi', 'killing', 'kiran', 'krishna', 'kumar', 'ladki', 'lady', 'ladies', 'lakshmi', 'leg', 'legs', 'lesbian', 'liquor', 'love', 'lyrics', 'maa', 'mallika', 'man', 'mani', 'marijuana', 'massage', 'matter', 'men', 'mental', 'mohan', 'money', 'mother', 'movie', 'murder', 'muslim', 'naina', 'navel', 'off', 'obscene word', 'pant', 'period', 'person', 'phone', 'piece', 'police', 'pregnant', 'priya', 'profanity', 'psycho', 'radha', 'raghu', 'ragini', 'raja', 'raju', 'ramu', 'ramya', 'rani', 'rascal', 'ravi', 'rekha', 'romance', 'romancing', 'rowdy', 'rum', 'sad', 'santhi', 'saree', 'scene', 'sexual_explicit', 'sexual_suggestive', 'shakeela', 'shanthi', 'sid', 'silk smitha', 'sister', 'skirt', 'slapping', 'smoking', 'son', 'song', 'sumathi', 'sunny leone', 'surya', 'teacher', 'thigh', 'thighs', 'touching', 'transgender', 'vasu', 'vijay', 'vijju', 'vikram', 'violence', 'vishnu', 'vulgar', 'waist', 'wife', 'wine', 'woman', 'women', 'word', 'words', 'you')
+  ) %>%
+  count(word, sort = TRUE) %>%
+  slice_head(n = 500) %>% 
+  pull(word)
+
+write_json(common_words_to_blur, "bad_words.json", pretty = TRUE, auto_unbox = TRUE)
+
+```
+
+## Exploratory Data Analysis
+
+### Languages in the Dataset
+
+Counting how many films for each language in the dataset. We'll show the top ones.
+
+```{r languages-chart}
+films_by_language_data <- data %>%
+  distinct(id, language) %>%
+  count(language, sort = TRUE) %>%
+  top_n(10, n) %>%
+  mutate(language = fct_reorder(language, n))
+
+# write_json(films_by_language_data, "films_by_language.json", pretty = TRUE, auto_unbox = TRUE)
+
+films_by_language_data %>%
+  ggplot(aes(x = n, y = language)) +
+  geom_col(fill = tertiary_color, alpha = 0.9) +
+  geom_text(aes(label = comma(n)), hjust = -0.15, size = 3.5, color = "gray20") +
+  scale_x_continuous(
+    labels = comma,
+    expand = expansion(mult = c(0, 0.12))
+  ) +
+  labs(
+    title = "Top 15 Languages by Number of Films Censored",
+    subtitle = "Hindi, Telugu, and Tamil are the languages with the most films",
+    x = "Number of Unique Films",
+    y = NULL
+  ) +
+  theme_cbfc()
+```
+
+### Reasons for Modification
+
+The most common reasons for modifications, based on the AI-classified content types.
+
+```{r modifications-chart}
+mods_by_content_data <- data %>%
+  filter(!is.na(ai_content_types)) %>%
+  count(ai_content_types, sort = TRUE) %>%
+  top_n(15, n) %>%
+  mutate(
+    pretty_name = str_replace_all(ai_content_types, "_", " ") %>% str_to_title(),
+    pretty_name = fct_reorder(pretty_name, n)
+  )
+
+write_json(mods_by_content_data, "modifications_by_content.json", pretty = TRUE, auto_unbox = TRUE)
+
+mods_by_content_data %>%
+  ggplot(aes(x = n, y = pretty_name)) +
+  geom_col(fill = secondary_color, alpha = 0.9) +
+  geom_text(aes(label = comma(n)), hjust = -0.15, size = 3, color = "gray20") +
+  scale_x_continuous(
+    labels = comma,
+    expand = expansion(mult = c(0, 0.1))
+  ) +
+  labs(
+    title = "Most Common Reasons for Film Modifications",
+    x = "Number of Modifications",
+    y = "Content Category"
+  ) +
+  theme_cbfc()
+```
+
+### Duration of Edits by Action
+
+We've classified each modification log into verbs depending on what action was taken. For example, adding a smoking disclaimer might be an 'Insertion' but removing an entire scene is 'Deletion'. There are also replacements, audio modifications, visual modifications (such as blurs), and so on. We can look at the general distribution for each of these edits.
+
+```{r duration-boxplot}
+duration_summary <- data %>%
+  filter(total_modified_time_secs > 0, !is.na(ai_action)) %>%
+  group_by(ai_action) %>%
+  summarise(
+    min = min(total_modified_time_secs, na.rm = TRUE),
+    q1 = quantile(total_modified_time_secs, 0.25, na.rm = TRUE),
+    median = median(total_modified_time_secs, na.rm = TRUE),
+    q3 = quantile(total_modified_time_secs, 0.75, na.rm = TRUE),
+    max = max(total_modified_time_secs, na.rm = TRUE),
+    count = n(),
+    .groups = 'drop'
+  ) %>%
+  mutate(pretty_name = str_replace_all(ai_action, "_", " ") %>% str_to_title()) %>%
+  arrange(median)
+
+
+# Export sample of raw data for BoxX component
+duration_boxplot_data <- data %>%
+   filter(
+    total_modified_time_secs > 0, 
+    total_modified_time_secs < 1400, # Found that anything above this is mostly incorrectly entered data
+    !is.na(ai_action),
+    ai_action != 'content_overlay',
+    movie_name != 'ARISHADVARGA' # this movie clearly has a data processing error where the times are added cumulatively https://archive.org/details/cbfc-ecinepramaan-100020292100000261
+  ) %>%
+  mutate(pretty_name = str_replace_all(ai_action, "_", " ") %>% str_to_title()) %>%
+  group_by(ai_action, pretty_name) %>%
+  # Sample up to 500 points. If a group has < 500 points, it will take all of them.
+  slice_sample(n = 500) %>%
+  ungroup() %>%
+  select(
+    action = ai_action,
+    category = pretty_name, 
+    duration = total_modified_time_secs
+  )
+
+
+write_json(duration_summary, "duration_by_action_summary.json", pretty = TRUE, auto_unbox = TRUE)
+write_json(duration_boxplot_data, "duration_by_action_boxplot.json", pretty = TRUE, auto_unbox = TRUE)
+
+  duration_boxplot_data %>% 
+  ggplot(aes(
+    x = fct_reorder(category, duration, .fun = median),
+    y = duration,
+    fill = category
+  )) +
+  geom_boxplot(show.legend = FALSE, alpha = 0.8, fill = wes_colors[3]) +
+  scale_y_log10(
+    breaks = c(1, 10, 60, 300, 1800),
+    labels = c("1 sec", "10 secs", "1 min", "5 mins", "30 mins")
+  ) +
+  coord_flip() +
+  labs(
+    title = "How Long are Different Types of Edits?",
+    subtitle = "Distribution of modification durations for each action type on a logarithmic scale.",
+    x = NULL,
+    y = "Duration of Modification"
+  ) +
+  theme_cbfc()
+```
+
+## Modification Reasons by Movie Rating
+
+The dataset includes tags for what reason a particular modification was made; violence, profanity and so on. While I have a pretty good idea of what this will give, we can see what is the breakdown of each reason by the rating for that movie (rating is the `U`, `UA`, `A` classification for who can watch the movie).
+
+```{r rating-breakdown}
+rating_breakdown <- data %>%
+  filter(rating %in% c("U", "UA", "A"), !is.na(ai_content_types)) %>%
+  mutate(content_category = case_when(
+    ai_content_types %in% c("sexual_explicit", "sexual_suggestive") ~ "Sexual Content",
+    ai_content_types == "profanity" ~ "Profanity",
+    ai_content_types == "violence" ~ "Violence",
+    ai_content_types == "substance" ~ "Substance Use",
+    ai_content_types == "religious" ~ "Religious Content",
+    ai_content_types == "political" ~ "Political Content",
+    TRUE ~ "Other"
+  )) %>%
+  count(rating, content_category, name = "modification_count", sort = TRUE) %>%
+  group_by(rating) %>%
+  mutate(percentage = modification_count / sum(modification_count)) %>%
+  ungroup()
+
+common_types <- rating_breakdown %>%
+  filter(content_category != "Other") %>%
+  group_by(content_category) %>%
+  summarise(total = sum(modification_count), .groups = 'drop') %>%
+  pull(content_category)
+
+rating_breakdown %>%
+  filter(content_category %in% common_types) %>%
+  ggplot(aes(
+    x = percentage,
+    y = fct_reorder(content_category, percentage, .desc = FALSE),
+    fill = rating
+  )) +
+  geom_col(color = "white", linewidth = 0.5) +
+  facet_wrap(~rating, scales = "free_y", ncol = 3) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_fill_manual(
+    values = c("U" = wes_colors[1], "UA" = wes_colors[2], "A" = wes_colors[3])
+  ) +
+  labs(
+    title = "Censorship reasons by film rating",
+    subtitle = "Proportional breakdown of modification reasons within each film rating category.",
+    x = "% of all modifications for this rating",
+    y = NULL
+  ) +
+  theme_cbfc() +
+  theme(
+    strip.text = element_text(size = 14, face = "bold", color = "gray20", margin = margin(t = 5, b = 10)),
+    strip.background = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linetype = "dotted"),
+    panel.spacing.x = unit(2, "lines"),
+    legend.position = "none"
+  )
+
+write_json(rating_breakdown, "rating_breakdown.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Average Cut Time by Regional Office
+
+Different regional offices of the CBFC may apply censorship standards differently. Here, we calculate the average total time modified per film for each major office. We filter out extreme outliers (films with more than 30 minutes of cuts) and only include offices that have certified a sufficient number of films (at least 50).
+
+```{r cuts-by-office-stats}
+film_summary <- data %>%
+  filter(!is.na(office) & !str_detect(office, "\\.mp4$")) %>%
+  group_by(id, movie_name, office) %>%
+  summarise(
+    total_secs = sum(total_modified_time_secs, na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  filter(total_secs > 0, total_secs < 1800)
+
+office_stats <- film_summary %>%
+  group_by(office) %>%
+  filter(n() >= 50) %>%
+  summarise(
+    film_count = n(),
+    mean_total_secs = mean(total_secs, na.rm = TRUE),
+    se = sd(total_secs, na.rm = TRUE) / sqrt(n()),
+    ci_lower_secs = pmax(0, mean_total_secs - 1.96 * se),
+    ci_upper_secs = mean_total_secs + 1.96 * se,
+    .groups = 'drop'
+  ) %>%
+  arrange(desc(mean_total_secs))
+
+write_json(office_stats, "cuts_by_office.json", pretty = TRUE, auto_unbox = TRUE)
+
+summary_table <- office_stats %>%
+  mutate(
+    `Average Time` = format_seconds(mean_total_secs),
+    `95% CI Lower` = format_seconds(ci_lower_secs),
+    `95% CI Upper` = format_seconds(ci_upper_secs)
+  ) %>%
+  select(
+    Office = office,
+    `Films Analyzed` = film_count,
+    `Average Time`,
+    `95% CI Lower`,
+    `95% CI Upper`
+  )
+
+summary_table %>%
+  gt() %>%
+  tab_header(
+    title = "Average Modification Time per Film by CBFC Regional Office",
+    subtitle = "Analysis of offices with at least 50 certified films"
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = wes_colors[1], alpha = 0.3),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_body(columns = c(`Films Analyzed`, `Average Time`, `95% CI Lower`, `95% CI Upper`))
+  ) %>%
+  cols_align(
+    align = "left",
+    columns = Office
+  ) %>%
+  tab_options(
+    table.font.names = "Atkinson Hyperlegible",
+    heading.title.font.size = 16,
+    heading.subtitle.font.size = 12,
+    column_labels.font.size = 12,
+    table.font.size = 11
+  )
+```
+
+## Trends in Censorship Content Types
+
+Have the reasons for film censorship changed over time? This analysis tracks the changes in different modification types (Violence, Profanity, Sexual Content, etc.) on a monthly basis.
+
+For each category, we calculate its deviation from its own historical average (the "baseline"). This method clearly shows periods when a certain type of content was censored more or less frequently than usual. We also apply a 3-month moving average to smooth out short-term noise and reveal the underlying trend.
+
+```{r content-trends-chart}
+interpolate_at_zero <- function(df) {
+  sign_change <- which(diff(sign(df$deviation_pct_smooth)) != 0)
+  if (length(sign_change) == 0) return(df)
+  
+  interpolated <- map_df(sign_change, ~{
+    slice <- df[.x:(.x + 1), ]
+    zero_cross_date <- approx(slice$deviation_pct_smooth, as.numeric(slice$year_month), xout = 0)$y
+    if (is.na(zero_cross_date)) return(tibble())
+    tibble(
+      year_month = as.Date(zero_cross_date, origin = "1970-01-01"),
+      deviation_pct_smooth = 0,
+      above_baseline = slice$above_baseline[2],
+      content_type = slice$content_type[1],
+      baseline_rate = slice$baseline_rate[1]
+    )
+  })
+  
+  bind_rows(df, interpolated) %>% arrange(year_month)
+}
+
+chart_data <- data %>%
+  mutate(
+    year_month = floor_date(cert_date, "month"),
+    content_type = case_when(
+      ai_content_types %in% c("sexual_explicit", "sexual_suggestive") ~ "Sexual Content",
+      ai_content_types == "profanity" ~ "Profanity",
+      ai_content_types == "violence" ~ "Violence",
+      ai_content_types == "substance" ~ "Substance Use",
+      ai_content_types == "religious" ~ "Religious Content",
+      ai_content_types == "political" ~ "Political Content",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(content_type)) %>%
+  group_by(year_month, content_type) %>%
+  summarise(films_with_mods = n_distinct(certificate_id), .groups = "drop") %>%
+  left_join(
+    data %>%
+      mutate(year_month = floor_date(cert_date, "month")) %>%
+      group_by(year_month) %>%
+      summarise(total_films = n_distinct(certificate_id)),
+    by = "year_month"
+  ) %>%
+  mutate(rate = films_with_mods / total_films) %>%
+  filter(total_films >= 10) %>%
+  group_by(content_type) %>%
+  arrange(year_month) %>%
+  mutate(
+    baseline_rate = mean(rate),
+    deviation_pct = (rate - baseline_rate) / baseline_rate * 100,
+    deviation_pct_smooth = zoo::rollmean(deviation_pct, k = 3, fill = NA, align = "center"),
+    above_baseline = ifelse(is.na(deviation_pct_smooth), NA, deviation_pct_smooth > 0)
+  ) %>%
+  ungroup() %>%
+  filter(!is.na(deviation_pct_smooth)) %>%
+  mutate(content_type = fct_reorder(content_type, baseline_rate, .desc = TRUE)) %>%
+  group_by(content_type) %>%
+  group_modify(~ interpolate_at_zero(.x)) %>%
+  ungroup()
+
+ggplot(chart_data, aes(x = year_month, y = deviation_pct_smooth, color = above_baseline, group = 1)) +
+  geom_hline(yintercept = 0, color = "grey40", linetype = "dashed") +
+  geom_line(linewidth = 1.2) +
+  facet_wrap(~content_type, ncol = 3) +
+  scale_color_manual(
+    values = c("TRUE" = wes_colors[5], "FALSE" = wes_colors[1]),
+    labels = c("Below Baseline", "Above Baseline"),
+    name = NULL
+  ) +
+  scale_x_date(
+    date_labels = "'%y",
+    date_breaks = "2 years",
+    expand = expansion(mult = c(0.02, 0.02))
+  ) +
+  scale_y_continuous(
+    labels = function(x) paste0(ifelse(x >= 0, "+", ""), round(x, 0), "%")
+  ) +
+  labs(
+    title = "Censorship Patterns vs. Historical Average",
+    caption = "Note: Dashed line is the baseline average for that category. Red indicates months with above-average censorship rates; blue is below-average.\nA 3-month moving average has been applied to smooth trends. Source: Central Board of Film Certification.",
+    x = NULL,
+    y = "Deviation from Baseline"
+  ) +
+  theme_cbfc() +
+  theme(
+    plot.caption = element_text(size = 9, color = "grey50", hjust = 0, margin = margin(t = 16)),
+    panel.grid.major = element_line(color = "grey90", linewidth = 0.4),
+    legend.position = "bottom"
+  )
+
+write_json(chart_data, "content_trends.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Distribution of Modification Durations
+
+This histogram shows the distribution of total modification times for films that had at least one cut. Approximately half of the films in the dataset have 'zero seconds' of edits (meaning modifications might have been made but they were not logged with a duration of edit); this chart focuses only on those that have duration values.
+
+```{r duration-distribution-chart}
+film_data <- data %>%
+  group_by(id) %>%
+  summarise(
+    total_modified_time_secs = sum(total_modified_time_secs, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+total_films <- nrow(film_data)
+percent_zero <- mean(film_data$total_modified_time_secs == 0, na.rm = TRUE)
+film_data_positive <- film_data %>% filter(total_modified_time_secs > 0)
+median_val_positive <- median(film_data_positive$total_modified_time_secs)
+
+p_dist <- ggplot(film_data_positive, aes(x = total_modified_time_secs)) +
+  geom_histogram(
+    aes(y = after_stat(count) / total_films * 100),
+    fill = wes_colors[2],
+    bins = 40,
+    boundary = 0
+  ) +
+  geom_vline(
+    xintercept = median_val_positive,
+    linetype = "dashed",
+    color = "gray20",
+    linewidth = 0.8
+  ) +
+  # Use a log10 scale on the x-axis because the data is highly skewed.
+  scale_x_log10(
+    breaks = c(1, 10, 60, 300, 1800),
+    labels = c("1s", "10s", "1m", "5m", "30m")
+  ) +
+  scale_y_continuous(
+    expand = expansion(mult = c(0, 0.05)),
+    labels = percent_format(scale = 1)
+  ) +
+  labs(
+    title = "Distribution of Modification Times",
+    subtitle = str_glue("Comparing total modification time for films with at least one cut.
+                        This chart excludes the {percent(percent_zero, accuracy=1)} of films with zero modifications."),
+    x = "Total Modification Time (Logarithmic Scale)",
+    y = "Percent of All Films"
+  ) +
+  theme_cbfc() +
+  theme(
+    panel.grid.major.x = element_blank()
+  )
+
+print(p_dist)
+
+# Export the data used for the histogram to a JSON file.
+# We use ggplot_build() to extract the computed data from the plot object.
+hist_data_for_export <- ggplot_build(p_dist)$data[[1]] %>%
+  select(x_min = xmin, x_max = xmax, count, y_percent_total = y)
+
+export_data_dist <- list(
+  histogram_bins = hist_data_for_export,
+  statistics = list(
+    median_positive_secs = median_val_positive,
+    total_films = total_films,
+    percent_zero_mods = percent_zero
+  ),
+  axis_config = list(
+    breaks = c(1, 10, 60, 300, 1800),
+    labels = c("1s", "10s", "1m", "5m", "30m")
+  )
+)
+
+write_json(export_data_dist, "histogram_data.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Identifying Trending Censorship Categories
+
+To determine which censorship categories are increasing or decreasing over time, we use a logistic regression model.
+
+A positive slope from the model indicates an increasing trend, while a negative slope indicates a decreasing trend. We then visualize the top three fastest-increasing and fastest-decreasing categories since 2018.
+
+This is based on [Julia Silge's excellent article demonstrating a similar type of analysis](https://juliasilge.com/blog/reddit-responds/).
+
+```{r trending-categories-analysis}
+categories_by_quarter <- data %>%
+  filter(!is.na(cert_date), !is.na(ai_content_types), cert_date >= as.Date("2018-01-01")) %>%
+  mutate(quarter = floor_date(cert_date, unit = "3 months")) %>%
+  count(quarter, ai_content_types, name = "category_count") %>%
+  group_by(quarter) %>%
+  mutate(quarter_total_cuts = sum(category_count)) %>%
+  ungroup() %>%
+  group_by(ai_content_types) %>%
+  filter(sum(category_count) > 100) %>%
+  ungroup()
+
+category_models <- categories_by_quarter %>%
+  nest(data = -ai_content_types) %>%
+  # (total - category) as a function of time (quarter).
+  mutate(
+    model = map(data, ~ glm(
+      cbind(category_count, quarter_total_cuts - category_count) ~ quarter,
+      data = .,
+      family = "binomial"
+    ))
+  )
+
+slopes <- category_models %>%
+  mutate(tidied = map(model, tidy)) %>%
+  unnest(tidied) %>%
+  filter(term == "quarter") %>%
+  arrange(desc(estimate))
+
+trends_to_plot <- bind_rows(
+  slopes %>% top_n(3, estimate),
+  slopes %>% top_n(-3, estimate)
+)
+
+ggplot(
+  categories_by_quarter %>% inner_join(trends_to_plot, by = "ai_content_types"),
+  aes(x = quarter, y = category_count / quarter_total_cuts, 
+      color = fct_reorder2(ai_content_types, quarter, category_count))
+) +
+  geom_line(alpha = 0.8, linewidth = 1.2) +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", linewidth = 0.5) +
+  facet_wrap(~ ifelse(estimate > 0, "Increasing Trends", "Decreasing Trends"), scales = "free_y") +
+  scale_y_continuous(labels = percent_format()) +
+  scale_color_manual(values = wes_colors) +
+  labs(
+    title = "Which Censorship Categories Have Trended Up or Down?",
+    subtitle = "Proportion of all modifications per quarter since 2018, with a linear trendline.",
+    x = "Date of Certification",
+    y = "Percent of All Cuts in Quarter",
+    color = "Content Type"
+  ) +
+  theme_cbfc() +
+  theme(legend.position = "bottom")
+
+# Export trending categories data
+# Create clean version of trends_to_plot without model objects
+trends_clean <- trends_to_plot %>% 
+  select(ai_content_types, estimate, std.error, statistic, p.value)
+
+trending_export <- list(
+  slopes = slopes %>% select(ai_content_types, estimate, std.error, statistic, p.value),
+  quarterly_data = categories_by_quarter %>%
+    inner_join(trends_clean, by = "ai_content_types") %>%
+    select(quarter, ai_content_types, category_count, quarter_total_cuts, 
+           estimate, std.error, statistic, p.value)
+)
+write_json(trending_export, "trending_categories.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Keyword Co-occurrence Network
+
+This analysis explores which terms tend to appear together within the same film's modification records.
+
+We calculate the pairwise correlation between the 50 most common keywords and visualize the results as a network graph.
+
+**This contains a lot of NSFW stuff, but hiding it would...probably defeat the point**.
+
+```{r co-occurrence-network}
+reference_words <- data %>%
+  filter(!is.na(ai_reference)) %>%
+  mutate(word = str_split(tolower(ai_reference), "\\|")) %>%
+  unnest(word) %>%
+  filter(!is.na(word), !str_detect(word, "violence|scene|visual|dialogue")) %>%
+  select(id, word)
+
+word_counts <- reference_words %>%
+  count(word, sort = TRUE)
+
+word_pairs <- reference_words %>%
+  filter(word %in% (word_counts %>% top_n(50, n) %>% pull(word))) %>%
+  pairwise_cor(item = word, feature = id, sort = TRUE)
+
+word_pairs %>%
+  filter(correlation > 0.05) %>%
+  graph_from_data_frame() %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
+  geom_node_point(color = wes_colors[3], size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE) +
+  theme_void() +
+  labs(
+    title = "Which Censorship Terms Appear Together?",
+    subtitle = "Co-occurrence network of the 50 most common keywords in CBFC modification records."
+  )
+
+# Export co-occurrence network data
+network_export <- list(
+  word_counts = word_counts %>% top_n(50, n),
+  word_pairs = word_pairs %>% filter(correlation > 0.05)
+)
+write_json(network_export, "keyword_network.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Most Important Keywords by Category (TF-IDF)
+
+While the network graph shows which words co-occur, it doesn't tell us which words are most characteristic of a *specific censorship category*. For that, we use a metric called [Term Frequency-Inverse Document Frequency (TF-IDF)](https://www.tidytextmining.com/tfidf).
+
+TF-IDF identifies words that are common within one category (e.g., "blood" in the "violence" category) but are relatively rare in all other categories.
+
+```{r tfidf-analysis}
+reference_tokens <- data %>%
+  filter(!is.na(ai_reference), !is.na(ai_content_types)) %>%
+  select(ai_content_types, ai_reference) %>%
+  mutate(word = str_split(tolower(ai_reference), "\\|")) %>%
+  unnest(word) %>%
+  filter(word != "")
+
+reference_tfidf <- reference_tokens %>%
+  count(ai_content_types, word, sort = TRUE) %>%
+  bind_tf_idf(term = word, document = ai_content_types, n = n) %>%
+  arrange(desc(tf_idf))
+
+top_terms_table <- reference_tfidf %>%
+  group_by(ai_content_types) %>%
+  slice_max(order_by = tf_idf, n = 5) %>%
+  ungroup() %>%
+  select(Category = ai_content_types, Term = word, `TF-IDF` = tf_idf) %>%
+  filter(Category %in% c("violence", "profanity", "sexual_suggestive", "substance", "political", "religious"))
+
+top_terms_table %>%
+  gt() %>%
+  tab_header(
+    title = "Most Distinctive Keywords by Censorship Category",
+    subtitle = "Using Term Frequency-Inverse Document Frequency (TF-IDF) analysis"
+  ) %>%
+  fmt_number(
+    columns = `TF-IDF`,
+    decimals = 3
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = wes_colors[2], alpha = 0.3),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(transform = "capitalize"),
+    locations = cells_body(columns = Category)
+  ) %>%
+  tab_style(
+    style = cell_text(style = "italic"),
+    locations = cells_body(columns = Term)
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = `TF-IDF`
+  ) %>%
+  tab_options(
+    table.font.names = "Atkinson Hyperlegible",
+    heading.title.font.size = 16,
+    heading.subtitle.font.size = 12,
+    column_labels.font.size = 12,
+    table.font.size = 11,
+    row_group.font.weight = "bold"
+  )
+
+write_json(reference_tfidf %>% slice_head(n = 300), "tfidf_analysis.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Top Censored Films by Office
+
+Identifies the top films that had the most time removed by each major CBFC regional office.
+
+```{r top-censored-films-by-office}
+film_level_summary <- data %>%
+  filter(!is.na(office) & !str_detect(office, "\\.mp4$")) %>%
+  group_by(id, movie_name, office, language, cert_date, cert_no) %>%
+  summarise(
+    total_cuts = n(),
+    total_time_removed_secs = sum(total_modified_time_secs, na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  filter(total_time_removed_secs > 0, total_time_removed_secs < 1800) %>%
+  mutate(
+    year = map2_dbl(cert_date, cert_no, ~ extract_year(.x, .y)),
+    cleaned_name = map_chr(movie_name, clean_name),
+    slug = map2_chr(cleaned_name, year, make_slug)
+  )
+
+top_censored_by_office <- film_level_summary %>%
+  group_by(office) %>%
+  arrange(desc(total_time_removed_secs)) %>%
+  slice_head(n = 10) %>%
+  ungroup() %>%
+  mutate(
+    duration_formatted = format_seconds(total_time_removed_secs)
+  ) %>%
+  arrange(office, desc(total_time_removed_secs)) %>%
+  select(Office = office, Language = language, `Film Name` = cleaned_name, 
+         `Time Removed` = duration_formatted, `Total Cuts` = total_cuts, Slug = slug)
+
+display_table <- top_censored_by_office %>%
+  select(-Slug)
+
+display_table %>%
+  gt() %>%
+  tab_header(
+    title = "Top 10 Most Censored Films by Time Removed",
+    subtitle = "Films with the highest modification times for each regional office"
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = wes_colors[3], alpha = 0.3),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(style = "italic"),
+    locations = cells_body(columns = `Film Name`)
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = c(Language, `Time Removed`, `Total Cuts`)
+  ) %>%
+  cols_align(
+    align = "left",
+    columns = c(Office, `Film Name`)
+  ) %>%
+  tab_options(
+    table.font.names = "Atkinson Hyperlegible",
+    heading.title.font.size = 16,
+    heading.subtitle.font.size = 12,
+    column_labels.font.size = 12,
+    table.font.size = 11
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = c("top", "bottom"),
+      color = "lightgray",
+      weight = px(1)
+    ),
+    locations = cells_body()
+  )
+
+# Export top censored films data with slug included
+write_json(top_censored_by_office, "top_censored_films.json", pretty = TRUE, auto_unbox = TRUE)
+```
+
+## Further Information
+
+For more details, interactive charts, and the full explorer, please visit our project website: https://cbfc.watch
+
+The analysis was conducted by Aman Bhargava and Vivek Matthew for Diagram Chasing.
+
+### How to Cite
+
+```
+Bhargava, A., Matthew, V., & Diagram Chasing. (2025). Analyzing Film Censorship in India: CBFC Watch. Retrieved from https://cbfc.watch.
+```
+
+**BibTeX Entry**
+
+For use in LaTeX documents, you can use the following BibTeX entry:
+
+```bibtex
+@misc{Bhargava2025CBFC,
+  author = {Bhargava, Aman and Matthew, Vivek and {Diagram Chasing}},
+  title  = {Analyzing Film Censorship in India: CBFC Watch},
+  year   = {2025},
+  month  = {September},
+  howpublished = {\url{https://cbfc.watch}},
+  note   = {Analysis and visualizations by Diagram Chasing. Last accessed: \today}
+}
+```

@@ -1,0 +1,60 @@
+name: Update Typesense Data
+
+on:
+  # Manual trigger only
+  workflow_dispatch:
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: 'typesense'
+  cancel-in-progress: false
+
+jobs:
+  update-typesense:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install requests
+
+      - name: Download latest CSV data
+        run: |
+          mkdir -p data
+          curl -L "https://github.com/diagram-chasing/censor-board-cuts/raw/refs/heads/master/data/data.csv" -o src/lib/data/data.csv
+          echo "Downloaded $(wc -l < src/lib/data/data.csv) lines of data"
+
+      - name: Update Typesense collection
+        env:
+          TYPESENSE_API_KEY: ${{ secrets.PRIVATE_TYPESENSE_API_KEY }}
+          TYPESENSE_HOST: ${{ secrets.TYPESENSE_HOST }}
+          TYPESENSE_PROTOCOL: ${{ secrets.TYPESENSE_PROTOCOL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "🚀 Starting Typesense update..."
+          python3 scripts/search_sync.py src/lib/data/data.csv "$TYPESENSE_PROTOCOL" "$TYPESENSE_HOST" "$TYPESENSE_API_KEY"
+          echo "✅ Typesense update completed"
+
+      - name: Verify update
+        env:
+          TYPESENSE_API_KEY: ${{ secrets.PRIVATE_TYPESENSE_API_KEY }}
+          TYPESENSE_HOST: ${{ secrets.TYPESENSE_HOST }}
+          TYPESENSE_PROTOCOL: ${{ secrets.TYPESENSE_PROTOCOL }}
+        run: |
+          echo "🔍 Basic health check..."
+          curl -f -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" "$TYPESENSE_PROTOCOL://$TYPESENSE_HOST/health"
+
+          echo "📊 Getting document count..."
+          search_result=$(curl -s -H "X-TYPESENSE-API-KEY: $TYPESENSE_API_KEY" \
+          "$TYPESENSE_PROTOCOL://$TYPESENSE_HOST/collections/films/documents/search?q=*&per_page=1")
+          found=$(echo "$search_result" | grep -o '"found":[0-9]*' | cut -d: -f2)
+          echo "✅ Total documents: $found"

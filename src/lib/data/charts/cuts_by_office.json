@@ -1,0 +1,58 @@
+[
+  {
+    "office": "Chennai",
+    "film_count": 1458,
+    "mean_total_secs": 165.6804,
+    "se": 6.6494,
+    "ci_lower_secs": 152.6475,
+    "ci_upper_secs": 178.7133
+  },
+  {
+    "office": "Thiruvananthpuram",
+    "film_count": 607,
+    "mean_total_secs": 165.2586,
+    "se": 9.5726,
+    "ci_lower_secs": 146.4963,
+    "ci_upper_secs": 184.021
+  },
+  {
+    "office": "Delhi",
+    "film_count": 309,
+    "mean_total_secs": 139.699,
+    "se": 11.8176,
+    "ci_lower_secs": 116.5366,
+    "ci_upper_secs": 162.8614
+  },
+  {
+    "office": "Mumbai",
+    "film_count": 4192,
+    "mean_total_secs": 136.5582,
+    "se": 2.6925,
+    "ci_lower_secs": 131.2809,
+    "ci_upper_secs": 141.8355
+  },
+  {
+    "office": "Bangalore",
+    "film_count": 773,
+    "mean_total_secs": 95.8706,
+    "se": 5.9057,
+    "ci_lower_secs": 84.2954,
+    "ci_upper_secs": 107.4458
+  },
+  {
+    "office": "Kolkata",
+    "film_count": 133,
+    "mean_total_secs": 95.0827,
+    "se": 10.7063,
+    "ci_lower_secs": 74.0983,
+    "ci_upper_secs": 116.0671
+  },
+  {
+    "office": "Hyderabad",
+    "film_count": 849,
+    "mean_total_secs": 94.3345,
+    "se": 5.3051,
+    "ci_lower_secs": 83.9365,
+    "ci_upper_secs": 104.7326
+  }
+]

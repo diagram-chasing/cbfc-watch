@@ -1,0 +1,247 @@
+{
+  "histogram_bins": [
+    {
+      "x_min": 0,
+      "x_max": 0.1233,
+      "count": 80,
+      "y_percent_total": 0.5188
+    },
+    {
+      "x_min": 0.1233,
+      "x_max": 0.2466,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 0.2466,
+      "x_max": 0.3699,
+      "count": 188,
+      "y_percent_total": 1.2192
+    },
+    {
+      "x_min": 0.3699,
+      "x_max": 0.4931,
+      "count": 126,
+      "y_percent_total": 0.8171
+    },
+    {
+      "x_min": 0.4931,
+      "x_max": 0.6164,
+      "count": 209,
+      "y_percent_total": 1.3554
+    },
+    {
+      "x_min": 0.6164,
+      "x_max": 0.7397,
+      "count": 177,
+      "y_percent_total": 1.1479
+    },
+    {
+      "x_min": 0.7397,
+      "x_max": 0.863,
+      "count": 239,
+      "y_percent_total": 1.5499
+    },
+    {
+      "x_min": 0.863,
+      "x_max": 0.9863,
+      "count": 277,
+      "y_percent_total": 1.7964
+    },
+    {
+      "x_min": 0.9863,
+      "x_max": 1.1096,
+      "count": 422,
+      "y_percent_total": 2.7367
+    },
+    {
+      "x_min": 1.1096,
+      "x_max": 1.2329,
+      "count": 390,
+      "y_percent_total": 2.5292
+    },
+    {
+      "x_min": 1.2329,
+      "x_max": 1.3561,
+      "count": 376,
+      "y_percent_total": 2.4384
+    },
+    {
+      "x_min": 1.3561,
+      "x_max": 1.4794,
+      "count": 429,
+      "y_percent_total": 2.7821
+    },
+    {
+      "x_min": 1.4794,
+      "x_max": 1.6027,
+      "count": 490,
+      "y_percent_total": 3.1777
+    },
+    {
+      "x_min": 1.6027,
+      "x_max": 1.726,
+      "count": 414,
+      "y_percent_total": 2.6848
+    },
+    {
+      "x_min": 1.726,
+      "x_max": 1.8493,
+      "count": 613,
+      "y_percent_total": 3.9754
+    },
+    {
+      "x_min": 1.8493,
+      "x_max": 1.9726,
+      "count": 437,
+      "y_percent_total": 2.834
+    },
+    {
+      "x_min": 1.9726,
+      "x_max": 2.0959,
+      "count": 829,
+      "y_percent_total": 5.3761
+    },
+    {
+      "x_min": 2.0959,
+      "x_max": 2.2192,
+      "count": 633,
+      "y_percent_total": 4.1051
+    },
+    {
+      "x_min": 2.2192,
+      "x_max": 2.3424,
+      "count": 519,
+      "y_percent_total": 3.3658
+    },
+    {
+      "x_min": 2.3424,
+      "x_max": 2.4657,
+      "count": 474,
+      "y_percent_total": 3.0739
+    },
+    {
+      "x_min": 2.4657,
+      "x_max": 2.589,
+      "count": 353,
+      "y_percent_total": 2.2892
+    },
+    {
+      "x_min": 2.589,
+      "x_max": 2.7123,
+      "count": 295,
+      "y_percent_total": 1.9131
+    },
+    {
+      "x_min": 2.7123,
+      "x_max": 2.8356,
+      "count": 190,
+      "y_percent_total": 1.2322
+    },
+    {
+      "x_min": 2.8356,
+      "x_max": 2.9589,
+      "count": 121,
+      "y_percent_total": 0.7847
+    },
+    {
+      "x_min": 2.9589,
+      "x_max": 3.0822,
+      "count": 66,
+      "y_percent_total": 0.428
+    },
+    {
+      "x_min": 3.0822,
+      "x_max": 3.2054,
+      "count": 34,
+      "y_percent_total": 0.2205
+    },
+    {
+      "x_min": 3.2054,
+      "x_max": 3.3287,
+      "count": 10,
+      "y_percent_total": 0.0649
+    },
+    {
+      "x_min": 3.3287,
+      "x_max": 3.452,
+      "count": 7,
+      "y_percent_total": 0.0454
+    },
+    {
+      "x_min": 3.452,
+      "x_max": 3.5753,
+      "count": 2,
+      "y_percent_total": 0.013
+    },
+    {
+      "x_min": 3.5753,
+      "x_max": 3.6986,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 3.6986,
+      "x_max": 3.8219,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 3.8219,
+      "x_max": 3.9452,
+      "count": 1,
+      "y_percent_total": 0.0065
+    },
+    {
+      "x_min": 3.9452,
+      "x_max": 4.0684,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.0684,
+      "x_max": 4.1917,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.1917,
+      "x_max": 4.315,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.315,
+      "x_max": 4.4383,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.4383,
+      "x_max": 4.5616,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.5616,
+      "x_max": 4.6849,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.6849,
+      "x_max": 4.8082,
+      "count": 1,
+      "y_percent_total": 0.0065
+    }
+  ],
+  "statistics": {
+    "median_positive_secs": 63,
+    "total_films": 15420,
+    "percent_zero_mods": 0.4551
+  },
+  "axis_config": {
+    "breaks": [1, 10, 60, 300, 1800],
+    "labels": ["1s", "10s", "1m", "5m", "30m"]
+  }
+}

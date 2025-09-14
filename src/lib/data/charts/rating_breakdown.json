@@ -1,0 +1,128 @@
+[
+  {
+    "rating": "UA",
+    "content_category": "Violence",
+    "modification_count": 17928,
+    "percentage": 0.3034
+  },
+  {
+    "rating": "UA",
+    "content_category": "Profanity",
+    "modification_count": 16137,
+    "percentage": 0.2731
+  },
+  {
+    "rating": "UA",
+    "content_category": "Sexual Content",
+    "modification_count": 11981,
+    "percentage": 0.2027
+  },
+  {
+    "rating": "UA",
+    "content_category": "Substance Use",
+    "modification_count": 8843,
+    "percentage": 0.1496
+  },
+  {
+    "rating": "U",
+    "content_category": "Profanity",
+    "modification_count": 2627,
+    "percentage": 0.3752
+  },
+  {
+    "rating": "A",
+    "content_category": "Profanity",
+    "modification_count": 1909,
+    "percentage": 0.2696
+  },
+  {
+    "rating": "A",
+    "content_category": "Substance Use",
+    "modification_count": 1693,
+    "percentage": 0.2391
+  },
+  {
+    "rating": "U",
+    "content_category": "Substance Use",
+    "modification_count": 1648,
+    "percentage": 0.2354
+  },
+  {
+    "rating": "UA",
+    "content_category": "Religious Content",
+    "modification_count": 1648,
+    "percentage": 0.0279
+  },
+  {
+    "rating": "UA",
+    "content_category": "Political Content",
+    "modification_count": 1595,
+    "percentage": 0.027
+  },
+  {
+    "rating": "A",
+    "content_category": "Sexual Content",
+    "modification_count": 1310,
+    "percentage": 0.185
+  },
+  {
+    "rating": "A",
+    "content_category": "Violence",
+    "modification_count": 1186,
+    "percentage": 0.1675
+  },
+  {
+    "rating": "UA",
+    "content_category": "Other",
+    "modification_count": 966,
+    "percentage": 0.0163
+  },
+  {
+    "rating": "U",
+    "content_category": "Violence",
+    "modification_count": 862,
+    "percentage": 0.1231
+  },
+  {
+    "rating": "U",
+    "content_category": "Sexual Content",
+    "modification_count": 829,
+    "percentage": 0.1184
+  },
+  {
+    "rating": "U",
+    "content_category": "Political Content",
+    "modification_count": 513,
+    "percentage": 0.0733
+  },
+  {
+    "rating": "A",
+    "content_category": "Religious Content",
+    "modification_count": 456,
+    "percentage": 0.0644
+  },
+  {
+    "rating": "A",
+    "content_category": "Political Content",
+    "modification_count": 324,
+    "percentage": 0.0458
+  },
+  {
+    "rating": "U",
+    "content_category": "Religious Content",
+    "modification_count": 279,
+    "percentage": 0.0398
+  },
+  {
+    "rating": "U",
+    "content_category": "Other",
+    "modification_count": 244,
+    "percentage": 0.0348
+  },
+  {
+    "rating": "A",
+    "content_category": "Other",
+    "modification_count": 202,
+    "percentage": 0.0285
+  }
+]

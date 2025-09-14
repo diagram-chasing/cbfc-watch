@@ -1,0 +1,336 @@
+@import './styles/fonts.css' layer(base);
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+	--background: hsl(45 31% 91%);
+	/* alabaster */
+	--foreground: hsl(213 31% 12%);
+	/* black */
+	--muted: hsl(45 31% 91%);
+	/* alabaster */
+	--muted-foreground: hsl(213 31% 12%);
+	/* black */
+	--popover: hsl(78 8% 92%);
+	--popover-foreground: hsl(213 31% 12%);
+	--card: hsl(0 0% 100%);
+	--card-foreground: hsl(213 31% 12%);
+	--border: hsl(45 31% 91%);
+	/* alabaster */
+	--input: hsl(45 31% 91%);
+	/* alabaster */
+	--primary: hsl(5 67% 56%);
+	/* red */
+	--primary-foreground: hsl(78 8% 92%);
+	--secondary: hsl(198 33% 54%);
+	/* blue */
+	--secondary-foreground: hsl(78 8% 92%);
+	--accent: hsl(39 77% 65%);
+	/* yellow */
+	--accent-foreground: hsl(213 31% 12%);
+	--destructive: hsl(5 67% 56%);
+	/* red */
+	--destructive-foreground: hsl(78 8% 92%);
+	--ring: hsl(198 33% 54%);
+	/* blue */
+	--sidebar: hsl(45 31% 91%);
+	--sidebar-foreground: hsl(213 31% 12%);
+	--sidebar-primary: hsl(5 67% 56%);
+	--sidebar-primary-foreground: hsl(78 8% 92%);
+	--sidebar-accent: hsl(39 77% 65%);
+	--sidebar-accent-foreground: hsl(213 31% 12%);
+	--sidebar-border: hsl(45 31% 91%);
+	--sidebar-ring: hsl(198 33% 54%);
+
+	--radius: 0.5rem;
+
+	/* Custom theme colors */
+	--color-yellow: #edbb5f;
+	--color-black: #151e28;
+	--color-blue: #5d98b6;
+	--color-green: #8c9c74;
+	--color-alabaster: #f4e4c9;
+	--color-red: #db5441;
+	--color-dark-bg: var(--color-black);
+	--color-dark-card: #2c3440;
+	--color-sepia: #f1e6dc;
+	--color-sepia-light: #fefbf7;
+	--color-sepia-dark: #bfb2a2;
+	--color-sepia-med: #f0e9e0;
+	--color-sepia-brown: #3c3332;
+	--color-sepia-red: #d24939;
+}
+
+@theme inline {
+	/* Radius (for rounded-*) */
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+
+	/* Colors from CSS variables */
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-ring: var(--ring);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+
+	/* Custom theme colors */
+	--color-yellow: #edbb5f;
+	--color-black: #151e28;
+	--color-blue: #5d98b6;
+	--color-green: #8c9c74;
+	--color-alabaster: #f4e4c9;
+	--color-red: #db5441;
+	--color-dark-bg: var(--color-black);
+	--color-dark-card: #2c3440;
+	--color-sepia: #f1e6dc;
+	--color-sepia-light: #fefbf7;
+	--color-sepia-dark: #bfb2a2;
+	--color-sepia-med: #f0e9e0;
+	--color-sepia-brown: #3c3332;
+	--color-sepia-red: #d24939;
+
+	/* Gray scale */
+	--color-gray-50: #f9fafb;
+	--color-gray-100: #f3f4f6;
+	--color-gray-200: #e5e7eb;
+	--color-gray-300: #d1d5db;
+	--color-gray-400: #9ca3af;
+	--color-gray-500: #6b7280;
+	--color-gray-600: #4b5563;
+	--color-gray-700: #374151;
+	--color-gray-800: #1f2937;
+	--color-gray-900: #111827;
+	--color-gray-950: #030712;
+
+	/* Font families */
+	--font-sans: 'Archivo Variable', sans-serif;
+	--font-serif: 'Sentient-Variable', serif;
+	--font-gothic: 'League Gothic', sans-serif;
+	--font-condensed: 'League Gothic Condensed', sans-serif;
+	--font-atkinson: 'Atkinson Hyperlegible', sans-serif;
+
+	/* Font weights */
+	--font-weight-150: 150;
+	--font-weight-250: 250;
+	--font-weight-350: 350;
+	--font-weight-450: 450;
+	--font-weight-550: 550;
+	--font-weight-650: 650;
+	--font-weight-750: 750;
+	--font-weight-850: 850;
+
+	/* Breakpoints */
+	--breakpoint-sm: 640px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1280px;
+	--breakpoint-2xl: 1400px;
+
+	/* Container */
+	--width-2xl: 1400px;
+
+	/* Animations */
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+	--animate-caret-blink: caret-blink 1.25s ease-out infinite;
+
+	/* Custom Easing Functions */
+	--ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	--ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+	--ease-in-quart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+	--ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+	--ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+	--ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.335);
+
+	--ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	--ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+	--ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+	--ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+	--ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+	--ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+	--ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+	--ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+	--ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+	--ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
+	--ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+
+	html,
+	body {
+		@apply bg-sepia text-foreground;
+		height: 100%;
+		overflow-x: hidden;
+		font-feature-settings:
+			'rlig' 1,
+			'calt' 1;
+		scroll-behavior: smooth;
+	}
+
+	html {
+		background-color: var(--color-sepia);
+	}
+
+	::-webkit-scrollbar {
+		width: 5px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: hsl(var(--border));
+		border-radius: 5px;
+	}
+
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: hsl(var(--border)) transparent;
+	}
+}
+
+::selection {
+	background-color: var(--color-yellow);
+	color: var(--color-dark-bg);
+}
+
+/* Disable grain effect on mobile devices */
+@media (max-width: 768px) {
+	.grain-effect::before {
+		opacity: 0;
+	}
+}
+
+@keyframes accordion-down {
+	from {
+		height: 0;
+	}
+
+	to {
+		height: var(--bits-accordion-content-height);
+	}
+}
+
+@keyframes accordion-up {
+	from {
+		height: var(--bits-accordion-content-height);
+	}
+
+	to {
+		height: 0;
+	}
+}
+
+@keyframes caret-blink {
+
+	0%,
+	70%,
+	100% {
+		opacity: 1;
+	}
+
+	20%,
+	50% {
+		opacity: 0;
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+p {
+	font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+/* Custom scrollbar styles for refinement lists */
+/* .refinement-list-container::-webkit-scrollbar {
+	width: 4px;
+}
+
+.refinement-list-container::-webkit-scrollbar-track {
+	background: var(--color-sepia-light);
+	border-radius: 2px;
+}
+
+.refinement-list-container::-webkit-scrollbar-thumb {
+	background: var(--color-sepia-dark);
+	border-radius: 2px;
+	transition: background-color 0.2s ease;
+}
+
+.refinement-list-container::-webkit-scrollbar-thumb:hover {
+	background: var(--color-sepia-brown);
+}
+
+/* Firefox scrollbar styles */
+.refinement-list-container {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-sepia-dark) var(--color-sepia-light);
+}
+
+/* Fix InstantSearch checkbox styling */
+input[type="checkbox"].text-blue {
+	appearance: none !important;
+	background-color: var(--color-sepia-light) !important;
+	border: 1px solid var(--color-sepia-dark) !important;
+}
+
+input[type="checkbox"].text-blue:checked {
+	background-color: #374151 !important;
+	border-color: #374151 !important;
+}
+
+mark {
+	background-color: var(--color-yellow);
+}
+
+.plot-header,
+.plot-footer {
+	margin-top: 0em !important;
+	margin-bottom: 0em !important;
+}
+
+.sfw-blur {
+	filter: blur(5px);
+	transition: filter 0.2s ease-in-out;
+}
+
+.sfw-blur:hover {
+	filter: none;
+}

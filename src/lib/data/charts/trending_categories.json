@@ -1,0 +1,1862 @@
+{
+  "slopes": [
+    {
+      "ai_content_types": "religious",
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "ai_content_types": "substance",
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "ai_content_types": "political",
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "ai_content_types": "identity_reference",
+      "estimate": 0.0001,
+      "std.error": 0,
+      "statistic": 1.7756,
+      "p.value": 0.0758
+    },
+    {
+      "ai_content_types": "profanity",
+      "estimate": -0,
+      "std.error": 0,
+      "statistic": -0.9539,
+      "p.value": 0.3401
+    },
+    {
+      "ai_content_types": "violence",
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "ai_content_types": "sexual_suggestive",
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "ai_content_types": "sexual_explicit",
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    }
+  ],
+  "quarterly_data": [
+    {
+      "quarter": "2018-01-01",
+      "ai_content_types": "political",
+      "category_count": 80,
+      "quarter_total_cuts": 2267,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2018-01-01",
+      "ai_content_types": "religious",
+      "category_count": 59,
+      "quarter_total_cuts": 2267,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2018-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 152,
+      "quarter_total_cuts": 2267,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2018-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 430,
+      "quarter_total_cuts": 2267,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2018-01-01",
+      "ai_content_types": "substance",
+      "category_count": 315,
+      "quarter_total_cuts": 2267,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2018-01-01",
+      "ai_content_types": "violence",
+      "category_count": 531,
+      "quarter_total_cuts": 2267,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2018-04-01",
+      "ai_content_types": "political",
+      "category_count": 83,
+      "quarter_total_cuts": 2448,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2018-04-01",
+      "ai_content_types": "religious",
+      "category_count": 67,
+      "quarter_total_cuts": 2448,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2018-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 124,
+      "quarter_total_cuts": 2448,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2018-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 453,
+      "quarter_total_cuts": 2448,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2018-04-01",
+      "ai_content_types": "substance",
+      "category_count": 305,
+      "quarter_total_cuts": 2448,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2018-04-01",
+      "ai_content_types": "violence",
+      "category_count": 666,
+      "quarter_total_cuts": 2448,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2018-07-01",
+      "ai_content_types": "political",
+      "category_count": 67,
+      "quarter_total_cuts": 2257,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2018-07-01",
+      "ai_content_types": "religious",
+      "category_count": 43,
+      "quarter_total_cuts": 2257,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2018-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 128,
+      "quarter_total_cuts": 2257,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2018-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 403,
+      "quarter_total_cuts": 2257,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2018-07-01",
+      "ai_content_types": "substance",
+      "category_count": 287,
+      "quarter_total_cuts": 2257,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2018-07-01",
+      "ai_content_types": "violence",
+      "category_count": 626,
+      "quarter_total_cuts": 2257,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2018-10-01",
+      "ai_content_types": "political",
+      "category_count": 81,
+      "quarter_total_cuts": 2222,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2018-10-01",
+      "ai_content_types": "religious",
+      "category_count": 52,
+      "quarter_total_cuts": 2222,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2018-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 105,
+      "quarter_total_cuts": 2222,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2018-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 354,
+      "quarter_total_cuts": 2222,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2018-10-01",
+      "ai_content_types": "substance",
+      "category_count": 399,
+      "quarter_total_cuts": 2222,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2018-10-01",
+      "ai_content_types": "violence",
+      "category_count": 544,
+      "quarter_total_cuts": 2222,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2019-01-01",
+      "ai_content_types": "political",
+      "category_count": 86,
+      "quarter_total_cuts": 2756,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2019-01-01",
+      "ai_content_types": "religious",
+      "category_count": 48,
+      "quarter_total_cuts": 2756,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2019-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 168,
+      "quarter_total_cuts": 2756,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2019-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 520,
+      "quarter_total_cuts": 2756,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2019-01-01",
+      "ai_content_types": "substance",
+      "category_count": 391,
+      "quarter_total_cuts": 2756,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2019-01-01",
+      "ai_content_types": "violence",
+      "category_count": 759,
+      "quarter_total_cuts": 2756,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2019-04-01",
+      "ai_content_types": "political",
+      "category_count": 72,
+      "quarter_total_cuts": 2557,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2019-04-01",
+      "ai_content_types": "religious",
+      "category_count": 69,
+      "quarter_total_cuts": 2557,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2019-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 151,
+      "quarter_total_cuts": 2557,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2019-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 383,
+      "quarter_total_cuts": 2557,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2019-04-01",
+      "ai_content_types": "substance",
+      "category_count": 334,
+      "quarter_total_cuts": 2557,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2019-04-01",
+      "ai_content_types": "violence",
+      "category_count": 728,
+      "quarter_total_cuts": 2557,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2019-07-01",
+      "ai_content_types": "political",
+      "category_count": 43,
+      "quarter_total_cuts": 2492,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2019-07-01",
+      "ai_content_types": "religious",
+      "category_count": 31,
+      "quarter_total_cuts": 2492,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2019-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 168,
+      "quarter_total_cuts": 2492,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2019-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 490,
+      "quarter_total_cuts": 2492,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2019-07-01",
+      "ai_content_types": "substance",
+      "category_count": 383,
+      "quarter_total_cuts": 2492,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2019-07-01",
+      "ai_content_types": "violence",
+      "category_count": 610,
+      "quarter_total_cuts": 2492,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2019-10-01",
+      "ai_content_types": "political",
+      "category_count": 75,
+      "quarter_total_cuts": 2257,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2019-10-01",
+      "ai_content_types": "religious",
+      "category_count": 39,
+      "quarter_total_cuts": 2257,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2019-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 115,
+      "quarter_total_cuts": 2257,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2019-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 366,
+      "quarter_total_cuts": 2257,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2019-10-01",
+      "ai_content_types": "substance",
+      "category_count": 364,
+      "quarter_total_cuts": 2257,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2019-10-01",
+      "ai_content_types": "violence",
+      "category_count": 586,
+      "quarter_total_cuts": 2257,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2020-01-01",
+      "ai_content_types": "political",
+      "category_count": 44,
+      "quarter_total_cuts": 1509,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2020-01-01",
+      "ai_content_types": "religious",
+      "category_count": 41,
+      "quarter_total_cuts": 1509,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2020-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 58,
+      "quarter_total_cuts": 1509,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2020-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 254,
+      "quarter_total_cuts": 1509,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2020-01-01",
+      "ai_content_types": "substance",
+      "category_count": 225,
+      "quarter_total_cuts": 1509,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2020-01-01",
+      "ai_content_types": "violence",
+      "category_count": 376,
+      "quarter_total_cuts": 1509,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2020-04-01",
+      "ai_content_types": "political",
+      "category_count": 7,
+      "quarter_total_cuts": 417,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2020-04-01",
+      "ai_content_types": "religious",
+      "category_count": 11,
+      "quarter_total_cuts": 417,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2020-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 6,
+      "quarter_total_cuts": 417,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2020-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 92,
+      "quarter_total_cuts": 417,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2020-04-01",
+      "ai_content_types": "substance",
+      "category_count": 56,
+      "quarter_total_cuts": 417,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2020-04-01",
+      "ai_content_types": "violence",
+      "category_count": 120,
+      "quarter_total_cuts": 417,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2020-07-01",
+      "ai_content_types": "political",
+      "category_count": 45,
+      "quarter_total_cuts": 2338,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2020-07-01",
+      "ai_content_types": "religious",
+      "category_count": 33,
+      "quarter_total_cuts": 2338,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2020-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 98,
+      "quarter_total_cuts": 2338,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2020-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 417,
+      "quarter_total_cuts": 2338,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2020-07-01",
+      "ai_content_types": "substance",
+      "category_count": 238,
+      "quarter_total_cuts": 2338,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2020-07-01",
+      "ai_content_types": "violence",
+      "category_count": 902,
+      "quarter_total_cuts": 2338,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2020-10-01",
+      "ai_content_types": "political",
+      "category_count": 69,
+      "quarter_total_cuts": 2438,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2020-10-01",
+      "ai_content_types": "religious",
+      "category_count": 45,
+      "quarter_total_cuts": 2438,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2020-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 105,
+      "quarter_total_cuts": 2438,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2020-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 515,
+      "quarter_total_cuts": 2438,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2020-10-01",
+      "ai_content_types": "substance",
+      "category_count": 335,
+      "quarter_total_cuts": 2438,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2020-10-01",
+      "ai_content_types": "violence",
+      "category_count": 603,
+      "quarter_total_cuts": 2438,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2021-01-01",
+      "ai_content_types": "political",
+      "category_count": 26,
+      "quarter_total_cuts": 1709,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2021-01-01",
+      "ai_content_types": "religious",
+      "category_count": 32,
+      "quarter_total_cuts": 1709,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2021-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 87,
+      "quarter_total_cuts": 1709,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2021-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 336,
+      "quarter_total_cuts": 1709,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2021-01-01",
+      "ai_content_types": "substance",
+      "category_count": 225,
+      "quarter_total_cuts": 1709,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2021-01-01",
+      "ai_content_types": "violence",
+      "category_count": 504,
+      "quarter_total_cuts": 1709,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2021-04-01",
+      "ai_content_types": "political",
+      "category_count": 11,
+      "quarter_total_cuts": 1001,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2021-04-01",
+      "ai_content_types": "religious",
+      "category_count": 20,
+      "quarter_total_cuts": 1001,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2021-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 44,
+      "quarter_total_cuts": 1001,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2021-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 213,
+      "quarter_total_cuts": 1001,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2021-04-01",
+      "ai_content_types": "substance",
+      "category_count": 119,
+      "quarter_total_cuts": 1001,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2021-04-01",
+      "ai_content_types": "violence",
+      "category_count": 338,
+      "quarter_total_cuts": 1001,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2021-07-01",
+      "ai_content_types": "political",
+      "category_count": 58,
+      "quarter_total_cuts": 2113,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2021-07-01",
+      "ai_content_types": "religious",
+      "category_count": 77,
+      "quarter_total_cuts": 2113,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2021-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 58,
+      "quarter_total_cuts": 2113,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2021-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 401,
+      "quarter_total_cuts": 2113,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2021-07-01",
+      "ai_content_types": "substance",
+      "category_count": 242,
+      "quarter_total_cuts": 2113,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2021-07-01",
+      "ai_content_types": "violence",
+      "category_count": 764,
+      "quarter_total_cuts": 2113,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2021-10-01",
+      "ai_content_types": "political",
+      "category_count": 47,
+      "quarter_total_cuts": 1847,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2021-10-01",
+      "ai_content_types": "religious",
+      "category_count": 69,
+      "quarter_total_cuts": 1847,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2021-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 62,
+      "quarter_total_cuts": 1847,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2021-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 256,
+      "quarter_total_cuts": 1847,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2021-10-01",
+      "ai_content_types": "substance",
+      "category_count": 341,
+      "quarter_total_cuts": 1847,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2021-10-01",
+      "ai_content_types": "violence",
+      "category_count": 405,
+      "quarter_total_cuts": 1847,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2022-01-01",
+      "ai_content_types": "political",
+      "category_count": 28,
+      "quarter_total_cuts": 1397,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2022-01-01",
+      "ai_content_types": "religious",
+      "category_count": 52,
+      "quarter_total_cuts": 1397,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2022-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 68,
+      "quarter_total_cuts": 1397,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2022-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 203,
+      "quarter_total_cuts": 1397,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2022-01-01",
+      "ai_content_types": "substance",
+      "category_count": 232,
+      "quarter_total_cuts": 1397,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2022-01-01",
+      "ai_content_types": "violence",
+      "category_count": 389,
+      "quarter_total_cuts": 1397,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2022-04-01",
+      "ai_content_types": "political",
+      "category_count": 43,
+      "quarter_total_cuts": 1508,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2022-04-01",
+      "ai_content_types": "religious",
+      "category_count": 49,
+      "quarter_total_cuts": 1508,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2022-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 41,
+      "quarter_total_cuts": 1508,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2022-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 184,
+      "quarter_total_cuts": 1508,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2022-04-01",
+      "ai_content_types": "substance",
+      "category_count": 278,
+      "quarter_total_cuts": 1508,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2022-04-01",
+      "ai_content_types": "violence",
+      "category_count": 438,
+      "quarter_total_cuts": 1508,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2022-07-01",
+      "ai_content_types": "political",
+      "category_count": 29,
+      "quarter_total_cuts": 1797,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2022-07-01",
+      "ai_content_types": "religious",
+      "category_count": 55,
+      "quarter_total_cuts": 1797,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2022-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 48,
+      "quarter_total_cuts": 1797,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2022-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 200,
+      "quarter_total_cuts": 1797,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2022-07-01",
+      "ai_content_types": "substance",
+      "category_count": 303,
+      "quarter_total_cuts": 1797,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2022-07-01",
+      "ai_content_types": "violence",
+      "category_count": 617,
+      "quarter_total_cuts": 1797,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2022-10-01",
+      "ai_content_types": "political",
+      "category_count": 83,
+      "quarter_total_cuts": 1721,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2022-10-01",
+      "ai_content_types": "religious",
+      "category_count": 95,
+      "quarter_total_cuts": 1721,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2022-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 42,
+      "quarter_total_cuts": 1721,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2022-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 141,
+      "quarter_total_cuts": 1721,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2022-10-01",
+      "ai_content_types": "substance",
+      "category_count": 324,
+      "quarter_total_cuts": 1721,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2022-10-01",
+      "ai_content_types": "violence",
+      "category_count": 425,
+      "quarter_total_cuts": 1721,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2023-01-01",
+      "ai_content_types": "political",
+      "category_count": 54,
+      "quarter_total_cuts": 1242,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2023-01-01",
+      "ai_content_types": "religious",
+      "category_count": 51,
+      "quarter_total_cuts": 1242,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2023-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 19,
+      "quarter_total_cuts": 1242,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2023-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 161,
+      "quarter_total_cuts": 1242,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2023-01-01",
+      "ai_content_types": "substance",
+      "category_count": 219,
+      "quarter_total_cuts": 1242,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2023-01-01",
+      "ai_content_types": "violence",
+      "category_count": 330,
+      "quarter_total_cuts": 1242,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2023-04-01",
+      "ai_content_types": "political",
+      "category_count": 58,
+      "quarter_total_cuts": 1161,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2023-04-01",
+      "ai_content_types": "religious",
+      "category_count": 63,
+      "quarter_total_cuts": 1161,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2023-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 29,
+      "quarter_total_cuts": 1161,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2023-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 149,
+      "quarter_total_cuts": 1161,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2023-04-01",
+      "ai_content_types": "substance",
+      "category_count": 184,
+      "quarter_total_cuts": 1161,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2023-04-01",
+      "ai_content_types": "violence",
+      "category_count": 259,
+      "quarter_total_cuts": 1161,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2023-07-01",
+      "ai_content_types": "political",
+      "category_count": 69,
+      "quarter_total_cuts": 1779,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2023-07-01",
+      "ai_content_types": "religious",
+      "category_count": 158,
+      "quarter_total_cuts": 1779,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2023-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 32,
+      "quarter_total_cuts": 1779,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2023-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 166,
+      "quarter_total_cuts": 1779,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2023-07-01",
+      "ai_content_types": "substance",
+      "category_count": 358,
+      "quarter_total_cuts": 1779,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2023-07-01",
+      "ai_content_types": "violence",
+      "category_count": 424,
+      "quarter_total_cuts": 1779,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2023-10-01",
+      "ai_content_types": "political",
+      "category_count": 99,
+      "quarter_total_cuts": 1396,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2023-10-01",
+      "ai_content_types": "religious",
+      "category_count": 77,
+      "quarter_total_cuts": 1396,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2023-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 38,
+      "quarter_total_cuts": 1396,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2023-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 121,
+      "quarter_total_cuts": 1396,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2023-10-01",
+      "ai_content_types": "substance",
+      "category_count": 329,
+      "quarter_total_cuts": 1396,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2023-10-01",
+      "ai_content_types": "violence",
+      "category_count": 264,
+      "quarter_total_cuts": 1396,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2024-01-01",
+      "ai_content_types": "political",
+      "category_count": 65,
+      "quarter_total_cuts": 1664,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2024-01-01",
+      "ai_content_types": "religious",
+      "category_count": 88,
+      "quarter_total_cuts": 1664,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2024-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 40,
+      "quarter_total_cuts": 1664,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2024-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 173,
+      "quarter_total_cuts": 1664,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2024-01-01",
+      "ai_content_types": "substance",
+      "category_count": 413,
+      "quarter_total_cuts": 1664,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2024-01-01",
+      "ai_content_types": "violence",
+      "category_count": 374,
+      "quarter_total_cuts": 1664,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2024-04-01",
+      "ai_content_types": "political",
+      "category_count": 70,
+      "quarter_total_cuts": 1814,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2024-04-01",
+      "ai_content_types": "religious",
+      "category_count": 87,
+      "quarter_total_cuts": 1814,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2024-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 36,
+      "quarter_total_cuts": 1814,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2024-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 142,
+      "quarter_total_cuts": 1814,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2024-04-01",
+      "ai_content_types": "substance",
+      "category_count": 455,
+      "quarter_total_cuts": 1814,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2024-04-01",
+      "ai_content_types": "violence",
+      "category_count": 394,
+      "quarter_total_cuts": 1814,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2024-07-01",
+      "ai_content_types": "political",
+      "category_count": 48,
+      "quarter_total_cuts": 1412,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2024-07-01",
+      "ai_content_types": "religious",
+      "category_count": 64,
+      "quarter_total_cuts": 1412,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2024-07-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 33,
+      "quarter_total_cuts": 1412,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2024-07-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 145,
+      "quarter_total_cuts": 1412,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2024-07-01",
+      "ai_content_types": "substance",
+      "category_count": 391,
+      "quarter_total_cuts": 1412,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2024-07-01",
+      "ai_content_types": "violence",
+      "category_count": 385,
+      "quarter_total_cuts": 1412,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2024-10-01",
+      "ai_content_types": "political",
+      "category_count": 92,
+      "quarter_total_cuts": 2190,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2024-10-01",
+      "ai_content_types": "religious",
+      "category_count": 118,
+      "quarter_total_cuts": 2190,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2024-10-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 42,
+      "quarter_total_cuts": 2190,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2024-10-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 209,
+      "quarter_total_cuts": 2190,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2024-10-01",
+      "ai_content_types": "substance",
+      "category_count": 573,
+      "quarter_total_cuts": 2190,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2024-10-01",
+      "ai_content_types": "violence",
+      "category_count": 587,
+      "quarter_total_cuts": 2190,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2025-01-01",
+      "ai_content_types": "political",
+      "category_count": 63,
+      "quarter_total_cuts": 1329,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2025-01-01",
+      "ai_content_types": "religious",
+      "category_count": 84,
+      "quarter_total_cuts": 1329,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2025-01-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 34,
+      "quarter_total_cuts": 1329,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2025-01-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 107,
+      "quarter_total_cuts": 1329,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2025-01-01",
+      "ai_content_types": "substance",
+      "category_count": 382,
+      "quarter_total_cuts": 1329,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2025-01-01",
+      "ai_content_types": "violence",
+      "category_count": 292,
+      "quarter_total_cuts": 1329,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    },
+    {
+      "quarter": "2025-04-01",
+      "ai_content_types": "political",
+      "category_count": 38,
+      "quarter_total_cuts": 739,
+      "estimate": 0.0002,
+      "std.error": 0,
+      "statistic": 6.4783,
+      "p.value": 9.274e-11
+    },
+    {
+      "quarter": "2025-04-01",
+      "ai_content_types": "religious",
+      "category_count": 43,
+      "quarter_total_cuts": 739,
+      "estimate": 0.0005,
+      "std.error": 0,
+      "statistic": 17.3669,
+      "p.value": 1.4698e-67
+    },
+    {
+      "quarter": "2025-04-01",
+      "ai_content_types": "sexual_explicit",
+      "category_count": 11,
+      "quarter_total_cuts": 739,
+      "estimate": -0.0005,
+      "std.error": 0,
+      "statistic": -16.7524,
+      "p.value": 5.4424e-63
+    },
+    {
+      "quarter": "2025-04-01",
+      "ai_content_types": "sexual_suggestive",
+      "category_count": 61,
+      "quarter_total_cuts": 739,
+      "estimate": -0.0004,
+      "std.error": 0,
+      "statistic": -22.5415,
+      "p.value": 1.6274e-112
+    },
+    {
+      "quarter": "2025-04-01",
+      "ai_content_types": "substance",
+      "category_count": 199,
+      "quarter_total_cuts": 739,
+      "estimate": 0.0004,
+      "std.error": 0,
+      "statistic": 24.7182,
+      "p.value": 6.8089e-135
+    },
+    {
+      "quarter": "2025-04-01",
+      "ai_content_types": "violence",
+      "category_count": 160,
+      "quarter_total_cuts": 739,
+      "estimate": -0.0001,
+      "std.error": 0,
+      "statistic": -4.7489,
+      "p.value": 2.0451e-06
+    }
+  ]
+}

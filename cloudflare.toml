@@ -1,0 +1,63 @@
+[build]
+command = "pnpm run build"
+publish = "build"
+
+[site]
+bucket = "build"
+
+[build.environment]
+NODE_VERSION = "20.9.0"
+ADAPTER = "static"
+
+# Optimization settings
+[site.processing]
+skip_processing = false
+
+[site.processing.css]
+bundle = true
+minify = true
+
+[site.processing.js]
+bundle = true
+minify = true
+
+[site.processing.html]
+pretty_urls = true
+
+[site.processing.images]
+compress = true
+
+# Cache settings
+[cache_ttl]
+"*" = 86400 # 1 day default
+"/film/*" = 2592000 # 30 days for movie pages
+"/static/*" = 2592000 # 30 days for static assets
+"/chunks/*" = 2592000 # 30 days for film data chunks
+"/search_index.json" = 2592000 # 30 days for search index
+"/chunk_index.json" = 2592000 # 30 days for chunk index
+
+# Custom headers
+[[headers]]
+for = "/film/*"
+[headers.values]
+Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+[[headers]]
+for = "/chunks/*"
+[headers.values]
+Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+[[headers]]
+for = "/search_index.json"
+[headers.values]
+Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+[[headers]]
+for = "/chunk_index.json"
+[headers.values]
+Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+[[headers]]
+for = "/static/*"
+[headers.values]
+Cache-Control = "public, max-age=31536000" # 1 year

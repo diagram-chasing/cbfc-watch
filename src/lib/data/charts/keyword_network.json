@@ -1,0 +1,2276 @@
+{
+  "word_counts": [
+    {
+      "word": "smoking",
+      "n": 5402
+    },
+    {
+      "word": "fuck",
+      "n": 3527
+    },
+    {
+      "word": "blood",
+      "n": 2744
+    },
+    {
+      "word": "bastard",
+      "n": 1258
+    },
+    {
+      "word": "bitch",
+      "n": 1103
+    },
+    {
+      "word": "drugs",
+      "n": 1048
+    },
+    {
+      "word": "kissing",
+      "n": 936
+    },
+    {
+      "word": "alcohol",
+      "n": 754
+    },
+    {
+      "word": "ass",
+      "n": 709
+    },
+    {
+      "word": "rape",
+      "n": 692
+    },
+    {
+      "word": "liquor brand",
+      "n": 661
+    },
+    {
+      "word": "cleavage",
+      "n": 623
+    },
+    {
+      "word": "sex",
+      "n": 619
+    },
+    {
+      "word": "asshole",
+      "n": 614
+    },
+    {
+      "word": "dead body",
+      "n": 515
+    },
+    {
+      "word": "dick",
+      "n": 472
+    },
+    {
+      "word": "oththa",
+      "n": 467
+    },
+    {
+      "word": "tobacco",
+      "n": 465
+    },
+    {
+      "word": "liquor",
+      "n": 430
+    },
+    {
+      "word": "maal",
+      "n": 427
+    },
+    {
+      "word": "drinking",
+      "n": 422
+    },
+    {
+      "word": "middle finger",
+      "n": 400
+    },
+    {
+      "word": "fucking",
+      "n": 392
+    },
+    {
+      "word": "motherfucker",
+      "n": 318
+    },
+    {
+      "word": "sexual_suggestive",
+      "n": 287
+    },
+    {
+      "word": "item",
+      "n": 281
+    },
+    {
+      "word": "mayiru",
+      "n": 271
+    },
+    {
+      "word": "shit",
+      "n": 267
+    },
+    {
+      "word": "cigarette",
+      "n": 256
+    },
+    {
+      "word": "chutiya",
+      "n": 253
+    },
+    {
+      "word": "balls",
+      "n": 233
+    },
+    {
+      "word": "nudity",
+      "n": 221
+    },
+    {
+      "word": "harami",
+      "n": 220
+    },
+    {
+      "word": "killing",
+      "n": 215
+    },
+    {
+      "word": "munda",
+      "n": 214
+    },
+    {
+      "word": "whore",
+      "n": 214
+    },
+    {
+      "word": "breast",
+      "n": 210
+    },
+    {
+      "word": "son of bitch",
+      "n": 206
+    },
+    {
+      "word": "pussy",
+      "n": 205
+    },
+    {
+      "word": "alcohol brand",
+      "n": 200
+    },
+    {
+      "word": "girl",
+      "n": 200
+    },
+    {
+      "word": "liquor label",
+      "n": 200
+    },
+    {
+      "word": "fucker",
+      "n": 187
+    },
+    {
+      "word": "penis",
+      "n": 187
+    },
+    {
+      "word": "akshay kumar",
+      "n": 181
+    },
+    {
+      "word": "iththa",
+      "n": 174
+    },
+    {
+      "word": "tha",
+      "n": 174
+    },
+    {
+      "word": "fight",
+      "n": 171
+    },
+    {
+      "word": "knife",
+      "n": 170
+    },
+    {
+      "word": "mental",
+      "n": 166
+    }
+  ],
+  "word_pairs": [
+    {
+      "item1": "asshole",
+      "item2": "dick",
+      "correlation": 0.3924
+    },
+    {
+      "item1": "dick",
+      "item2": "asshole",
+      "correlation": 0.3924
+    },
+    {
+      "item1": "dick",
+      "item2": "ass",
+      "correlation": 0.3836
+    },
+    {
+      "item1": "ass",
+      "item2": "dick",
+      "correlation": 0.3836
+    },
+    {
+      "item1": "ass",
+      "item2": "fuck",
+      "correlation": 0.3398
+    },
+    {
+      "item1": "fuck",
+      "item2": "ass",
+      "correlation": 0.3398
+    },
+    {
+      "item1": "asshole",
+      "item2": "fuck",
+      "correlation": 0.3387
+    },
+    {
+      "item1": "fuck",
+      "item2": "asshole",
+      "correlation": 0.3387
+    },
+    {
+      "item1": "asshole",
+      "item2": "ass",
+      "correlation": 0.3361
+    },
+    {
+      "item1": "ass",
+      "item2": "asshole",
+      "correlation": 0.3361
+    },
+    {
+      "item1": "balls",
+      "item2": "dick",
+      "correlation": 0.3281
+    },
+    {
+      "item1": "dick",
+      "item2": "balls",
+      "correlation": 0.3281
+    },
+    {
+      "item1": "dick",
+      "item2": "pussy",
+      "correlation": 0.3269
+    },
+    {
+      "item1": "pussy",
+      "item2": "dick",
+      "correlation": 0.3269
+    },
+    {
+      "item1": "dick",
+      "item2": "bitch",
+      "correlation": 0.3253
+    },
+    {
+      "item1": "bitch",
+      "item2": "dick",
+      "correlation": 0.3253
+    },
+    {
+      "item1": "ass",
+      "item2": "pussy",
+      "correlation": 0.3134
+    },
+    {
+      "item1": "pussy",
+      "item2": "ass",
+      "correlation": 0.3134
+    },
+    {
+      "item1": "dick",
+      "item2": "penis",
+      "correlation": 0.312
+    },
+    {
+      "item1": "penis",
+      "item2": "dick",
+      "correlation": 0.312
+    },
+    {
+      "item1": "bitch",
+      "item2": "fuck",
+      "correlation": 0.3092
+    },
+    {
+      "item1": "fuck",
+      "item2": "bitch",
+      "correlation": 0.3092
+    },
+    {
+      "item1": "asshole",
+      "item2": "bitch",
+      "correlation": 0.3085
+    },
+    {
+      "item1": "bitch",
+      "item2": "asshole",
+      "correlation": 0.3085
+    },
+    {
+      "item1": "fucking",
+      "item2": "fuck",
+      "correlation": 0.3017
+    },
+    {
+      "item1": "fuck",
+      "item2": "fucking",
+      "correlation": 0.3017
+    },
+    {
+      "item1": "ass",
+      "item2": "bitch",
+      "correlation": 0.3017
+    },
+    {
+      "item1": "bitch",
+      "item2": "ass",
+      "correlation": 0.3017
+    },
+    {
+      "item1": "iththa",
+      "item2": "oththa",
+      "correlation": 0.3009
+    },
+    {
+      "item1": "oththa",
+      "item2": "iththa",
+      "correlation": 0.3009
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "pussy",
+      "correlation": 0.2938
+    },
+    {
+      "item1": "pussy",
+      "item2": "motherfucker",
+      "correlation": 0.2938
+    },
+    {
+      "item1": "balls",
+      "item2": "ass",
+      "correlation": 0.2869
+    },
+    {
+      "item1": "ass",
+      "item2": "balls",
+      "correlation": 0.2869
+    },
+    {
+      "item1": "asshole",
+      "item2": "pussy",
+      "correlation": 0.2832
+    },
+    {
+      "item1": "pussy",
+      "item2": "asshole",
+      "correlation": 0.2832
+    },
+    {
+      "item1": "asshole",
+      "item2": "motherfucker",
+      "correlation": 0.2802
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "asshole",
+      "correlation": 0.2802
+    },
+    {
+      "item1": "dick",
+      "item2": "fuck",
+      "correlation": 0.2738
+    },
+    {
+      "item1": "fuck",
+      "item2": "dick",
+      "correlation": 0.2738
+    },
+    {
+      "item1": "pussy",
+      "item2": "bitch",
+      "correlation": 0.2706
+    },
+    {
+      "item1": "bitch",
+      "item2": "pussy",
+      "correlation": 0.2706
+    },
+    {
+      "item1": "balls",
+      "item2": "pussy",
+      "correlation": 0.2672
+    },
+    {
+      "item1": "pussy",
+      "item2": "balls",
+      "correlation": 0.2672
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "bitch",
+      "correlation": 0.2671
+    },
+    {
+      "item1": "bitch",
+      "item2": "motherfucker",
+      "correlation": 0.2671
+    },
+    {
+      "item1": "dick",
+      "item2": "motherfucker",
+      "correlation": 0.2573
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "dick",
+      "correlation": 0.2573
+    },
+    {
+      "item1": "fucker",
+      "item2": "fucking",
+      "correlation": 0.2411
+    },
+    {
+      "item1": "fucking",
+      "item2": "fucker",
+      "correlation": 0.2411
+    },
+    {
+      "item1": "pussy",
+      "item2": "penis",
+      "correlation": 0.2396
+    },
+    {
+      "item1": "penis",
+      "item2": "pussy",
+      "correlation": 0.2396
+    },
+    {
+      "item1": "balls",
+      "item2": "bitch",
+      "correlation": 0.2396
+    },
+    {
+      "item1": "bitch",
+      "item2": "balls",
+      "correlation": 0.2396
+    },
+    {
+      "item1": "asshole",
+      "item2": "fucking",
+      "correlation": 0.232
+    },
+    {
+      "item1": "fucking",
+      "item2": "asshole",
+      "correlation": 0.232
+    },
+    {
+      "item1": "balls",
+      "item2": "asshole",
+      "correlation": 0.2319
+    },
+    {
+      "item1": "asshole",
+      "item2": "balls",
+      "correlation": 0.2319
+    },
+    {
+      "item1": "ass",
+      "item2": "motherfucker",
+      "correlation": 0.2296
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "ass",
+      "correlation": 0.2296
+    },
+    {
+      "item1": "pussy",
+      "item2": "fuck",
+      "correlation": 0.2265
+    },
+    {
+      "item1": "fuck",
+      "item2": "pussy",
+      "correlation": 0.2265
+    },
+    {
+      "item1": "tha",
+      "item2": "oththa",
+      "correlation": 0.2243
+    },
+    {
+      "item1": "oththa",
+      "item2": "tha",
+      "correlation": 0.2243
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "ass",
+      "correlation": 0.2214
+    },
+    {
+      "item1": "ass",
+      "item2": "son of bitch",
+      "correlation": 0.2214
+    },
+    {
+      "item1": "fucking",
+      "item2": "ass",
+      "correlation": 0.2202
+    },
+    {
+      "item1": "ass",
+      "item2": "fucking",
+      "correlation": 0.2202
+    },
+    {
+      "item1": "mayiru",
+      "item2": "oththa",
+      "correlation": 0.2172
+    },
+    {
+      "item1": "oththa",
+      "item2": "mayiru",
+      "correlation": 0.2172
+    },
+    {
+      "item1": "balls",
+      "item2": "fuck",
+      "correlation": 0.2051
+    },
+    {
+      "item1": "fuck",
+      "item2": "balls",
+      "correlation": 0.2051
+    },
+    {
+      "item1": "whore",
+      "item2": "bitch",
+      "correlation": 0.2002
+    },
+    {
+      "item1": "bitch",
+      "item2": "whore",
+      "correlation": 0.2002
+    },
+    {
+      "item1": "dick",
+      "item2": "middle finger",
+      "correlation": 0.1993
+    },
+    {
+      "item1": "middle finger",
+      "item2": "dick",
+      "correlation": 0.1993
+    },
+    {
+      "item1": "balls",
+      "item2": "motherfucker",
+      "correlation": 0.1972
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "balls",
+      "correlation": 0.1972
+    },
+    {
+      "item1": "asshole",
+      "item2": "fucker",
+      "correlation": 0.1961
+    },
+    {
+      "item1": "fucker",
+      "item2": "asshole",
+      "correlation": 0.1961
+    },
+    {
+      "item1": "fucker",
+      "item2": "fuck",
+      "correlation": 0.195
+    },
+    {
+      "item1": "fuck",
+      "item2": "fucker",
+      "correlation": 0.195
+    },
+    {
+      "item1": "asshole",
+      "item2": "son of bitch",
+      "correlation": 0.1947
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "asshole",
+      "correlation": 0.1947
+    },
+    {
+      "item1": "fucking",
+      "item2": "dick",
+      "correlation": 0.1941
+    },
+    {
+      "item1": "dick",
+      "item2": "fucking",
+      "correlation": 0.1941
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "fuck",
+      "correlation": 0.1936
+    },
+    {
+      "item1": "fuck",
+      "item2": "motherfucker",
+      "correlation": 0.1936
+    },
+    {
+      "item1": "asshole",
+      "item2": "penis",
+      "correlation": 0.1903
+    },
+    {
+      "item1": "penis",
+      "item2": "asshole",
+      "correlation": 0.1903
+    },
+    {
+      "item1": "fucking",
+      "item2": "pussy",
+      "correlation": 0.1898
+    },
+    {
+      "item1": "pussy",
+      "item2": "fucking",
+      "correlation": 0.1898
+    },
+    {
+      "item1": "fucker",
+      "item2": "ass",
+      "correlation": 0.1886
+    },
+    {
+      "item1": "ass",
+      "item2": "fucker",
+      "correlation": 0.1886
+    },
+    {
+      "item1": "ass",
+      "item2": "penis",
+      "correlation": 0.1875
+    },
+    {
+      "item1": "penis",
+      "item2": "ass",
+      "correlation": 0.1875
+    },
+    {
+      "item1": "balls",
+      "item2": "penis",
+      "correlation": 0.1865
+    },
+    {
+      "item1": "penis",
+      "item2": "balls",
+      "correlation": 0.1865
+    },
+    {
+      "item1": "sex",
+      "item2": "penis",
+      "correlation": 0.1853
+    },
+    {
+      "item1": "penis",
+      "item2": "sex",
+      "correlation": 0.1853
+    },
+    {
+      "item1": "maal",
+      "item2": "item",
+      "correlation": 0.1848
+    },
+    {
+      "item1": "item",
+      "item2": "maal",
+      "correlation": 0.1848
+    },
+    {
+      "item1": "ass",
+      "item2": "middle finger",
+      "correlation": 0.1779
+    },
+    {
+      "item1": "middle finger",
+      "item2": "ass",
+      "correlation": 0.1779
+    },
+    {
+      "item1": "whore",
+      "item2": "pussy",
+      "correlation": 0.1751
+    },
+    {
+      "item1": "pussy",
+      "item2": "whore",
+      "correlation": 0.1751
+    },
+    {
+      "item1": "fucker",
+      "item2": "dick",
+      "correlation": 0.1749
+    },
+    {
+      "item1": "dick",
+      "item2": "fucker",
+      "correlation": 0.1749
+    },
+    {
+      "item1": "whore",
+      "item2": "dick",
+      "correlation": 0.1714
+    },
+    {
+      "item1": "dick",
+      "item2": "whore",
+      "correlation": 0.1714
+    },
+    {
+      "item1": "bastard",
+      "item2": "fuck",
+      "correlation": 0.1705
+    },
+    {
+      "item1": "fuck",
+      "item2": "bastard",
+      "correlation": 0.1705
+    },
+    {
+      "item1": "fucking",
+      "item2": "motherfucker",
+      "correlation": 0.1688
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "fucking",
+      "correlation": 0.1688
+    },
+    {
+      "item1": "mayiru",
+      "item2": "iththa",
+      "correlation": 0.1678
+    },
+    {
+      "item1": "iththa",
+      "item2": "mayiru",
+      "correlation": 0.1678
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "dick",
+      "correlation": 0.1671
+    },
+    {
+      "item1": "dick",
+      "item2": "son of bitch",
+      "correlation": 0.1671
+    },
+    {
+      "item1": "bastard",
+      "item2": "bitch",
+      "correlation": 0.1666
+    },
+    {
+      "item1": "bitch",
+      "item2": "bastard",
+      "correlation": 0.1666
+    },
+    {
+      "item1": "sex",
+      "item2": "ass",
+      "correlation": 0.1663
+    },
+    {
+      "item1": "ass",
+      "item2": "sex",
+      "correlation": 0.1663
+    },
+    {
+      "item1": "bitch",
+      "item2": "penis",
+      "correlation": 0.1657
+    },
+    {
+      "item1": "penis",
+      "item2": "bitch",
+      "correlation": 0.1657
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "middle finger",
+      "correlation": 0.1656
+    },
+    {
+      "item1": "middle finger",
+      "item2": "motherfucker",
+      "correlation": 0.1656
+    },
+    {
+      "item1": "whore",
+      "item2": "ass",
+      "correlation": 0.1642
+    },
+    {
+      "item1": "ass",
+      "item2": "whore",
+      "correlation": 0.1642
+    },
+    {
+      "item1": "kissing",
+      "item2": "sex",
+      "correlation": 0.1635
+    },
+    {
+      "item1": "sex",
+      "item2": "kissing",
+      "correlation": 0.1635
+    },
+    {
+      "item1": "asshole",
+      "item2": "middle finger",
+      "correlation": 0.1621
+    },
+    {
+      "item1": "middle finger",
+      "item2": "asshole",
+      "correlation": 0.1621
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "fuck",
+      "correlation": 0.1619
+    },
+    {
+      "item1": "fuck",
+      "item2": "son of bitch",
+      "correlation": 0.1619
+    },
+    {
+      "item1": "whore",
+      "item2": "motherfucker",
+      "correlation": 0.1597
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "whore",
+      "correlation": 0.1597
+    },
+    {
+      "item1": "dead body",
+      "item2": "blood",
+      "correlation": 0.1597
+    },
+    {
+      "item1": "blood",
+      "item2": "dead body",
+      "correlation": 0.1597
+    },
+    {
+      "item1": "bitch",
+      "item2": "middle finger",
+      "correlation": 0.1582
+    },
+    {
+      "item1": "middle finger",
+      "item2": "bitch",
+      "correlation": 0.1582
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "penis",
+      "correlation": 0.1579
+    },
+    {
+      "item1": "penis",
+      "item2": "motherfucker",
+      "correlation": 0.1579
+    },
+    {
+      "item1": "whore",
+      "item2": "balls",
+      "correlation": 0.156
+    },
+    {
+      "item1": "balls",
+      "item2": "whore",
+      "correlation": 0.156
+    },
+    {
+      "item1": "penis",
+      "item2": "fuck",
+      "correlation": 0.1559
+    },
+    {
+      "item1": "fuck",
+      "item2": "penis",
+      "correlation": 0.1559
+    },
+    {
+      "item1": "pussy",
+      "item2": "middle finger",
+      "correlation": 0.155
+    },
+    {
+      "item1": "middle finger",
+      "item2": "pussy",
+      "correlation": 0.155
+    },
+    {
+      "item1": "balls",
+      "item2": "fucking",
+      "correlation": 0.1544
+    },
+    {
+      "item1": "fucking",
+      "item2": "balls",
+      "correlation": 0.1544
+    },
+    {
+      "item1": "fucker",
+      "item2": "pussy",
+      "correlation": 0.154
+    },
+    {
+      "item1": "pussy",
+      "item2": "fucker",
+      "correlation": 0.154
+    },
+    {
+      "item1": "sex",
+      "item2": "dick",
+      "correlation": 0.1522
+    },
+    {
+      "item1": "dick",
+      "item2": "sex",
+      "correlation": 0.1522
+    },
+    {
+      "item1": "sex",
+      "item2": "fuck",
+      "correlation": 0.1501
+    },
+    {
+      "item1": "fuck",
+      "item2": "sex",
+      "correlation": 0.1501
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "bitch",
+      "correlation": 0.1489
+    },
+    {
+      "item1": "bitch",
+      "item2": "son of bitch",
+      "correlation": 0.1489
+    },
+    {
+      "item1": "balls",
+      "item2": "middle finger",
+      "correlation": 0.1483
+    },
+    {
+      "item1": "middle finger",
+      "item2": "balls",
+      "correlation": 0.1483
+    },
+    {
+      "item1": "asshole",
+      "item2": "bastard",
+      "correlation": 0.1482
+    },
+    {
+      "item1": "bastard",
+      "item2": "asshole",
+      "correlation": 0.1482
+    },
+    {
+      "item1": "killing",
+      "item2": "dead body",
+      "correlation": 0.1478
+    },
+    {
+      "item1": "dead body",
+      "item2": "killing",
+      "correlation": 0.1478
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "motherfucker",
+      "correlation": 0.146
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "son of bitch",
+      "correlation": 0.146
+    },
+    {
+      "item1": "middle finger",
+      "item2": "fuck",
+      "correlation": 0.1437
+    },
+    {
+      "item1": "fuck",
+      "item2": "middle finger",
+      "correlation": 0.1437
+    },
+    {
+      "item1": "fucking",
+      "item2": "bitch",
+      "correlation": 0.1416
+    },
+    {
+      "item1": "bitch",
+      "item2": "fucking",
+      "correlation": 0.1416
+    },
+    {
+      "item1": "sex",
+      "item2": "bitch",
+      "correlation": 0.1414
+    },
+    {
+      "item1": "bitch",
+      "item2": "sex",
+      "correlation": 0.1414
+    },
+    {
+      "item1": "kissing",
+      "item2": "ass",
+      "correlation": 0.1388
+    },
+    {
+      "item1": "ass",
+      "item2": "kissing",
+      "correlation": 0.1388
+    },
+    {
+      "item1": "penis",
+      "item2": "middle finger",
+      "correlation": 0.1364
+    },
+    {
+      "item1": "middle finger",
+      "item2": "penis",
+      "correlation": 0.1364
+    },
+    {
+      "item1": "cigarette",
+      "item2": "akshay kumar",
+      "correlation": 0.1356
+    },
+    {
+      "item1": "akshay kumar",
+      "item2": "cigarette",
+      "correlation": 0.1356
+    },
+    {
+      "item1": "fucker",
+      "item2": "bitch",
+      "correlation": 0.1321
+    },
+    {
+      "item1": "bitch",
+      "item2": "fucker",
+      "correlation": 0.1321
+    },
+    {
+      "item1": "whore",
+      "item2": "fuck",
+      "correlation": 0.1297
+    },
+    {
+      "item1": "fuck",
+      "item2": "whore",
+      "correlation": 0.1297
+    },
+    {
+      "item1": "fucker",
+      "item2": "motherfucker",
+      "correlation": 0.1296
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "fucker",
+      "correlation": 0.1296
+    },
+    {
+      "item1": "whore",
+      "item2": "asshole",
+      "correlation": 0.1278
+    },
+    {
+      "item1": "asshole",
+      "item2": "whore",
+      "correlation": 0.1278
+    },
+    {
+      "item1": "sex",
+      "item2": "pussy",
+      "correlation": 0.1251
+    },
+    {
+      "item1": "pussy",
+      "item2": "sex",
+      "correlation": 0.1251
+    },
+    {
+      "item1": "tha",
+      "item2": "mayiru",
+      "correlation": 0.1249
+    },
+    {
+      "item1": "mayiru",
+      "item2": "tha",
+      "correlation": 0.1249
+    },
+    {
+      "item1": "kissing",
+      "item2": "dick",
+      "correlation": 0.1245
+    },
+    {
+      "item1": "dick",
+      "item2": "kissing",
+      "correlation": 0.1245
+    },
+    {
+      "item1": "drinking",
+      "item2": "smoking",
+      "correlation": 0.1231
+    },
+    {
+      "item1": "smoking",
+      "item2": "drinking",
+      "correlation": 0.1231
+    },
+    {
+      "item1": "nudity",
+      "item2": "ass",
+      "correlation": 0.1195
+    },
+    {
+      "item1": "ass",
+      "item2": "nudity",
+      "correlation": 0.1195
+    },
+    {
+      "item1": "kissing",
+      "item2": "breast",
+      "correlation": 0.1155
+    },
+    {
+      "item1": "breast",
+      "item2": "kissing",
+      "correlation": 0.1155
+    },
+    {
+      "item1": "kissing",
+      "item2": "fuck",
+      "correlation": 0.1153
+    },
+    {
+      "item1": "fuck",
+      "item2": "kissing",
+      "correlation": 0.1153
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "pussy",
+      "correlation": 0.1152
+    },
+    {
+      "item1": "pussy",
+      "item2": "son of bitch",
+      "correlation": 0.1152
+    },
+    {
+      "item1": "knife",
+      "item2": "blood",
+      "correlation": 0.115
+    },
+    {
+      "item1": "blood",
+      "item2": "knife",
+      "correlation": 0.115
+    },
+    {
+      "item1": "bastard",
+      "item2": "ass",
+      "correlation": 0.1122
+    },
+    {
+      "item1": "ass",
+      "item2": "bastard",
+      "correlation": 0.1122
+    },
+    {
+      "item1": "balls",
+      "item2": "sex",
+      "correlation": 0.111
+    },
+    {
+      "item1": "sex",
+      "item2": "balls",
+      "correlation": 0.111
+    },
+    {
+      "item1": "killing",
+      "item2": "blood",
+      "correlation": 0.1098
+    },
+    {
+      "item1": "blood",
+      "item2": "killing",
+      "correlation": 0.1098
+    },
+    {
+      "item1": "balls",
+      "item2": "fucker",
+      "correlation": 0.1089
+    },
+    {
+      "item1": "fucker",
+      "item2": "balls",
+      "correlation": 0.1089
+    },
+    {
+      "item1": "breast",
+      "item2": "penis",
+      "correlation": 0.1086
+    },
+    {
+      "item1": "penis",
+      "item2": "breast",
+      "correlation": 0.1086
+    },
+    {
+      "item1": "shit",
+      "item2": "ass",
+      "correlation": 0.1077
+    },
+    {
+      "item1": "ass",
+      "item2": "shit",
+      "correlation": 0.1077
+    },
+    {
+      "item1": "balls",
+      "item2": "nudity",
+      "correlation": 0.1056
+    },
+    {
+      "item1": "nudity",
+      "item2": "balls",
+      "correlation": 0.1056
+    },
+    {
+      "item1": "breast",
+      "item2": "dick",
+      "correlation": 0.105
+    },
+    {
+      "item1": "dick",
+      "item2": "breast",
+      "correlation": 0.105
+    },
+    {
+      "item1": "whore",
+      "item2": "penis",
+      "correlation": 0.1038
+    },
+    {
+      "item1": "penis",
+      "item2": "whore",
+      "correlation": 0.1038
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "fucking",
+      "correlation": 0.1036
+    },
+    {
+      "item1": "fucking",
+      "item2": "son of bitch",
+      "correlation": 0.1036
+    },
+    {
+      "item1": "shit",
+      "item2": "fuck",
+      "correlation": 0.1036
+    },
+    {
+      "item1": "fuck",
+      "item2": "shit",
+      "correlation": 0.1036
+    },
+    {
+      "item1": "asshole",
+      "item2": "sex",
+      "correlation": 0.1002
+    },
+    {
+      "item1": "sex",
+      "item2": "asshole",
+      "correlation": 0.1002
+    },
+    {
+      "item1": "nudity",
+      "item2": "dick",
+      "correlation": 0.0993
+    },
+    {
+      "item1": "dick",
+      "item2": "nudity",
+      "correlation": 0.0993
+    },
+    {
+      "item1": "breast",
+      "item2": "sex",
+      "correlation": 0.0978
+    },
+    {
+      "item1": "sex",
+      "item2": "breast",
+      "correlation": 0.0978
+    },
+    {
+      "item1": "fucking",
+      "item2": "middle finger",
+      "correlation": 0.0972
+    },
+    {
+      "item1": "middle finger",
+      "item2": "fucking",
+      "correlation": 0.0972
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "bastard",
+      "correlation": 0.0969
+    },
+    {
+      "item1": "bastard",
+      "item2": "son of bitch",
+      "correlation": 0.0969
+    },
+    {
+      "item1": "balls",
+      "item2": "bastard",
+      "correlation": 0.0953
+    },
+    {
+      "item1": "bastard",
+      "item2": "balls",
+      "correlation": 0.0953
+    },
+    {
+      "item1": "balls",
+      "item2": "kissing",
+      "correlation": 0.0949
+    },
+    {
+      "item1": "kissing",
+      "item2": "balls",
+      "correlation": 0.0949
+    },
+    {
+      "item1": "kissing",
+      "item2": "pussy",
+      "correlation": 0.0935
+    },
+    {
+      "item1": "pussy",
+      "item2": "kissing",
+      "correlation": 0.0935
+    },
+    {
+      "item1": "harami",
+      "item2": "chutiya",
+      "correlation": 0.0932
+    },
+    {
+      "item1": "chutiya",
+      "item2": "harami",
+      "correlation": 0.0932
+    },
+    {
+      "item1": "kissing",
+      "item2": "middle finger",
+      "correlation": 0.0929
+    },
+    {
+      "item1": "middle finger",
+      "item2": "kissing",
+      "correlation": 0.0929
+    },
+    {
+      "item1": "asshole",
+      "item2": "kissing",
+      "correlation": 0.0925
+    },
+    {
+      "item1": "kissing",
+      "item2": "asshole",
+      "correlation": 0.0925
+    },
+    {
+      "item1": "fucker",
+      "item2": "son of bitch",
+      "correlation": 0.092
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "fucker",
+      "correlation": 0.092
+    },
+    {
+      "item1": "sex",
+      "item2": "middle finger",
+      "correlation": 0.0916
+    },
+    {
+      "item1": "middle finger",
+      "item2": "sex",
+      "correlation": 0.0916
+    },
+    {
+      "item1": "dead body",
+      "item2": "fight",
+      "correlation": 0.0907
+    },
+    {
+      "item1": "fight",
+      "item2": "dead body",
+      "correlation": 0.0907
+    },
+    {
+      "item1": "bastard",
+      "item2": "dick",
+      "correlation": 0.0902
+    },
+    {
+      "item1": "dick",
+      "item2": "bastard",
+      "correlation": 0.0902
+    },
+    {
+      "item1": "shit",
+      "item2": "dick",
+      "correlation": 0.0896
+    },
+    {
+      "item1": "dick",
+      "item2": "shit",
+      "correlation": 0.0896
+    },
+    {
+      "item1": "nudity",
+      "item2": "pussy",
+      "correlation": 0.0885
+    },
+    {
+      "item1": "pussy",
+      "item2": "nudity",
+      "correlation": 0.0885
+    },
+    {
+      "item1": "shit",
+      "item2": "fucker",
+      "correlation": 0.088
+    },
+    {
+      "item1": "fucker",
+      "item2": "shit",
+      "correlation": 0.088
+    },
+    {
+      "item1": "fucking",
+      "item2": "bastard",
+      "correlation": 0.0861
+    },
+    {
+      "item1": "bastard",
+      "item2": "fucking",
+      "correlation": 0.0861
+    },
+    {
+      "item1": "kissing",
+      "item2": "bitch",
+      "correlation": 0.0856
+    },
+    {
+      "item1": "bitch",
+      "item2": "kissing",
+      "correlation": 0.0856
+    },
+    {
+      "item1": "fight",
+      "item2": "girl",
+      "correlation": 0.085
+    },
+    {
+      "item1": "girl",
+      "item2": "fight",
+      "correlation": 0.085
+    },
+    {
+      "item1": "balls",
+      "item2": "blood",
+      "correlation": 0.0847
+    },
+    {
+      "item1": "blood",
+      "item2": "balls",
+      "correlation": 0.0847
+    },
+    {
+      "item1": "kissing",
+      "item2": "penis",
+      "correlation": 0.0846
+    },
+    {
+      "item1": "penis",
+      "item2": "kissing",
+      "correlation": 0.0846
+    },
+    {
+      "item1": "bastard",
+      "item2": "motherfucker",
+      "correlation": 0.0838
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "bastard",
+      "correlation": 0.0838
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "sex",
+      "correlation": 0.0818
+    },
+    {
+      "item1": "sex",
+      "item2": "son of bitch",
+      "correlation": 0.0818
+    },
+    {
+      "item1": "fucking",
+      "item2": "penis",
+      "correlation": 0.0816
+    },
+    {
+      "item1": "penis",
+      "item2": "fucking",
+      "correlation": 0.0816
+    },
+    {
+      "item1": "nudity",
+      "item2": "bitch",
+      "correlation": 0.0815
+    },
+    {
+      "item1": "bitch",
+      "item2": "nudity",
+      "correlation": 0.0815
+    },
+    {
+      "item1": "munda",
+      "item2": "mayiru",
+      "correlation": 0.08
+    },
+    {
+      "item1": "mayiru",
+      "item2": "munda",
+      "correlation": 0.08
+    },
+    {
+      "item1": "sexual_suggestive",
+      "item2": "kissing",
+      "correlation": 0.0799
+    },
+    {
+      "item1": "kissing",
+      "item2": "sexual_suggestive",
+      "correlation": 0.0799
+    },
+    {
+      "item1": "whore",
+      "item2": "fucking",
+      "correlation": 0.0793
+    },
+    {
+      "item1": "fucking",
+      "item2": "whore",
+      "correlation": 0.0793
+    },
+    {
+      "item1": "bastard",
+      "item2": "pussy",
+      "correlation": 0.0784
+    },
+    {
+      "item1": "pussy",
+      "item2": "bastard",
+      "correlation": 0.0784
+    },
+    {
+      "item1": "shit",
+      "item2": "asshole",
+      "correlation": 0.0773
+    },
+    {
+      "item1": "asshole",
+      "item2": "shit",
+      "correlation": 0.0773
+    },
+    {
+      "item1": "nudity",
+      "item2": "asshole",
+      "correlation": 0.0753
+    },
+    {
+      "item1": "asshole",
+      "item2": "nudity",
+      "correlation": 0.0753
+    },
+    {
+      "item1": "fucker",
+      "item2": "bastard",
+      "correlation": 0.0753
+    },
+    {
+      "item1": "bastard",
+      "item2": "fucker",
+      "correlation": 0.0753
+    },
+    {
+      "item1": "killing",
+      "item2": "knife",
+      "correlation": 0.075
+    },
+    {
+      "item1": "knife",
+      "item2": "killing",
+      "correlation": 0.075
+    },
+    {
+      "item1": "breast",
+      "item2": "ass",
+      "correlation": 0.0746
+    },
+    {
+      "item1": "ass",
+      "item2": "breast",
+      "correlation": 0.0746
+    },
+    {
+      "item1": "knife",
+      "item2": "dead body",
+      "correlation": 0.0744
+    },
+    {
+      "item1": "dead body",
+      "item2": "knife",
+      "correlation": 0.0744
+    },
+    {
+      "item1": "killing",
+      "item2": "fight",
+      "correlation": 0.0729
+    },
+    {
+      "item1": "fight",
+      "item2": "killing",
+      "correlation": 0.0729
+    },
+    {
+      "item1": "whore",
+      "item2": "breast",
+      "correlation": 0.0728
+    },
+    {
+      "item1": "breast",
+      "item2": "whore",
+      "correlation": 0.0728
+    },
+    {
+      "item1": "nudity",
+      "item2": "penis",
+      "correlation": 0.0722
+    },
+    {
+      "item1": "penis",
+      "item2": "nudity",
+      "correlation": 0.0722
+    },
+    {
+      "item1": "whore",
+      "item2": "sex",
+      "correlation": 0.072
+    },
+    {
+      "item1": "sex",
+      "item2": "whore",
+      "correlation": 0.072
+    },
+    {
+      "item1": "shit",
+      "item2": "balls",
+      "correlation": 0.0713
+    },
+    {
+      "item1": "balls",
+      "item2": "shit",
+      "correlation": 0.0713
+    },
+    {
+      "item1": "breast",
+      "item2": "pussy",
+      "correlation": 0.0711
+    },
+    {
+      "item1": "pussy",
+      "item2": "breast",
+      "correlation": 0.0711
+    },
+    {
+      "item1": "breast",
+      "item2": "middle finger",
+      "correlation": 0.0707
+    },
+    {
+      "item1": "middle finger",
+      "item2": "breast",
+      "correlation": 0.0707
+    },
+    {
+      "item1": "breast",
+      "item2": "bitch",
+      "correlation": 0.0705
+    },
+    {
+      "item1": "bitch",
+      "item2": "breast",
+      "correlation": 0.0705
+    },
+    {
+      "item1": "killing",
+      "item2": "rape",
+      "correlation": 0.0697
+    },
+    {
+      "item1": "rape",
+      "item2": "killing",
+      "correlation": 0.0697
+    },
+    {
+      "item1": "whore",
+      "item2": "nudity",
+      "correlation": 0.0694
+    },
+    {
+      "item1": "nudity",
+      "item2": "whore",
+      "correlation": 0.0694
+    },
+    {
+      "item1": "shit",
+      "item2": "pussy",
+      "correlation": 0.0693
+    },
+    {
+      "item1": "pussy",
+      "item2": "shit",
+      "correlation": 0.0693
+    },
+    {
+      "item1": "kissing",
+      "item2": "girl",
+      "correlation": 0.0692
+    },
+    {
+      "item1": "girl",
+      "item2": "kissing",
+      "correlation": 0.0692
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "middle finger",
+      "correlation": 0.0688
+    },
+    {
+      "item1": "middle finger",
+      "item2": "son of bitch",
+      "correlation": 0.0688
+    },
+    {
+      "item1": "whore",
+      "item2": "fucker",
+      "correlation": 0.0688
+    },
+    {
+      "item1": "fucker",
+      "item2": "whore",
+      "correlation": 0.0688
+    },
+    {
+      "item1": "whore",
+      "item2": "bastard",
+      "correlation": 0.0687
+    },
+    {
+      "item1": "bastard",
+      "item2": "whore",
+      "correlation": 0.0687
+    },
+    {
+      "item1": "nudity",
+      "item2": "motherfucker",
+      "correlation": 0.0686
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "nudity",
+      "correlation": 0.0686
+    },
+    {
+      "item1": "balls",
+      "item2": "son of bitch",
+      "correlation": 0.0683
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "balls",
+      "correlation": 0.0683
+    },
+    {
+      "item1": "balls",
+      "item2": "breast",
+      "correlation": 0.0677
+    },
+    {
+      "item1": "breast",
+      "item2": "balls",
+      "correlation": 0.0677
+    },
+    {
+      "item1": "harami",
+      "item2": "maal",
+      "correlation": 0.0673
+    },
+    {
+      "item1": "maal",
+      "item2": "harami",
+      "correlation": 0.0673
+    },
+    {
+      "item1": "munda",
+      "item2": "oththa",
+      "correlation": 0.067
+    },
+    {
+      "item1": "oththa",
+      "item2": "munda",
+      "correlation": 0.067
+    },
+    {
+      "item1": "dead body",
+      "item2": "kissing",
+      "correlation": 0.0659
+    },
+    {
+      "item1": "kissing",
+      "item2": "dead body",
+      "correlation": 0.0659
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "penis",
+      "correlation": 0.0655
+    },
+    {
+      "item1": "penis",
+      "item2": "son of bitch",
+      "correlation": 0.0655
+    },
+    {
+      "item1": "fucking",
+      "item2": "kissing",
+      "correlation": 0.0644
+    },
+    {
+      "item1": "kissing",
+      "item2": "fucking",
+      "correlation": 0.0644
+    },
+    {
+      "item1": "breast",
+      "item2": "fuck",
+      "correlation": 0.0643
+    },
+    {
+      "item1": "fuck",
+      "item2": "breast",
+      "correlation": 0.0643
+    },
+    {
+      "item1": "fucker",
+      "item2": "middle finger",
+      "correlation": 0.064
+    },
+    {
+      "item1": "middle finger",
+      "item2": "fucker",
+      "correlation": 0.064
+    },
+    {
+      "item1": "whore",
+      "item2": "kissing",
+      "correlation": 0.0639
+    },
+    {
+      "item1": "kissing",
+      "item2": "whore",
+      "correlation": 0.0639
+    },
+    {
+      "item1": "sexual_suggestive",
+      "item2": "balls",
+      "correlation": 0.0632
+    },
+    {
+      "item1": "balls",
+      "item2": "sexual_suggestive",
+      "correlation": 0.0632
+    },
+    {
+      "item1": "asshole",
+      "item2": "blood",
+      "correlation": 0.062
+    },
+    {
+      "item1": "blood",
+      "item2": "asshole",
+      "correlation": 0.062
+    },
+    {
+      "item1": "sexual_suggestive",
+      "item2": "sex",
+      "correlation": 0.0618
+    },
+    {
+      "item1": "sex",
+      "item2": "sexual_suggestive",
+      "correlation": 0.0618
+    },
+    {
+      "item1": "sexual_suggestive",
+      "item2": "pussy",
+      "correlation": 0.0614
+    },
+    {
+      "item1": "pussy",
+      "item2": "sexual_suggestive",
+      "correlation": 0.0614
+    },
+    {
+      "item1": "whore",
+      "item2": "son of bitch",
+      "correlation": 0.0612
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "whore",
+      "correlation": 0.0612
+    },
+    {
+      "item1": "blood",
+      "item2": "ass",
+      "correlation": 0.0601
+    },
+    {
+      "item1": "ass",
+      "item2": "blood",
+      "correlation": 0.0601
+    },
+    {
+      "item1": "asshole",
+      "item2": "breast",
+      "correlation": 0.0599
+    },
+    {
+      "item1": "breast",
+      "item2": "asshole",
+      "correlation": 0.0599
+    },
+    {
+      "item1": "shit",
+      "item2": "middle finger",
+      "correlation": 0.0596
+    },
+    {
+      "item1": "middle finger",
+      "item2": "shit",
+      "correlation": 0.0596
+    },
+    {
+      "item1": "shit",
+      "item2": "penis",
+      "correlation": 0.0581
+    },
+    {
+      "item1": "penis",
+      "item2": "shit",
+      "correlation": 0.0581
+    },
+    {
+      "item1": "blood",
+      "item2": "pussy",
+      "correlation": 0.0581
+    },
+    {
+      "item1": "pussy",
+      "item2": "blood",
+      "correlation": 0.0581
+    },
+    {
+      "item1": "liquor brand",
+      "item2": "oththa",
+      "correlation": 0.0574
+    },
+    {
+      "item1": "oththa",
+      "item2": "liquor brand",
+      "correlation": 0.0574
+    },
+    {
+      "item1": "knife",
+      "item2": "fight",
+      "correlation": 0.0573
+    },
+    {
+      "item1": "fight",
+      "item2": "knife",
+      "correlation": 0.0573
+    },
+    {
+      "item1": "kissing",
+      "item2": "blood",
+      "correlation": 0.057
+    },
+    {
+      "item1": "blood",
+      "item2": "kissing",
+      "correlation": 0.057
+    },
+    {
+      "item1": "nudity",
+      "item2": "middle finger",
+      "correlation": 0.0569
+    },
+    {
+      "item1": "middle finger",
+      "item2": "nudity",
+      "correlation": 0.0569
+    },
+    {
+      "item1": "oththa",
+      "item2": "fuck",
+      "correlation": 0.0564
+    },
+    {
+      "item1": "fuck",
+      "item2": "oththa",
+      "correlation": 0.0564
+    },
+    {
+      "item1": "nudity",
+      "item2": "fuck",
+      "correlation": 0.0564
+    },
+    {
+      "item1": "fuck",
+      "item2": "nudity",
+      "correlation": 0.0564
+    },
+    {
+      "item1": "item",
+      "item2": "chutiya",
+      "correlation": 0.0537
+    },
+    {
+      "item1": "chutiya",
+      "item2": "item",
+      "correlation": 0.0537
+    },
+    {
+      "item1": "kissing",
+      "item2": "motherfucker",
+      "correlation": 0.0535
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "kissing",
+      "correlation": 0.0535
+    },
+    {
+      "item1": "cleavage",
+      "item2": "kissing",
+      "correlation": 0.0533
+    },
+    {
+      "item1": "kissing",
+      "item2": "cleavage",
+      "correlation": 0.0533
+    },
+    {
+      "item1": "sex",
+      "item2": "motherfucker",
+      "correlation": 0.0531
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "sex",
+      "correlation": 0.0531
+    },
+    {
+      "item1": "sexual_suggestive",
+      "item2": "nudity",
+      "correlation": 0.0529
+    },
+    {
+      "item1": "nudity",
+      "item2": "sexual_suggestive",
+      "correlation": 0.0529
+    },
+    {
+      "item1": "dead body",
+      "item2": "ass",
+      "correlation": 0.0528
+    },
+    {
+      "item1": "ass",
+      "item2": "dead body",
+      "correlation": 0.0528
+    },
+    {
+      "item1": "son of bitch",
+      "item2": "dead body",
+      "correlation": 0.0526
+    },
+    {
+      "item1": "dead body",
+      "item2": "son of bitch",
+      "correlation": 0.0526
+    },
+    {
+      "item1": "blood",
+      "item2": "motherfucker",
+      "correlation": 0.0523
+    },
+    {
+      "item1": "motherfucker",
+      "item2": "blood",
+      "correlation": 0.0523
+    },
+    {
+      "item1": "blood",
+      "item2": "middle finger",
+      "correlation": 0.0519
+    },
+    {
+      "item1": "middle finger",
+      "item2": "blood",
+      "correlation": 0.0519
+    },
+    {
+      "item1": "shit",
+      "item2": "bitch",
+      "correlation": 0.0514
+    },
+    {
+      "item1": "bitch",
+      "item2": "shit",
+      "correlation": 0.0514
+    },
+    {
+      "item1": "dead body",
+      "item2": "girl",
+      "correlation": 0.0513
+    },
+    {
+      "item1": "girl",
+      "item2": "dead body",
+      "correlation": 0.0513
+    },
+    {
+      "item1": "knife",
+      "item2": "girl",
+      "correlation": 0.0512
+    },
+    {
+      "item1": "girl",
+      "item2": "knife",
+      "correlation": 0.0512
+    },
+    {
+      "item1": "girl",
+      "item2": "rape",
+      "correlation": 0.0511
+    },
+    {
+      "item1": "rape",
+      "item2": "girl",
+      "correlation": 0.0511
+    },
+    {
+      "item1": "shit",
+      "item2": "fucking",
+      "correlation": 0.0508
+    },
+    {
+      "item1": "fucking",
+      "item2": "shit",
+      "correlation": 0.0508
+    },
+    {
+      "item1": "dead body",
+      "item2": "middle finger",
+      "correlation": 0.0503
+    },
+    {
+      "item1": "middle finger",
+      "item2": "dead body",
+      "correlation": 0.0503
+    }
+  ]
+}

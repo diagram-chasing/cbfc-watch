@@ -1,0 +1,52 @@
+[build]
+  command = "NODE_VERSION=20.9.0 pnpm run build"
+  publish = "build"
+
+# Font headers
+[[headers]]
+  for = "/*.woff2"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Content-Type = "font/woff2"
+    Cache-Control = "public, max-age=31536000"
+
+# API endpoints - no caching
+[[headers]]
+  for = "/api/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "no-store, no-cache"
+
+# Data files - cache for 30 days
+[[headers]]
+  for = "/search_index.json"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+[[headers]]
+  for = "/summary_stats.json"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+# Film pages - cache for 30 days
+[[headers]]
+  for = "/film/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=3600"
+
+# Static assets - cache for 1 year
+[[headers]]
+  for = "/static/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=31536000"
+
+# Default headers
+[[headers]]
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"

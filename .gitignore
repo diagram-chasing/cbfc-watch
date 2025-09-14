@@ -1,0 +1,56 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+**/.claude/settings.local.json
+
+
+/tmp/
+d1-example/
+# Local data backups
+*.bak
+*.backup
+*.csv.gz
+.claude/
+.venv/
+.svelte-kit/
+CLAUDE.md
+/edgesearch/
+__pycache__/
+showcase-songs-search
+showcase-linux-commits-search
+scripts/__pycache__
+
+.claude
+docs/
+temp-og/
+og-images/
+.temp/
+# R files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+analysis/*.html
+analysis/*.json

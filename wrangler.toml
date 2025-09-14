@@ -1,0 +1,17 @@
+name = "cbfc-watch"
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-23"
+# Set the correct build output directory for Cloudflare Pages
+pages_build_output_dir = "build"
+
+# D1 Database for film data and view tracking
+[[d1_databases]]
+binding = "DB"
+database_name = "cbfc-films"
+database_id = "a659f9f5-24fb-4433-9dd5-4025db2e6511"
+
+# KV namespace for user contributions
+[[kv_namespaces]]
+binding = "CBFC_CONTRIBUTIONS_KV"
+preview_id = "92f0a049f3b44e5086fc8f88d5e9c64c"
+id = "097806c7c6cb4d4ab6f1a686be0a691c"
