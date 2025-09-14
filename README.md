@@ -2,7 +2,6 @@
 
 CBFC Watch is the first public, searchable database of film censorship in India. It makes censorship data for nearly 18,000 films (2017-2025) accessible for research and public awareness.
 
------
 
 ## Getting Started
 
@@ -42,7 +41,6 @@ pnpm build
 pnpm preview
 ```
 
------
 
 ## Tech Stack
 
@@ -56,7 +54,6 @@ This project is built with:
   - **Data Processing**: Python
   - **Analysis**: R & RMarkdown
 
------
 
 ## Data Scripts
 
@@ -66,7 +63,6 @@ The following scripts are used to keep the project's data updated.
   - `pnpm index-search`: Syncs the data with the Typesense search index.
   - `pnpm build-notebook`: Generates the R analysis notebook from the latest data.
 
------
 
 ## Directory Structure
 
@@ -85,7 +81,6 @@ cbfc-viewer/
 └── build/                # Production build output
 ```
 
------
 
 ## Contributing
 
@@ -101,7 +96,6 @@ Contributions are welcome\! Here’s how you can help.
 1.  **Bugs & Feature Requests**: Spotted a bug or have an idea? Please [open an issue](https://github.com/diagram-chasing/cbfc-watch/issues/new).
 2.  **Pull Requests**: Want to contribute code? Fork the repository and [submit a pull request](https://github.com/diagram-chasing/censor-board-cuts/pulls). We'd love to see what you come up with\!
 
------
 
 ## Related Projects
 

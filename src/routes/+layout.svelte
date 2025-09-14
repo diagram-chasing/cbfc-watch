@@ -74,7 +74,7 @@
 <div class="relative flex min-h-screen flex-col">
 	<Navigation />
 
-	<div class="grain-effect text-dark-bg relative z-10 mx-auto flex w-full flex-1 flex-col px-2">
+	<div class="grain-effect text-dark-bg relative z-10 mx-auto flex w-full flex-1 flex-col px-4">
 		<Header />
 		<main class="mx-auto w-full max-w-4xl flex-1">
 			<div use:blurWords={{ ignoreClasses: ['ignore-safe-mode'] }}>
