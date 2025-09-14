@@ -307,7 +307,7 @@
 			<article class=" grid grid-cols-1 gap-4 md:my-2 md:grid-cols-6">
 				<div class="border-sepia-dark bg-sepia-light col-span-3 border p-4 shadow-sm">
 					<BarPlot
-						title=" Southern offices modify more in films than other regions"
+						title=" Chennai and Thiruvananthpuram offices modify more in films than other regions"
 						subtitle="The average amount of content modified varies by certifying office location."
 						data={cutsByOfficeData}
 						xLabel="Total minutes of content modified per movie (mean)"
@@ -357,7 +357,9 @@
 						variant="card"
 						class="focus:ring-blue relative m-0 flex h-28 flex-col items-center justify-center gap-2  !p-2 focus:ring-2 focus:outline-none sm:h-28 md:h-24 lg:h-32"
 						aria-label="View {category.label} content category"
-						href="/search?q=content%3A{encodeURIComponent(category.label === 'Sexual' ? '"sexual_*"' : `"${category.label.toLowerCase()}"`)}"
+						href="/search?q=content%3A{encodeURIComponent(
+							category.label === 'Sexual' ? '"sexual_*"' : `"${category.label.toLowerCase()}"`
+						)}"
 					>
 						<img
 							src={category.photo}
