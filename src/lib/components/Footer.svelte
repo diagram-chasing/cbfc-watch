@@ -48,7 +48,7 @@
 
 						<li>
 							<a
-								href="https://github.com/diagramchasing/cbfc-watch"
+								href="https://github.com/diagram-chasing/cbfc-watch"
 								target="_blank"
 								rel="noopener noreferrer"
 								class="underline underline-offset-2 transition-colors hover:text-black"

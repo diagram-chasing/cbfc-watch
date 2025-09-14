@@ -182,7 +182,7 @@
 		<h2 class="sr-only">Credits and Attribution</h2>
 
 		<!-- Mobile Layout -->
-		<div class="space-y-4 md:hidden">
+		<div class="mb-6 space-y-4 md:hidden">
 			<a href="https://diagramchasing.fun" class="block w-fit">
 				<img
 					src={Seal}
@@ -244,7 +244,7 @@
 			<p
 				class="font-atkinson text-start text-xs font-medium tracking-wide text-gray-600 uppercase md:text-end"
 			>
-				A Diagram Chasing Production
+				<a href="https://diagramchasing.fun">A Diagram Chasing Production</a>
 			</p>
 		</footer>
 	</section>

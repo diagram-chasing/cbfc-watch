@@ -347,15 +347,16 @@
 				Browse modifications by topic
 			</h2>
 			<section
-				class="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6"
+				class="mb-8 grid grid-cols-3 gap-2 sm:grid-cols-3 lg:grid-cols-5"
 				aria-label="Content categories"
 				role="group"
 			>
-				{#each [{ photo: MetadataPhoto, label: 'Metadata' }, { photo: PoliticalPhoto, label: 'Political' }, { photo: ProfanityPhoto, label: 'Profanity' }, { photo: SexualPhoto, label: 'Sexual' }, { photo: Substance, label: 'Substance' }, { photo: ViolencePhoto, label: 'Violence' }] as category}
+				{#each [{ photo: ProfanityPhoto, label: 'Profanity' }, { photo: SexualPhoto, label: 'Sexual' }, { photo: Substance, label: 'Substance' }, { photo: PoliticalPhoto, label: 'Political' }, { photo: ViolencePhoto, label: 'Violence' }] as category, i (category.label)}
 					<Button
 						size="lg"
 						variant="card"
-						class="focus:ring-blue relative m-0 flex h-28 flex-col items-center justify-center gap-2  !p-2 focus:ring-2 focus:outline-none sm:h-28 md:h-24 lg:h-32"
+						class="focus:ring-blue relative m-0 flex h-28 flex-col items-center justify-center gap-2 !p-2 focus:ring-2 focus:outline-none sm:h-28 md:h-24 lg:h-32
+							{i === 4 ? ' col-span-2 col-start-2 sm:col-span-1 sm:col-start-auto' : ''}"
 						aria-label="View {category.label} content category"
 						href="/search?q=content%3A{encodeURIComponent(
 							category.label === 'Sexual' ? '"sexual_*"' : `"${category.label.toLowerCase()}"`
@@ -364,7 +365,7 @@
 						<img
 							src={category.photo}
 							alt=""
-							class="-mt-2 h-32 w-auto sm:-mt-3 sm:h-20 lg:-mt-4 lg:h-24"
+							class="-mt-2 h-32 w-auto sm:-mt-3 sm:h-20 lg:-mt-4 lg:h-32"
 						/>
 						<span class="absolute bottom-2 text-xs font-medium sm:bottom-3 sm:text-sm lg:bottom-4"
 							>{category.label}</span
@@ -375,7 +376,7 @@
 		</div>
 		<!-- Downloads and data -->
 		<section
-			class="border-sepia-brown/20 grid grid-cols-1 gap-6 border-t px-4 py-6 md:px-0 lg:grid-cols-12"
+			class="border-sepia-brown/20 grid grid-cols-1 gap-6 border-t py-6 md:px-0 lg:grid-cols-12"
 			aria-label="Data downloads and contributions"
 		>
 			<div class="flex items-center gap-4 space-y-2 md:items-start lg:col-span-6">
