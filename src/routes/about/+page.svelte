@@ -97,10 +97,10 @@
 					>
 						Google Gemini Flash
 					</a>
-					Large Language Model (LLM). This structured censorship data was then joined with IMDb
-					listings to add contextual information including film cast, crew, and posters. The
-					accuracy of the IMDb join varies as it relies on automated name matching between the IMDb
-					film name and the CBFC film name. The explorer is built with
+					Large Language Model (LLM). This structured censorship data was then joined with IMDb listings
+					to add contextual information including film cast, crew, and posters. The accuracy of the IMDb
+					join varies as it relies on automated name matching between the IMDb film name and the CBFC
+					film name. The explorer is built with
 					<a
 						href="https://kit.svelte.dev/"
 						target="_blank"
@@ -138,7 +138,23 @@
 						class={linkStyles}
 					>
 						Svelteplot
-					</a>. <a href="https://github.com/diagram-chasing/cbfc-watch" target="_blank" rel="noopener noreferrer" class={linkStyles}>Code</a> is available under the MIT license. <a href="https://github.com/diagram-chasing/censor-board-cuts" target="_blank" rel="noopener noreferrer" class={linkStyles}>Data</a> is available under the ODbL License.
+					</a>.
+					<a
+						href="https://github.com/diagram-chasing/cbfc-watch"
+						target="_blank"
+						rel="noopener noreferrer"
+						class={linkStyles}>Code</a
+					>
+					is available under the MIT license.
+					<a
+						href="https://github.com/diagram-chasing/censor-board-cuts"
+						target="_blank"
+						rel="noopener noreferrer"
+						class={linkStyles}>Data</a
+					> is available under the ODbL License.
+				</p>
+				<p class="font-atkinson mt-1 text-sm leading-relaxed text-gray-500">
+					Claude AI was used for assistance developing certain components of this explorer.
 				</p>
 			</div>
 

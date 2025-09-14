@@ -26,7 +26,7 @@
 					<Button variant="stamp" href="/contribute" size="sm">Contribute to archive</Button>
 					<Button
 						variant="blue"
-						href="https://diagramchasing.fun"
+						href="https://diagramchasing.fun/support"
 						size="sm"
 						target="_blank"
 						rel="noopener noreferrer"
