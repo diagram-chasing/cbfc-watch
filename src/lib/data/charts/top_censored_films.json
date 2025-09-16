@@ -4,8 +4,32 @@
     "Language": "Kannada",
     "Film Name": "NEGILA ODEYA",
     "Time Removed": "26m 22s",
-    "Total Cuts": 3,
+    "Total Cuts": 5,
     "Slug": "negila-odeya-2021"
+  },
+  {
+    "Office": "Bangalore",
+    "Language": "Tamil",
+    "Film Name": "ROCKY",
+    "Time Removed": "24m 16s",
+    "Total Cuts": 6,
+    "Slug": "rocky-2022"
+  },
+  {
+    "Office": "Bangalore",
+    "Language": "Kannada",
+    "Film Name": "DAMAYANTHI",
+    "Time Removed": "23m 21s",
+    "Total Cuts": 13,
+    "Slug": "damayanthi-2020"
+  },
+  {
+    "Office": "Bangalore",
+    "Language": "Tamil",
+    "Film Name": "GAJAKESSARI",
+    "Time Removed": "23m 05s",
+    "Total Cuts": 8,
+    "Slug": "gajakessari-2024"
   },
   {
     "Office": "Bangalore",
@@ -17,307 +41,283 @@
   },
   {
     "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "TIGER GALLI",
-    "Time Removed": "19m 45s",
-    "Total Cuts": 128,
-    "Slug": "tiger-galli-2017"
+    "Language": "Tamil",
+    "Film Name": "GOOGLY",
+    "Time Removed": "22m 03s",
+    "Total Cuts": 6,
+    "Slug": "googly-2022"
   },
   {
     "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "THUGS OF RAMAGHADA",
-    "Time Removed": "19m 42s",
-    "Total Cuts": 19,
-    "Slug": "thugs-of-ramaghada-2023"
+    "Language": "Hindi",
+    "Film Name": "KISS",
+    "Time Removed": "21m 36s",
+    "Total Cuts": 8,
+    "Slug": "kiss-2024"
   },
   {
     "Office": "Bangalore",
     "Language": "Kannada",
     "Film Name": "M E S T R I (REVISED)",
-    "Time Removed": "18m 20s",
-    "Total Cuts": 21,
+    "Time Removed": "20m 52s",
+    "Total Cuts": 23,
     "Slug": "m-e-s-t-r-i-revised-2018"
   },
   {
     "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "YAAR YAARO GHORIMELE",
-    "Time Removed": "15m 09s",
-    "Total Cuts": 58,
-    "Slug": "yaar-yaaro-ghorimele-2019"
-  },
-  {
-    "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "MARKATA",
-    "Time Removed": "15m 08s",
-    "Total Cuts": 6,
-    "Slug": "markata-2023"
-  },
-  {
-    "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "ROYAL MECH",
-    "Time Removed": "14m 22s",
-    "Total Cuts": 2,
-    "Slug": "royal-mech-2022"
-  },
-  {
-    "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "BENGALURU UNDERWORLD",
-    "Time Removed": "12m 18s",
-    "Total Cuts": 75,
-    "Slug": "bengaluru-underworld-2018"
-  },
-  {
-    "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "YOGI DUNIYA (REVISED)",
-    "Time Removed": "11m 19s",
-    "Total Cuts": 28,
-    "Slug": "yogi-duniya-revised-2018"
-  },
-  {
-    "Office": "Chennai",
     "Language": "Tamil",
-    "Film Name": "IDHU ENGA BHOOMI (RE-REVISED)",
-    "Time Removed": "27m 32s",
-    "Total Cuts": 33,
-    "Slug": "idhu-enga-bhoomi-re-revised-2018"
+    "Film Name": "RUSTUM",
+    "Time Removed": "20m 19s",
+    "Total Cuts": 6,
+    "Slug": "rustum-2022"
+  },
+  {
+    "Office": "Bangalore",
+    "Language": "Kannada",
+    "Film Name": "TIGER GALLI",
+    "Time Removed": "19m 45s",
+    "Total Cuts": 188,
+    "Slug": "tiger-galli-2017"
   },
   {
     "Office": "Chennai",
     "Language": "Telugu",
     "Film Name": "PULIDEBBA (REVISED)",
-    "Time Removed": "24m 44s",
-    "Total Cuts": 17,
+    "Time Removed": "28m 25s",
+    "Total Cuts": 18,
     "Slug": "pulidebba-revised-2021"
   },
   {
     "Office": "Chennai",
     "Language": "Tamil",
+    "Film Name": "PATCHIRAJA PARAVAI",
+    "Time Removed": "26m 42s",
+    "Total Cuts": 4,
+    "Slug": "patchiraja-paravai-2025"
+  },
+  {
+    "Office": "Chennai",
+    "Language": "Tamil",
     "Film Name": "'AALAPIRANTHAVAN' (REVISED)",
-    "Time Removed": "24m 22s",
-    "Total Cuts": 25,
+    "Time Removed": "25m 23s",
+    "Total Cuts": 27,
     "Slug": "aalapiranthavan-revised-2018"
   },
   {
     "Office": "Chennai",
     "Language": "Tamil",
     "Film Name": "NERAM NALLA NERAM (REVISED)",
-    "Time Removed": "24m 07s",
-    "Total Cuts": 23,
+    "Time Removed": "25m 01s",
+    "Total Cuts": 29,
     "Slug": "neram-nalla-neram-revised-2021"
   },
   {
     "Office": "Chennai",
     "Language": "Tamil",
     "Film Name": "NAAN UNNA NINACHEN (REVISED)",
-    "Time Removed": "23m 35s",
-    "Total Cuts": 25,
+    "Time Removed": "24m 34s",
+    "Total Cuts": 28,
     "Slug": "naan-unna-ninachen-revised-2018"
   },
   {
     "Office": "Chennai",
     "Language": "Tamil",
     "Film Name": "THEEVIRAM",
-    "Time Removed": "22m 43s",
-    "Total Cuts": 6,
+    "Time Removed": "23m 43s",
+    "Total Cuts": 10,
     "Slug": "theeviram-2022"
   },
   {
     "Office": "Chennai",
-    "Language": "Telugu",
-    "Film Name": "DEBBAKU DEBBA (REVISED)",
-    "Time Removed": "22m 07s",
-    "Total Cuts": 12,
-    "Slug": "debbaku-debba-revised-2022"
+    "Language": "Hindi",
+    "Film Name": "GHAJINI",
+    "Time Removed": "23m 27s",
+    "Total Cuts": 7,
+    "Slug": "ghajini-2024"
   },
   {
     "Office": "Chennai",
-    "Language": "Telugu",
-    "Film Name": "DARJA DONGA (REVISED)",
-    "Time Removed": "22m 05s",
-    "Total Cuts": 15,
-    "Slug": "darja-donga-revised-2021"
+    "Language": "Hindi",
+    "Film Name": "AANGILA PADAM",
+    "Time Removed": "22m 57s",
+    "Total Cuts": 6,
+    "Slug": "aangila-padam-2025"
   },
   {
     "Office": "Chennai",
     "Language": "Telugu",
     "Film Name": "BANDIPOTU SIMHAM (REVISED)",
-    "Time Removed": "21m 47s",
-    "Total Cuts": 21,
+    "Time Removed": "22m 47s",
+    "Total Cuts": 22,
     "Slug": "bandipotu-simham-revised-2021"
   },
   {
     "Office": "Chennai",
     "Language": "Telugu",
-    "Film Name": "KONDAVEETI SIVA (REVISED)",
-    "Time Removed": "21m 05s",
-    "Total Cuts": 23,
-    "Slug": "kondaveeti-siva-revised-2021"
-  },
-  {
-    "Office": "Cuttack",
-    "Language": "Odia",
-    "Film Name": "TU MO SWEET SIXTEEN",
-    "Time Removed": "8m 00s",
-    "Total Cuts": 3,
-    "Slug": "tu-mo-sweet-sixteen-2018"
-  },
-  {
-    "Office": "Cuttack",
-    "Language": "Hindi",
-    "Film Name": "\" YEH KAISA TIGDAM \"",
-    "Time Removed": "6m 50s",
-    "Total Cuts": 7,
-    "Slug": "yeh-kaisa-tigdam-2019"
-  },
-  {
-    "Office": "Cuttack",
-    "Language": "Odia",
-    "Film Name": "PADIGALI TO PREMARE",
-    "Time Removed": "5m 57s",
-    "Total Cuts": 9,
-    "Slug": "padigali-to-premare-2022"
-  },
-  {
-    "Office": "Cuttack",
-    "Language": "Bhojpuri",
-    "Film Name": "V I P 2",
-    "Time Removed": "4m 58s",
-    "Total Cuts": 1,
-    "Slug": "v-i-p-2-2021"
-  },
-  {
-    "Office": "Cuttack",
-    "Language": "Chhattisgarhi",
-    "Film Name": "SUPER HERO BHAISHA",
-    "Time Removed": "4m 40s",
-    "Total Cuts": 4,
-    "Slug": "super-hero-bhaisha-2019"
+    "Film Name": "PAGA PATTINA SIMHAM (REVISED)",
+    "Time Removed": "22m 28s",
+    "Total Cuts": 18,
+    "Slug": "paga-pattina-simham-revised-2020"
   },
   {
     "Office": "Cuttack",
     "Language": "Bhojpuri",
     "Film Name": "IDDARAMMAYILATHO",
-    "Time Removed": "4m 12s",
-    "Total Cuts": 1,
+    "Time Removed": "28m 53s",
+    "Total Cuts": 7,
     "Slug": "iddarammayilatho-2020"
   },
   {
     "Office": "Cuttack",
     "Language": "Odia",
-    "Film Name": "SUPER RAKSHAK",
-    "Time Removed": "4m 00s",
-    "Total Cuts": 2,
-    "Slug": "super-rakshak-2022"
+    "Film Name": "TOR MOR LOVE STORY",
+    "Time Removed": "27m 57s",
+    "Total Cuts": 10,
+    "Slug": "tor-mor-love-story-2021"
   },
   {
     "Office": "Cuttack",
-    "Language": "Hindi",
-    "Film Name": "CHOR CHOR",
-    "Time Removed": "3m 31s",
-    "Total Cuts": 13,
-    "Slug": "chor-chor-2020"
-  },
-  {
-    "Office": "Cuttack",
-    "Language": "Hindi",
-    "Film Name": "MANTHRA",
-    "Time Removed": "3m 09s",
-    "Total Cuts": 1,
-    "Slug": "manthra-2020"
+    "Language": "Awadhi",
+    "Film Name": "VETTAIKAARAN",
+    "Time Removed": "26m 25s",
+    "Total Cuts": 6,
+    "Slug": "vettaikaaran-2021"
   },
   {
     "Office": "Cuttack",
     "Language": "Odia",
-    "Film Name": "JOUTHI TU SEITHI MU",
-    "Time Removed": "2m 56s",
+    "Film Name": "MU LOVER NO - 1",
+    "Time Removed": "26m 10s",
+    "Total Cuts": 11,
+    "Slug": "mu-lover-no-1-2021"
+  },
+  {
+    "Office": "Cuttack",
+    "Language": "Bhojpuri",
+    "Film Name": "V I P 2",
+    "Time Removed": "25m 56s",
     "Total Cuts": 6,
-    "Slug": "jouthi-tu-seithi-mu-2021"
+    "Slug": "v-i-p-2-2021"
+  },
+  {
+    "Office": "Cuttack",
+    "Language": "Odia",
+    "Film Name": "PREMA TOTE DURU JUHARA",
+    "Time Removed": "25m 54s",
+    "Total Cuts": 7,
+    "Slug": "prema-tote-duru-juhara-2021"
+  },
+  {
+    "Office": "Cuttack",
+    "Language": "Odia",
+    "Film Name": "JHIATE TO PARI",
+    "Time Removed": "25m 43s",
+    "Total Cuts": 6,
+    "Slug": "jhiate-to-pari-2020"
+  },
+  {
+    "Office": "Cuttack",
+    "Language": "Odia",
+    "Film Name": "DASAHARA",
+    "Time Removed": "23m 23s",
+    "Total Cuts": 7,
+    "Slug": "dasahara-2024"
+  },
+  {
+    "Office": "Cuttack",
+    "Language": "Bhojpuri",
+    "Film Name": "MISHRA FOR SALE",
+    "Time Removed": "23m 12s",
+    "Total Cuts": 7,
+    "Slug": "mishra-for-sale-2021"
+  },
+  {
+    "Office": "Cuttack",
+    "Language": "Bhojpuri",
+    "Film Name": "SOWKHYAM",
+    "Time Removed": "23m 02s",
+    "Total Cuts": 6,
+    "Slug": "sowkhyam-2021"
   },
   {
     "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "MISUSE",
+    "Language": "Hindustani",
+    "Film Name": "LAKSHMI",
+    "Time Removed": "28m 11s",
+    "Total Cuts": 6,
+    "Slug": "lakshmi-2021"
+  },
+  {
+    "Office": "Delhi",
+    "Language": "Hindustani",
+    "Film Name": "ROWDY MUNNA",
     "Time Removed": "27m 39s",
-    "Total Cuts": 3,
-    "Slug": "misuse-2019"
-  },
-  {
-    "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "FADFADAA",
-    "Time Removed": "25m 38s",
-    "Total Cuts": 21,
-    "Slug": "fadfadaa-2021"
+    "Total Cuts": 7,
+    "Slug": "rowdy-munna-2021"
   },
   {
     "Office": "Delhi",
     "Language": "Bhojpuri",
-    "Film Name": "DHOOM MACHAIELA RAJAJEE",
-    "Time Removed": "15m 55s",
-    "Total Cuts": 19,
-    "Slug": "dhoom-machaiela-rajajee-2020"
+    "Film Name": "KHALEJA (MAHESH KHALEJA)",
+    "Time Removed": "27m 22s",
+    "Total Cuts": 7,
+    "Slug": "khaleja-mahesh-khaleja-2022"
   },
   {
     "Office": "Delhi",
     "Language": "Odia",
-    "Film Name": "SATYAM",
-    "Time Removed": "15m 54s",
-    "Total Cuts": 1,
-    "Slug": "satyam-2023"
+    "Film Name": "CHANDRAMUKHI",
+    "Time Removed": "27m 00s",
+    "Total Cuts": 7,
+    "Slug": "chandramukhi-2022"
   },
   {
     "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "AAG AUR TEZAAB",
-    "Time Removed": "15m 41s",
-    "Total Cuts": 9,
-    "Slug": "aag-aur-tezaab-2020"
+    "Language": "Hindustani",
+    "Film Name": "D J",
+    "Time Removed": "26m 50s",
+    "Total Cuts": 6,
+    "Slug": "d-j-2021"
   },
   {
     "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "AAKHIRI RAAT",
-    "Time Removed": "14m 42s",
-    "Total Cuts": 25,
-    "Slug": "aakhiri-raat-2018"
+    "Language": "Hindustani",
+    "Film Name": "SUPER",
+    "Time Removed": "26m 35s",
+    "Total Cuts": 7,
+    "Slug": "super-2022"
   },
   {
     "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "TOPLESS",
-    "Time Removed": "14m 08s",
-    "Total Cuts": 17,
-    "Slug": "topless-2021"
+    "Language": "Awadhi",
+    "Film Name": "POWER RETURNS ( RACE GURRAM )",
+    "Time Removed": "24m 47s",
+    "Total Cuts": 5,
+    "Slug": "power-returns-race-gurram-2021"
   },
   {
     "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "MAIN HOON SHERNI",
-    "Time Removed": "11m 51s",
-    "Total Cuts": 17,
-    "Slug": "main-hoon-sherni-2021"
+    "Language": "Hindustani",
+    "Film Name": "RACHHA",
+    "Time Removed": "23m 30s",
+    "Total Cuts": 5,
+    "Slug": "rachha-2021"
   },
   {
     "Office": "Delhi",
-    "Language": "Punjabi",
-    "Film Name": "PAUNE 9",
-    "Time Removed": "11m 34s",
-    "Total Cuts": 14,
-    "Slug": "paune-9-2023"
+    "Language": "Odia",
+    "Film Name": "DHARMADURAI",
+    "Time Removed": "22m 31s",
+    "Total Cuts": 8,
+    "Slug": "dharmadurai-2022"
   },
   {
     "Office": "Delhi",
-    "Language": "Hindi",
-    "Film Name": "FUNTASIYAN",
-    "Time Removed": "11m 00s",
-    "Total Cuts": 2,
-    "Slug": "funtasiyan-2022"
+    "Language": "Odia",
+    "Film Name": "TARAK",
+    "Time Removed": "22m 28s",
+    "Total Cuts": 8,
+    "Slug": "tarak-2022"
   },
   {
     "Office": "Guwahati",
@@ -329,10 +329,18 @@
   },
   {
     "Office": "Guwahati",
+    "Language": "Manipuri",
+    "Film Name": "NGAMNABA LANFAMSE",
+    "Time Removed": "2m 45s",
+    "Total Cuts": 8,
+    "Slug": "ngamnaba-lanfamse-2024"
+  },
+  {
+    "Office": "Guwahati",
     "Language": "Bodo",
     "Film Name": "BEKAR ROMEO",
     "Time Removed": "1m 38s",
-    "Total Cuts": 4,
+    "Total Cuts": 6,
     "Slug": "bekar-romeo-2019"
   },
   {
@@ -369,115 +377,139 @@
   },
   {
     "Office": "Guwahati",
-    "Language": "Hindi",
-    "Film Name": "KOOKI",
-    "Time Removed": "0m 24s",
-    "Total Cuts": 5,
-    "Slug": "kooki-2023"
-  },
-  {
-    "Office": "Guwahati",
     "Language": "Khasi",
     "Film Name": "KYNJAH",
-    "Time Removed": "0m 23s",
-    "Total Cuts": 6,
+    "Time Removed": "0m 27s",
+    "Total Cuts": 7,
     "Slug": "kynjah-2017"
   },
   {
     "Office": "Guwahati",
-    "Language": "Manipuri",
-    "Film Name": "NGAMNABA LANFAMSE",
-    "Time Removed": "0m 22s",
-    "Total Cuts": 1,
-    "Slug": "ngamnaba-lanfamse-2024"
+    "Language": "Hindi",
+    "Film Name": "KOOKI",
+    "Time Removed": "0m 24s",
+    "Total Cuts": 6,
+    "Slug": "kooki-2023"
   },
   {
     "Office": "Guwahati",
     "Language": "Assamese",
-    "Film Name": "THE SLAM BOOK",
-    "Time Removed": "0m 17s",
-    "Total Cuts": 4,
-    "Slug": "the-slam-book-2023"
-  },
-  {
-    "Office": "Hyderabad",
-    "Language": "Telugu",
-    "Film Name": "JUNIORS",
-    "Time Removed": "24m 00s",
-    "Total Cuts": 46,
-    "Slug": "juniors-2020"
-  },
-  {
-    "Office": "Hyderabad",
-    "Language": "Telugu",
-    "Film Name": "ALLUDA MAJAAKAA",
-    "Time Removed": "20m 18s",
-    "Total Cuts": 28,
-    "Slug": "alluda-majaakaa-2020"
-  },
-  {
-    "Office": "Hyderabad",
-    "Language": "Telugu",
-    "Film Name": "1948 AKHANDA BHARATH",
-    "Time Removed": "16m 11s",
-    "Total Cuts": 18,
-    "Slug": "1948-akhanda-bharath-2022"
+    "Film Name": "MOI ETI NIXHASOR (KODUWA - THE NIGHTBIRD)",
+    "Time Removed": "0m 18s",
+    "Total Cuts": 1,
+    "Slug": "moi-eti-nixhasor-koduwa-the-nightbird-2024"
   },
   {
     "Office": "Hyderabad",
     "Language": "Telugu",
     "Film Name": "\"NARAKASURA\"",
-    "Time Removed": "15m 55s",
-    "Total Cuts": 10,
+    "Time Removed": "25m 00s",
+    "Total Cuts": 15,
     "Slug": "narakasura-2023"
   },
   {
     "Office": "Hyderabad",
     "Language": "Telugu",
     "Film Name": "NANI",
-    "Time Removed": "15m 50s",
-    "Total Cuts": 25,
+    "Time Removed": "23m 51s",
+    "Total Cuts": 40,
     "Slug": "nani-2020"
+  },
+  {
+    "Office": "Hyderabad",
+    "Language": "Telugu",
+    "Film Name": "ALLUDA MAJAAKAA",
+    "Time Removed": "23m 11s",
+    "Total Cuts": 38,
+    "Slug": "alluda-majaakaa-2020"
   },
   {
     "Office": "Hyderabad",
     "Language": "Malayalam",
     "Film Name": "SIMHA MUGHAM",
-    "Time Removed": "14m 25s",
-    "Total Cuts": 18,
+    "Time Removed": "20m 46s",
+    "Total Cuts": 27,
     "Slug": "simha-mugham-2019"
   },
   {
     "Office": "Hyderabad",
     "Language": "Telugu",
-    "Film Name": "LAAL SALAAM",
-    "Time Removed": "14m 15s",
-    "Total Cuts": 25,
-    "Slug": "laal-salaam-2020"
+    "Film Name": "\"I LOVE YOU IDIOT\"",
+    "Time Removed": "18m 54s",
+    "Total Cuts": 1,
+    "Slug": "i-love-you-idiot-2022"
+  },
+  {
+    "Office": "Hyderabad",
+    "Language": "Hindi",
+    "Film Name": "SAMAJAVARAGAMANA",
+    "Time Removed": "18m 39s",
+    "Total Cuts": 6,
+    "Slug": "samajavaragamana-2024"
   },
   {
     "Office": "Hyderabad",
     "Language": "Telugu",
-    "Film Name": "\"NAYEEM DIARIES\" (A TO UA)",
-    "Time Removed": "13m 28s",
-    "Total Cuts": 25,
-    "Slug": "nayeem-diaries-a-to-ua-2021"
+    "Film Name": "AASHAADAM PELLIKODUKU ( A TO UA)",
+    "Time Removed": "17m 03s",
+    "Total Cuts": 19,
+    "Slug": "aashaadam-pellikoduku-a-to-ua-2023"
+  },
+  {
+    "Office": "Hyderabad",
+    "Language": "Hindi",
+    "Film Name": "KONAPURAMLO JARIGINA KATHA",
+    "Time Removed": "16m 48s",
+    "Total Cuts": 7,
+    "Slug": "konapuramlo-jarigina-katha-2024"
+  },
+  {
+    "Office": "Hyderabad",
+    "Language": "Hindi",
+    "Film Name": "\"SPARK LIFE\"",
+    "Time Removed": "16m 33s",
+    "Total Cuts": 16,
+    "Slug": "spark-life-2025"
   },
   {
     "Office": "Hyderabad",
     "Language": "Telugu",
-    "Film Name": "VIKKI DADA",
-    "Time Removed": "13m 07s",
-    "Total Cuts": 22,
-    "Slug": "vikki-dada-2020"
+    "Film Name": "1948 AKHANDA BHARATH",
+    "Time Removed": "16m 25s",
+    "Total Cuts": 19,
+    "Slug": "1948-akhanda-bharath-2022"
   },
   {
-    "Office": "Hyderabad",
-    "Language": "Telugu",
-    "Film Name": "\"OREY RIKSHAW\" (A TO UA)",
-    "Time Removed": "12m 54s",
-    "Total Cuts": 24,
-    "Slug": "orey-rikshaw-a-to-ua-2020"
+    "Office": "Kolkata",
+    "Language": "Bengali",
+    "Film Name": "BAGHER BACCHA",
+    "Time Removed": "28m 24s",
+    "Total Cuts": 8,
+    "Slug": "bagher-baccha-2024"
+  },
+  {
+    "Office": "Kolkata",
+    "Language": "Bengali",
+    "Film Name": "DESHBHOKTO KHILADI",
+    "Time Removed": "27m 57s",
+    "Total Cuts": 8,
+    "Slug": "deshbhokto-khiladi-2024"
+  },
+  {
+    "Office": "Kolkata",
+    "Language": "Bengali",
+    "Film Name": "PYAR KI JUNG",
+    "Time Removed": "21m 39s",
+    "Total Cuts": 6,
+    "Slug": "pyar-ki-jung-2024"
+  },
+  {
+    "Office": "Kolkata",
+    "Language": "Bengali",
+    "Film Name": "VANDE BHARAT (SAVE INDIA)",
+    "Time Removed": "16m 15s",
+    "Total Cuts": 4,
+    "Slug": "vande-bharat-save-india-2025"
   },
   {
     "Office": "Kolkata",
@@ -489,163 +521,163 @@
   },
   {
     "Office": "Kolkata",
-    "Language": "Hindi",
-    "Film Name": "PYAR SE PYAR TAK (REVISED)",
-    "Time Removed": "9m 02s",
-    "Total Cuts": 7,
-    "Slug": "pyar-se-pyar-tak-revised-2019"
-  },
-  {
-    "Office": "Kolkata",
-    "Language": "Bengali",
-    "Film Name": "CIRCLE (REVISED)",
-    "Time Removed": "8m 34s",
-    "Total Cuts": 18,
-    "Slug": "circle-revised-2019"
-  },
-  {
-    "Office": "Kolkata",
-    "Language": "Bengali",
-    "Film Name": "ROMANTIC NOY ( REVISED)",
-    "Time Removed": "7m 27s",
-    "Total Cuts": 31,
-    "Slug": "romantic-noy-revised-2018"
-  },
-  {
-    "Office": "Kolkata",
     "Language": "Bengali",
     "Film Name": "MAHANAYAK UTTAM KUMAR ( THE METRO STATION ) ( REVISED)",
-    "Time Removed": "6m 34s",
-    "Total Cuts": 5,
+    "Time Removed": "11m 43s",
+    "Total Cuts": 9,
     "Slug": "mahanayak-uttam-kumar-the-metro-station-revised-2018"
   },
   {
     "Office": "Kolkata",
     "Language": "Bengali",
-    "Film Name": "CHOCOLATE(REVISED)",
-    "Time Removed": "6m 24s",
-    "Total Cuts": 22,
-    "Slug": "chocolaterevised-2021"
+    "Film Name": "PORNOMOCHI (REVISED)",
+    "Time Removed": "10m 24s",
+    "Total Cuts": 44,
+    "Slug": "pornomochi-revised-2018"
   },
   {
     "Office": "Kolkata",
     "Language": "Bengali",
-    "Film Name": "ANGAAR (REVISED)",
-    "Time Removed": "6m 02s",
-    "Total Cuts": 33,
-    "Slug": "angaar-revised-2018"
+    "Film Name": "LAAL RANGER DUNIYA (REVISED)",
+    "Time Removed": "9m 36s",
+    "Total Cuts": 65,
+    "Slug": "laal-ranger-duniya-revised-2022"
   },
   {
     "Office": "Kolkata",
     "Language": "Bengali",
-    "Film Name": "BIJOYA DASHAMI (REVISED)",
-    "Time Removed": "5m 50s",
-    "Total Cuts": 18,
-    "Slug": "bijoya-dashami-revised-2024"
+    "Film Name": "KOLIJUGER SHIKHONDI",
+    "Time Removed": "9m 23s",
+    "Total Cuts": 4,
+    "Slug": "kolijuger-shikhondi-2024"
   },
   {
     "Office": "Kolkata",
     "Language": "Bengali",
-    "Film Name": "SURJO THE BOSS",
-    "Time Removed": "5m 48s",
-    "Total Cuts": 3,
-    "Slug": "surjo-the-boss-2017"
-  },
-  {
-    "Office": "Kolkata",
-    "Language": "Bengali",
-    "Film Name": "VIRUS-DEHER NOI...MONER ( REVISED)",
-    "Time Removed": "4m 26s",
-    "Total Cuts": 15,
-    "Slug": "virus-deher-noimoner-revised-2019"
+    "Film Name": "CIRCLE (REVISED)",
+    "Time Removed": "9m 19s",
+    "Total Cuts": 21,
+    "Slug": "circle-revised-2019"
   },
   {
     "Office": "Mumbai",
-    "Language": "English",
-    "Film Name": "VINCENT N ROXXY",
-    "Time Removed": "29m 26s",
-    "Total Cuts": 28,
-    "Slug": "vincent-n-roxxy-2018"
-  },
-  {
-    "Office": "Mumbai",
-    "Language": "English",
-    "Film Name": "BULLETPROOF 2",
-    "Time Removed": "28m 02s",
-    "Total Cuts": 33,
-    "Slug": "bulletproof-2-2022"
-  },
-  {
-    "Office": "Mumbai",
-    "Language": "Marathi",
-    "Film Name": "NAY VARAN BHAAT LONCHA KON NAY KONCHA(REVISED)",
-    "Time Removed": "25m 06s",
-    "Total Cuts": 17,
-    "Slug": "nay-varan-bhaat-loncha-kon-nay-koncharevised-2023"
-  },
-  {
-    "Office": "Mumbai",
-    "Language": "Bhojpuri",
-    "Film Name": "JIDDI ASHIQUE",
-    "Time Removed": "24m 47s",
-    "Total Cuts": 27,
-    "Slug": "jiddi-ashique-2019"
+    "Language": "Hindustani",
+    "Film Name": "MASS",
+    "Time Removed": "29m 52s",
+    "Total Cuts": 7,
+    "Slug": "mass-2022"
   },
   {
     "Office": "Mumbai",
     "Language": "Bhojpuri",
     "Film Name": "DAROGA BABUNI",
-    "Time Removed": "24m 25s",
-    "Total Cuts": 25,
+    "Time Removed": "29m 50s",
+    "Total Cuts": 35,
     "Slug": "daroga-babuni-2018"
   },
   {
     "Office": "Mumbai",
-    "Language": "Hindi",
-    "Film Name": "AKSAR - 2",
-    "Time Removed": "23m 52s",
-    "Total Cuts": 7,
-    "Slug": "aksar-2-2018"
-  },
-  {
-    "Office": "Mumbai",
-    "Language": "Hindi",
-    "Film Name": "OMG 2",
-    "Time Removed": "23m 33s",
-    "Total Cuts": 25,
-    "Slug": "omg-2-2023"
-  },
-  {
-    "Office": "Mumbai",
-    "Language": "Portugal",
-    "Film Name": "CITY OF GOD",
-    "Time Removed": "22m 47s",
-    "Total Cuts": 68,
-    "Slug": "city-of-god-2022"
-  },
-  {
-    "Office": "Mumbai",
-    "Language": "Hindi",
-    "Film Name": "BHAIRAVA GEETHA",
-    "Time Removed": "21m 19s",
-    "Total Cuts": 40,
-    "Slug": "bhairava-geetha-2019"
-  },
-  {
-    "Office": "Mumbai",
     "Language": "Bhojpuri",
-    "Film Name": "BAA KEHU MAAI KE LAAL",
-    "Time Removed": "21m 09s",
+    "Film Name": "JIYAB SHAAN SE",
+    "Time Removed": "29m 46s",
+    "Total Cuts": 6,
+    "Slug": "jiyab-shaan-se-2024"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Hindustani",
+    "Film Name": "DON ( DON SEENU)",
+    "Time Removed": "29m 44s",
+    "Total Cuts": 6,
+    "Slug": "don-don-seenu-2021"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Urdu",
+    "Film Name": "PALAHATI BRAHMA NAIDU - SHEZADA",
+    "Time Removed": "29m 43s",
+    "Total Cuts": 6,
+    "Slug": "palahati-brahma-naidu-shezada-2023"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Hindustani",
+    "Film Name": "NAKSHATRAM",
+    "Time Removed": "29m 43s",
+    "Total Cuts": 1,
+    "Slug": "nakshatram-2024"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Bengali",
+    "Film Name": "SAPTAMA INDRIYA",
+    "Time Removed": "29m 38s",
+    "Total Cuts": 6,
+    "Slug": "saptama-indriya-2023"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Hindi",
+    "Film Name": "HAI",
+    "Time Removed": "29m 37s",
+    "Total Cuts": 9,
+    "Slug": "hai-2021"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Hindustani",
+    "Film Name": "AATAADISTHA",
+    "Time Removed": "29m 35s",
     "Total Cuts": 7,
-    "Slug": "baa-kehu-maai-ke-laal-2019"
+    "Slug": "aataadistha-2024"
+  },
+  {
+    "Office": "Mumbai",
+    "Language": "Hindi",
+    "Film Name": "DARINGBAAZ KHILADI RETURNS (THOOTTAL POO MALARUM)",
+    "Time Removed": "29m 24s",
+    "Total Cuts": 8,
+    "Slug": "daringbaaz-khiladi-returns-thoottal-poo-malarum-2021"
+  },
+  {
+    "Office": "Thiruvananthpuram",
+    "Language": "Kannada",
+    "Film Name": "MARCO",
+    "Time Removed": "29m 32s",
+    "Total Cuts": 2,
+    "Slug": "marco-2025"
   },
   {
     "Office": "Thiruvananthpuram",
     "Language": "Malayalam",
     "Film Name": "THANKAMANI",
-    "Time Removed": "25m 25s",
-    "Total Cuts": 6,
+    "Time Removed": "26m 05s",
+    "Total Cuts": 8,
     "Slug": "thankamani-2024"
+  },
+  {
+    "Office": "Thiruvananthpuram",
+    "Language": "Malayalam",
+    "Film Name": "ARDHARAATHRI (REVISED)",
+    "Time Removed": "25m 10s",
+    "Total Cuts": 21,
+    "Slug": "ardharaathri-revised-2020"
+  },
+  {
+    "Office": "Thiruvananthpuram",
+    "Language": "Malayalam",
+    "Film Name": "ARTHARAATHRI PANTHRANDU MUTHAL AARU VARE",
+    "Time Removed": "25m 07s",
+    "Total Cuts": 4,
+    "Slug": "artharaathri-panthrandu-muthal-aaru-vare-2023"
+  },
+  {
+    "Office": "Thiruvananthpuram",
+    "Language": "Malayalam",
+    "Film Name": "PANI",
+    "Time Removed": "24m 20s",
+    "Total Cuts": 5,
+    "Slug": "pani-2024"
   },
   {
     "Office": "Thiruvananthpuram",
@@ -674,49 +706,17 @@
   {
     "Office": "Thiruvananthpuram",
     "Language": "Malayalam",
-    "Film Name": "ARTHARAATHRI PANTHRANDU MUTHAL AARU VARE",
-    "Time Removed": "21m 32s",
-    "Total Cuts": 3,
-    "Slug": "artharaathri-panthrandu-muthal-aaru-vare-2023"
-  },
-  {
-    "Office": "Thiruvananthpuram",
-    "Language": "Malayalam",
     "Film Name": "KARIMPULI (RE-REVISED)",
-    "Time Removed": "20m 53s",
-    "Total Cuts": 15,
+    "Time Removed": "21m 32s",
+    "Total Cuts": 17,
     "Slug": "karimpuli-re-revised-2021"
   },
   {
     "Office": "Thiruvananthpuram",
     "Language": "Malayalam",
-    "Film Name": "ARDHARAATHRI (REVISED)",
-    "Time Removed": "20m 19s",
-    "Total Cuts": 18,
-    "Slug": "ardharaathri-revised-2020"
-  },
-  {
-    "Office": "Thiruvananthpuram",
-    "Language": "Malayalam",
-    "Film Name": "L",
-    "Time Removed": "20m 06s",
+    "Film Name": "ARIKU",
+    "Time Removed": "20m 10s",
     "Total Cuts": 4,
-    "Slug": "l-2024"
-  },
-  {
-    "Office": "Thiruvananthpuram",
-    "Language": "Malayalam",
-    "Film Name": "BOOMERANG",
-    "Time Removed": "19m 52s",
-    "Total Cuts": 2,
-    "Slug": "boomerang-2022"
-  },
-  {
-    "Office": "Thiruvananthpuram",
-    "Language": "Malayalam",
-    "Film Name": "PRANAMAM",
-    "Time Removed": "19m 19s",
-    "Total Cuts": 20,
-    "Slug": "pranamam-2024"
+    "Slug": "ariku-2023"
   }
 ]

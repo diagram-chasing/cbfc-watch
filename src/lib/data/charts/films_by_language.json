@@ -1,66 +1,42 @@
 [
   {
     "language": "Hindi",
-    "n": 3044
+    "n": 4178
   },
   {
     "language": "Tamil",
-    "n": 2407
+    "n": 2671
   },
   {
     "language": "Telugu",
-    "n": 2338
+    "n": 2558
   },
   {
     "language": "Kannada",
-    "n": 1795
+    "n": 1975
   },
   {
     "language": "English",
-    "n": 1501
+    "n": 1687
   },
   {
     "language": "Malayalam",
-    "n": 1188
+    "n": 1338
   },
   {
     "language": "Bhojpuri",
-    "n": 864
+    "n": 1031
   },
   {
     "language": "Marathi",
-    "n": 619
+    "n": 737
   },
   {
     "language": "Bengali",
-    "n": 358
+    "n": 498
   },
   {
     "language": "Gujarati",
-    "n": 337
-  },
-  {
-    "language": "Punjabi",
-    "n": 245
-  },
-  {
-    "language": "Odia",
-    "n": 180
-  },
-  {
-    "language": "Chhattisgarhi",
-    "n": 75
-  },
-  {
-    "language": "Tulu",
-    "n": 41
-  },
-  {
-    "language": "Assamese",
-    "n": 31
-  },
-  {
-    "language": "Konkani",
-    "n": 31
+    "n": 366
   }
 ]

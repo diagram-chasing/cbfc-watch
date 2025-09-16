@@ -307,7 +307,7 @@
 			<article class=" grid grid-cols-1 gap-4 md:my-2 md:grid-cols-6">
 				<div class="border-sepia-dark bg-sepia-light col-span-3 border p-4 shadow-sm">
 					<BarPlot
-						title=" Chennai and Thiruvananthpuram offices modify more in films than other regions"
+						title=" Cuttack and Delhi offices modify more in films than other regions"
 						subtitle="The average amount of content modified varies by certifying office location."
 						data={cutsByOfficeData}
 						xLabel="Total minutes of content modified per movie (mean)"

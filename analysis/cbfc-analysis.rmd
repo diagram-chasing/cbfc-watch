@@ -154,6 +154,14 @@ format_seconds <- function(secs) {
 }
 ```
 
+---
+
+
+**Note**: This notebook was updated on Tuesday 16th September, 3:00 PM to correct a data preprocessing error, which erroneously filtered out some data from being including in the summaries. The correction is viewable here. This has been corrected. 
+
+
+---
+
 # Introduction
 
 This notebook contains the data analysis for the charts and numbers used on our site, [CBFC.WATCH](https://cbfc.watch). To ensure full transparency with our readers, we are publishing our methodology and the R code used to generate the statistics for various parts of the site, as well as to provide a starting point for others who may be curious about how to use the data.
@@ -190,9 +198,9 @@ data <- read_csv("https://github.com/diagram-chasing/censor-board-cuts/raw/refs/
       str_trim()
   ) %>%
   separate_rows(ai_content_types, sep = "\\|") %>%
-  mutate(ai_content_types = str_trim(ai_content_types)) %>%
+  mutate(ai_content_types = str_trim(ai_content_types))%>%
   # Filter out any rows where the content type is empty after separation.
-  filter(ai_content_types != "") %>%
+ # filter(ai_content_types != "") %>%
   # Standardize language names to correct for typos and variations in the raw data
   mutate(
     language = case_when(
@@ -240,7 +248,7 @@ films_by_language_data <- data %>%
   top_n(10, n) %>%
   mutate(language = fct_reorder(language, n))
 
-# write_json(films_by_language_data, "films_by_language.json", pretty = TRUE, auto_unbox = TRUE)
+write_json(films_by_language_data, "films_by_language.json", pretty = TRUE, auto_unbox = TRUE)
 
 films_by_language_data %>%
   ggplot(aes(x = n, y = language)) +

@@ -22,6 +22,15 @@
 		}
 	];
 
+	const changelogItems = [
+		{
+			date: '2025-09-16',
+			type: 'correction',
+			description:
+				'Data was updated on Tuesday 16th September, 3:00 PM to correct for a data preprocessing error, which erroneously filtered out some data from being including in the summaries. <a href="https://github.com">The correction is viewable here</a>. This has been corrected. '
+		}
+	];
+
 	const textStyles = 'font-atkinson text-base leading-relaxed text-gray-700';
 	const linkStyles = 'text-blue font-medium hover:underline';
 	const creditLinkStyles =
@@ -249,6 +258,43 @@
 		</footer>
 	</section>
 
+	<!-- Changelog Section -->
+	<section class="space-y-6">
+		<h2 class="font-gothic text-4xl font-medium tracking-tight text-black">Changelog</h2>
+
+		<div class="space-y-3">
+			{#each changelogItems as change}
+				<article
+					class={`border-sepia-dark space-y-2 border p-4 shadow-sm ${change.type === 'correction' ? 'border-red-200 bg-red-50' : 'bg-white'}`}
+				>
+					<div class="flex items-center justify-between">
+						<div class="flex items-center gap-2">
+							{#if change.type === 'correction'}
+								<span
+									class="rounded-xs border border-red-300 bg-red-100 px-2 py-0.5 text-xs font-medium tracking-wide text-red-800 uppercase"
+								>
+									Correction
+								</span>
+							{/if}
+							<h3 class="font-atkinson text-sepia-brown font-semibold">
+								{new Date(change.date).toLocaleDateString('en-US', {
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric'
+								})}
+							</h3>
+						</div>
+						<time class="font-atkinson text-xs font-medium tracking-wide text-gray-500 uppercase">
+							{change.date}
+						</time>
+					</div>
+					<p class="font-atkinson text-sm leading-relaxed text-gray-700">
+						{@html change.description}
+					</p>
+				</article>
+			{/each}
+		</div>
+	</section>
 	<!-- FAQ Section -->
 	<section class="space-y-6">
 		<h2 class="font-gothic text-4xl font-medium tracking-tight text-black">

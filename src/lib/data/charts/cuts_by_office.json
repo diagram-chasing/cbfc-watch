@@ -1,58 +1,66 @@
 [
   {
-    "office": "Chennai",
-    "film_count": 1458,
-    "mean_total_secs": 165.6804,
-    "se": 6.6494,
-    "ci_lower_secs": 152.6475,
-    "ci_upper_secs": 178.7133
-  },
-  {
-    "office": "Thiruvananthpuram",
-    "film_count": 607,
-    "mean_total_secs": 165.2586,
-    "se": 9.5726,
-    "ci_lower_secs": 146.4963,
-    "ci_upper_secs": 184.021
+    "office": "Cuttack",
+    "film_count": 118,
+    "mean_total_secs": 550.5,
+    "se": 47.2164,
+    "ci_lower_secs": 457.9558,
+    "ci_upper_secs": 643.0442
   },
   {
     "office": "Delhi",
-    "film_count": 309,
-    "mean_total_secs": 139.699,
-    "se": 11.8176,
-    "ci_lower_secs": 116.5366,
-    "ci_upper_secs": 162.8614
+    "film_count": 442,
+    "mean_total_secs": 245.6719,
+    "se": 16.6414,
+    "ci_lower_secs": 213.0548,
+    "ci_upper_secs": 278.2891
   },
   {
     "office": "Mumbai",
-    "film_count": 4192,
-    "mean_total_secs": 136.5582,
-    "se": 2.6925,
-    "ci_lower_secs": 131.2809,
-    "ci_upper_secs": 141.8355
+    "film_count": 6573,
+    "mean_total_secs": 230.6235,
+    "se": 4.242,
+    "ci_lower_secs": 222.3091,
+    "ci_upper_secs": 238.9378
   },
   {
-    "office": "Bangalore",
-    "film_count": 773,
-    "mean_total_secs": 95.8706,
-    "se": 5.9057,
-    "ci_lower_secs": 84.2954,
-    "ci_upper_secs": 107.4458
+    "office": "Thiruvananthpuram",
+    "film_count": 688,
+    "mean_total_secs": 195.6715,
+    "se": 10.4879,
+    "ci_lower_secs": 175.1152,
+    "ci_upper_secs": 216.2278
+  },
+  {
+    "office": "Chennai",
+    "film_count": 1657,
+    "mean_total_secs": 185.455,
+    "se": 6.9958,
+    "ci_lower_secs": 171.7433,
+    "ci_upper_secs": 199.1668
   },
   {
     "office": "Kolkata",
-    "film_count": 133,
-    "mean_total_secs": 95.0827,
-    "se": 10.7063,
-    "ci_lower_secs": 74.0983,
-    "ci_upper_secs": 116.0671
+    "film_count": 209,
+    "mean_total_secs": 151.756,
+    "se": 16.6047,
+    "ci_lower_secs": 119.2109,
+    "ci_upper_secs": 184.3011
+  },
+  {
+    "office": "Bangalore",
+    "film_count": 982,
+    "mean_total_secs": 132.9501,
+    "se": 7.2564,
+    "ci_lower_secs": 118.7275,
+    "ci_upper_secs": 147.1727
   },
   {
     "office": "Hyderabad",
-    "film_count": 849,
-    "mean_total_secs": 94.3345,
-    "se": 5.3051,
-    "ci_lower_secs": 83.9365,
-    "ci_upper_secs": 104.7326
+    "film_count": 1055,
+    "mean_total_secs": 120.8133,
+    "se": 6.0866,
+    "ci_lower_secs": 108.8835,
+    "ci_upper_secs": 132.743
   }
 ]

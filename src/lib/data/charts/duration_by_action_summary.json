@@ -6,27 +6,37 @@
     "median": 4,
     "q3": 12,
     "max": 6503,
-    "count": 664,
+    "count": 759,
     "pretty_name": "Audio Modification"
   },
   {
     "ai_action": "text_modification",
     "min": 1,
     "q1": 3,
-    "median": 7,
-    "q3": 18,
-    "max": 1159,
-    "count": 655,
+    "median": 8,
+    "q3": 22,
+    "max": 10012,
+    "count": 951,
     "pretty_name": "Text Modification"
+  },
+  {
+    "ai_action": "insertion",
+    "min": 1,
+    "q1": 10,
+    "median": 10,
+    "q3": 60,
+    "max": 3382,
+    "count": 6199,
+    "pretty_name": "Insertion"
   },
   {
     "ai_action": "deletion",
     "min": 1,
     "q1": 4,
-    "median": 9,
-    "q3": 26,
+    "median": 13,
+    "q3": 48,
     "max": 7740,
-    "count": 30271,
+    "count": 41264,
     "pretty_name": "Deletion"
   },
   {
@@ -34,9 +44,9 @@
     "min": 1,
     "q1": 6,
     "median": 14,
-    "q3": 44,
-    "max": 2056,
-    "count": 1845,
+    "q3": 45,
+    "max": 3724,
+    "count": 2451,
     "pretty_name": "Replacement"
   },
   {
@@ -44,29 +54,19 @@
     "min": 1,
     "q1": 6,
     "median": 14,
-    "q3": 31,
+    "q3": 30,
     "max": 1444,
-    "count": 3126,
+    "count": 3256,
     "pretty_name": "Visual Modification"
   },
   {
     "ai_action": "content_overlay",
-    "min": 4,
-    "q1": 15.25,
-    "median": 28,
-    "q3": 52.5,
+    "min": 3,
+    "q1": 11.5,
+    "median": 21,
+    "q3": 30,
     "max": 330,
-    "count": 8,
+    "count": 11,
     "pretty_name": "Content Overlay"
-  },
-  {
-    "ai_action": "insertion",
-    "min": 1,
-    "q1": 10,
-    "median": 60,
-    "q3": 120,
-    "max": 3382,
-    "count": 2808,
-    "pretty_name": "Insertion"
   }
 ]

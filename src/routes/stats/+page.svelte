@@ -165,7 +165,7 @@
 		)}
 
 		{@render ChartCard(
-			'Chennai and Thiruvananthpuram offices modify more content in films than other regions',
+			'Cuttack and Delhi offices modify more content in films than other regions',
 			'The average amount of content modified varies by certifying office location.',
 			BarPlot,
 			{
@@ -221,13 +221,13 @@
 			)}
 		</div>
 
-		{@render ChartCard(
+		<!-- {@render ChartCard(
 			'Edits adding to the movie are the longest, audio modifications are quickest',
 			"Distribution of modification durations by action type. 'Insertions' are often for adding disclaimers such as smoking warnings, whereas audio modifications might be quick cuts for profanity.",
 			ActionDurationBoxPlot,
 			{},
 			''
-		)}
+		)} -->
 
 		{@render ChartCard(
 			'Heavily modified movies by office',

@@ -2,243 +2,243 @@
   "histogram_bins": [
     {
       "x_min": 0,
-      "x_max": 0.1233,
-      "count": 80,
-      "y_percent_total": 0.5188
+      "x_max": 0.1246,
+      "count": 65,
+      "y_percent_total": 0.3521
     },
     {
-      "x_min": 0.1233,
-      "x_max": 0.2466,
+      "x_min": 0.1246,
+      "x_max": 0.2491,
       "count": 0,
       "y_percent_total": 0
     },
     {
-      "x_min": 0.2466,
-      "x_max": 0.3699,
-      "count": 188,
-      "y_percent_total": 1.2192
+      "x_min": 0.2491,
+      "x_max": 0.3737,
+      "count": 168,
+      "y_percent_total": 0.9099
     },
     {
-      "x_min": 0.3699,
-      "x_max": 0.4931,
-      "count": 126,
-      "y_percent_total": 0.8171
+      "x_min": 0.3737,
+      "x_max": 0.4983,
+      "count": 142,
+      "y_percent_total": 0.7691
     },
     {
-      "x_min": 0.4931,
-      "x_max": 0.6164,
-      "count": 209,
-      "y_percent_total": 1.3554
+      "x_min": 0.4983,
+      "x_max": 0.6228,
+      "count": 225,
+      "y_percent_total": 1.2187
     },
     {
-      "x_min": 0.6164,
-      "x_max": 0.7397,
-      "count": 177,
-      "y_percent_total": 1.1479
+      "x_min": 0.6228,
+      "x_max": 0.7474,
+      "count": 222,
+      "y_percent_total": 1.2024
     },
     {
-      "x_min": 0.7397,
-      "x_max": 0.863,
-      "count": 239,
-      "y_percent_total": 1.5499
+      "x_min": 0.7474,
+      "x_max": 0.872,
+      "count": 281,
+      "y_percent_total": 1.522
     },
     {
-      "x_min": 0.863,
-      "x_max": 0.9863,
-      "count": 277,
-      "y_percent_total": 1.7964
+      "x_min": 0.872,
+      "x_max": 0.9965,
+      "count": 303,
+      "y_percent_total": 1.6411
     },
     {
-      "x_min": 0.9863,
-      "x_max": 1.1096,
-      "count": 422,
-      "y_percent_total": 2.7367
+      "x_min": 0.9965,
+      "x_max": 1.1211,
+      "count": 1239,
+      "y_percent_total": 6.7107
     },
     {
-      "x_min": 1.1096,
-      "x_max": 1.2329,
-      "count": 390,
-      "y_percent_total": 2.5292
-    },
-    {
-      "x_min": 1.2329,
-      "x_max": 1.3561,
-      "count": 376,
-      "y_percent_total": 2.4384
-    },
-    {
-      "x_min": 1.3561,
-      "x_max": 1.4794,
+      "x_min": 1.1211,
+      "x_max": 1.2457,
       "count": 429,
-      "y_percent_total": 2.7821
+      "y_percent_total": 2.3236
     },
     {
-      "x_min": 1.4794,
-      "x_max": 1.6027,
-      "count": 490,
-      "y_percent_total": 3.1777
+      "x_min": 1.2457,
+      "x_max": 1.3702,
+      "count": 534,
+      "y_percent_total": 2.8923
     },
     {
-      "x_min": 1.6027,
-      "x_max": 1.726,
-      "count": 414,
-      "y_percent_total": 2.6848
+      "x_min": 1.3702,
+      "x_max": 1.4948,
+      "count": 498,
+      "y_percent_total": 2.6973
     },
     {
-      "x_min": 1.726,
-      "x_max": 1.8493,
-      "count": 613,
-      "y_percent_total": 3.9754
+      "x_min": 1.4948,
+      "x_max": 1.6194,
+      "count": 558,
+      "y_percent_total": 3.0223
     },
     {
-      "x_min": 1.8493,
-      "x_max": 1.9726,
-      "count": 437,
-      "y_percent_total": 2.834
+      "x_min": 1.6194,
+      "x_max": 1.7439,
+      "count": 499,
+      "y_percent_total": 2.7027
     },
     {
-      "x_min": 1.9726,
-      "x_max": 2.0959,
-      "count": 829,
-      "y_percent_total": 5.3761
+      "x_min": 1.7439,
+      "x_max": 1.8685,
+      "count": 710,
+      "y_percent_total": 3.8455
     },
     {
-      "x_min": 2.0959,
-      "x_max": 2.2192,
-      "count": 633,
-      "y_percent_total": 4.1051
+      "x_min": 1.8685,
+      "x_max": 1.993,
+      "count": 574,
+      "y_percent_total": 3.1089
     },
     {
-      "x_min": 2.2192,
-      "x_max": 2.3424,
-      "count": 519,
-      "y_percent_total": 3.3658
+      "x_min": 1.993,
+      "x_max": 2.1176,
+      "count": 966,
+      "y_percent_total": 5.2321
     },
     {
-      "x_min": 2.3424,
-      "x_max": 2.4657,
-      "count": 474,
-      "y_percent_total": 3.0739
+      "x_min": 2.1176,
+      "x_max": 2.2422,
+      "count": 754,
+      "y_percent_total": 4.0838
     },
     {
-      "x_min": 2.4657,
-      "x_max": 2.589,
+      "x_min": 2.2422,
+      "x_max": 2.3667,
+      "count": 630,
+      "y_percent_total": 3.4122
+    },
+    {
+      "x_min": 2.3667,
+      "x_max": 2.4913,
+      "count": 603,
+      "y_percent_total": 3.266
+    },
+    {
+      "x_min": 2.4913,
+      "x_max": 2.6159,
+      "count": 531,
+      "y_percent_total": 2.876
+    },
+    {
+      "x_min": 2.6159,
+      "x_max": 2.7404,
+      "count": 479,
+      "y_percent_total": 2.5944
+    },
+    {
+      "x_min": 2.7404,
+      "x_max": 2.865,
+      "count": 404,
+      "y_percent_total": 2.1882
+    },
+    {
+      "x_min": 2.865,
+      "x_max": 2.9896,
       "count": 353,
-      "y_percent_total": 2.2892
+      "y_percent_total": 1.9119
     },
     {
-      "x_min": 2.589,
-      "x_max": 2.7123,
-      "count": 295,
-      "y_percent_total": 1.9131
+      "x_min": 2.9896,
+      "x_max": 3.1141,
+      "count": 339,
+      "y_percent_total": 1.8361
     },
     {
-      "x_min": 2.7123,
-      "x_max": 2.8356,
-      "count": 190,
-      "y_percent_total": 1.2322
+      "x_min": 3.1141,
+      "x_max": 3.2387,
+      "count": 221,
+      "y_percent_total": 1.197
     },
     {
-      "x_min": 2.8356,
-      "x_max": 2.9589,
-      "count": 121,
-      "y_percent_total": 0.7847
+      "x_min": 3.2387,
+      "x_max": 3.3633,
+      "count": 74,
+      "y_percent_total": 0.4008
     },
     {
-      "x_min": 2.9589,
-      "x_max": 3.0822,
-      "count": 66,
-      "y_percent_total": 0.428
+      "x_min": 3.3633,
+      "x_max": 3.4878,
+      "count": 11,
+      "y_percent_total": 0.0596
     },
     {
-      "x_min": 3.0822,
-      "x_max": 3.2054,
-      "count": 34,
-      "y_percent_total": 0.2205
-    },
-    {
-      "x_min": 3.2054,
-      "x_max": 3.3287,
-      "count": 10,
-      "y_percent_total": 0.0649
-    },
-    {
-      "x_min": 3.3287,
-      "x_max": 3.452,
+      "x_min": 3.4878,
+      "x_max": 3.6124,
       "count": 7,
-      "y_percent_total": 0.0454
+      "y_percent_total": 0.0379
     },
     {
-      "x_min": 3.452,
-      "x_max": 3.5753,
-      "count": 2,
-      "y_percent_total": 0.013
-    },
-    {
-      "x_min": 3.5753,
-      "x_max": 3.6986,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 3.6986,
-      "x_max": 3.8219,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 3.8219,
-      "x_max": 3.9452,
+      "x_min": 3.6124,
+      "x_max": 3.737,
       "count": 1,
-      "y_percent_total": 0.0065
+      "y_percent_total": 0.0054
     },
     {
-      "x_min": 3.9452,
-      "x_max": 4.0684,
+      "x_min": 3.737,
+      "x_max": 3.8615,
       "count": 0,
       "y_percent_total": 0
     },
     {
-      "x_min": 4.0684,
-      "x_max": 4.1917,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 4.1917,
-      "x_max": 4.315,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 4.315,
-      "x_max": 4.4383,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 4.4383,
-      "x_max": 4.5616,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 4.5616,
-      "x_max": 4.6849,
-      "count": 0,
-      "y_percent_total": 0
-    },
-    {
-      "x_min": 4.6849,
-      "x_max": 4.8082,
+      "x_min": 3.8615,
+      "x_max": 3.9861,
       "count": 1,
-      "y_percent_total": 0.0065
+      "y_percent_total": 0.0054
+    },
+    {
+      "x_min": 3.9861,
+      "x_max": 4.1107,
+      "count": 1,
+      "y_percent_total": 0.0054
+    },
+    {
+      "x_min": 4.1107,
+      "x_max": 4.2352,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.2352,
+      "x_max": 4.3598,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.3598,
+      "x_max": 4.4844,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.4844,
+      "x_max": 4.6089,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.6089,
+      "x_max": 4.7335,
+      "count": 0,
+      "y_percent_total": 0
+    },
+    {
+      "x_min": 4.7335,
+      "x_max": 4.8581,
+      "count": 1,
+      "y_percent_total": 0.0054
     }
   ],
   "statistics": {
-    "median_positive_secs": 63,
-    "total_films": 15420,
-    "percent_zero_mods": 0.4551
+    "median_positive_secs": 75,
+    "total_films": 18463,
+    "percent_zero_mods": 0.3596
   },
   "axis_config": {
     "breaks": [1, 10, 60, 300, 1800],
