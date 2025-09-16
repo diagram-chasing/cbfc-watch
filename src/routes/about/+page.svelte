@@ -259,7 +259,7 @@
 	</section>
 
 	<!-- Changelog Section -->
-	<section class="space-y-6">
+	<section class="space-y-6" id="changelog">
 		<h2 class="font-gothic text-4xl font-medium tracking-tight text-black">Changelog</h2>
 
 		<div class="space-y-3">
@@ -284,9 +284,6 @@
 								})}
 							</h3>
 						</div>
-						<time class="font-atkinson text-xs font-medium tracking-wide text-gray-500 uppercase">
-							{change.date}
-						</time>
 					</div>
 					<p class="font-atkinson text-sm leading-relaxed text-gray-700">
 						{@html change.description}
