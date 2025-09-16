@@ -27,7 +27,7 @@
 			date: '2025-09-16',
 			type: 'correction',
 			description:
-				'Data was updated on Tuesday 16th September, 3:00 PM to correct for a data preprocessing error, which erroneously filtered out some data from being including in the summaries. <a href="https://github.com">The correction is viewable here</a>. This has been corrected. '
+				'Data was updated on Tuesday 16th September, 3:00 PM to correct for a data preprocessing error, which erroneously filtered out some data from being including in the summaries. <a href="https://github.com/diagram-chasing/cbfc-watch/commit/4816d3dc153061ffabacd89d795c07d722c5bd42#diff-28dfebb1578aae3e16bc2134eb5ce4fa0dcd03fd5aff127d120f75a6f6f1cce7L195-R203" target="_blank" rel="noopener noreferrer" class="text-blue font-medium hover:underline">The correction is viewable here</a>. This has been corrected. '
 		}
 	];
 

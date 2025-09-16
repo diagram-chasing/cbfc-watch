@@ -157,7 +157,7 @@ format_seconds <- function(secs) {
 ---
 
 
-**Note**: This notebook was updated on Tuesday 16th September, 3:00 PM to correct a data preprocessing error, which erroneously filtered out some data from being including in the summaries. The correction is viewable here. This has been corrected. 
+**Note**: This notebook was updated on Tuesday 16th September, 3:00 PM to correct a data preprocessing error, which erroneously filtered out some data from being including in the summaries. The correction is [viewable here](https://github.com/diagram-chasing/cbfc-watch/commit/4816d3dc153061ffabacd89d795c07d722c5bd42#diff-28dfebb1578aae3e16bc2134eb5ce4fa0dcd03fd5aff127d120f75a6f6f1cce7L195-R203). This has been corrected. 
 
 
 ---
