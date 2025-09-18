@@ -27,7 +27,31 @@
 			date: '2025-09-16',
 			type: 'correction',
 			description:
-				'Data was updated on Tuesday 16th September, 3:00 PM to correct for a data preprocessing error, which erroneously filtered out some data from being including in the summaries. <a href="https://github.com/diagram-chasing/cbfc-watch/commit/4816d3dc153061ffabacd89d795c07d722c5bd42#diff-28dfebb1578aae3e16bc2134eb5ce4fa0dcd03fd5aff127d120f75a6f6f1cce7L195-R203" target="_blank" rel="noopener noreferrer" class="text-blue font-medium hover:underline">The correction is viewable here</a>. This has been corrected. '
+				'Data was updated on Tuesday 16th September, 3:00 PM to correct for a data preprocessing error, which erroneously filtered out some data from being including in the summaries. <a href="https://github.com/diagram-chasing/cbfc-watch/commit/4816d3dc153061ffabacd89d795c07d722c5bd42#diff-28dfebb1578aae3e16bc2134eb5ce4fa0dcd03fd5aff127d120f75a6f6f1cce7L195-R203" target="_blank" rel="noopener noreferrer" class="text-blue font-medium hover:underline">The correction is viewable here</a>. '
+		}
+	];
+
+	const newsArticles = [
+		{
+			source: 'The Hindu',
+			date: '2024-06-25',
+			title: 'Censor Board discontinues full access to cuts on website',
+
+			url: 'https://www.thehindu.com/entertainment/movies/censor-board-discontinues-full-access-to-cuts-on-website/article69736377.ece'
+		},
+		{
+			source: 'Frontline',
+			date: '2024-09-16',
+			title: 'CBFC Watch: Before the censors censored themselves, two coders hit ‘save’',
+
+			url: 'https://frontline.thehindu.com/arts-and-culture/cinema/cbfc-watch-film-censorship-archive-india/article70057148.ece'
+		},
+		{
+			source: 'The Hindu',
+			date: '2024-09-18',
+			title: 'Share of U-rated films highest in Malayalam, lowest in Bhojpuri: Data',
+
+			url: 'https://www.thehindu.com/data/share-of-u-rated-films-highest-in-malayalam-lowest-in-bhojpuri-data/article70062723.ece'
 		}
 	];
 
@@ -256,6 +280,46 @@
 				<a href="https://diagramchasing.fun">A Diagram Chasing Production</a>
 			</p>
 		</footer>
+	</section>
+	<!-- In the News Section -->
+	<section class="space-y-6">
+		<h2 class="font-gothic text-4xl font-medium tracking-tight text-black">In the News</h2>
+
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+			{#each newsArticles as article}
+				<article
+					class="border-sepia-dark bg-sepia-light group relative overflow-hidden rounded-xs border shadow-sm transition-all duration-200 hover:shadow-md"
+				>
+					<div class="p-4">
+						<div class="mb-3 flex items-center justify-between">
+							<span
+								class="bg-sepia-brown text-sepia-light rounded-xs px-2 py-1 text-xs font-medium tracking-wide uppercase"
+							>
+								{article.source}
+							</span>
+							<time class="font-atkinson text-xs text-gray-600" datetime={article.date}>
+								{new Date(article.date).toLocaleDateString('en-US', {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric'
+								})}
+							</time>
+						</div>
+						<a href={article.url}>
+							<h3
+								class="font-atkinson mb-2 text-lg leading-tight font-semibold text-gray-900 group-hover:text-black"
+							>
+								{article.title}
+							</h3>
+						</a>
+						<Button href={article.url} target="_blank" variant="ghost" size="xs">
+							Read full article
+							<ExternalLink class="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+						</Button>
+					</div>
+				</article>
+			{/each}
+		</div>
 	</section>
 
 	<!-- Changelog Section -->
