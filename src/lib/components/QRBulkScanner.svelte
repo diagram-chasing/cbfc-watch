@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, tick } from 'svelte';
 	import { Html5Qrcode } from 'html5-qrcode';
 	import { Camera, X, Trash2, CheckCircle, AlertCircle } from 'lucide-svelte';
 
@@ -18,41 +18,13 @@
 	let isScanning = $state(false);
 	let scannedUrls = $state<ScannedURL[]>([]);
 	let html5QrCode: Html5Qrcode | null = $state(null);
-	let scannerElement: HTMLDivElement;
 	let lastScannedUrl = $state('');
 	let lastScanTime = $state(0);
 	let errorMessage = $state('');
 	let cameraPermissionState = $state<'prompt' | 'granted' | 'denied'>('prompt');
 	let isRequestingPermission = $state(false);
 
-	// Prevent duplicate scans within 2 seconds
 	const SCAN_COOLDOWN = 2000;
-
-	// Check camera permission status
-	async function checkCameraPermission() {
-		if (!navigator.permissions || !navigator.mediaDevices) {
-			return 'prompt';
-		}
-
-		try {
-			const result = await navigator.permissions.query({ name: 'camera' as PermissionName });
-			cameraPermissionState = result.state as 'prompt' | 'granted' | 'denied';
-
-			// Listen for permission changes
-			result.onchange = () => {
-				cameraPermissionState = result.state as 'prompt' | 'granted' | 'denied';
-			};
-
-			return result.state;
-		} catch (err) {
-			// Permissions API might not be available
-			return 'prompt';
-		}
-	}
-
-	onMount(() => {
-		checkCameraPermission();
-	});
 
 	function isValidCBFCUrl(url: string): boolean {
 		try {
@@ -64,117 +36,65 @@
 	}
 
 	async function startScanning() {
+		errorMessage = '';
+		isRequestingPermission = true;
+
 		try {
-			errorMessage = '';
-			isRequestingPermission = true;
-
-			// Check if we have permission first
-			const permissionStatus = await checkCameraPermission();
-
-			if (permissionStatus === 'denied') {
-				errorMessage = 'Camera access denied. Please enable camera permissions in your browser settings.';
-				isRequestingPermission = false;
-				return;
-			}
-
-			// Try to get camera access first to trigger permission prompt
-			if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-				errorMessage = 'Camera access is not supported in this browser. Please use a modern browser (Chrome, Firefox, Safari).';
-				isRequestingPermission = false;
-				return;
-			}
-
-			try {
-				// This will trigger the browser permission prompt
-				const stream = await navigator.mediaDevices.getUserMedia({
-					video: { facingMode: 'environment' }
-				});
-
-				// Stop the stream immediately - html5-qrcode will request it again
-				stream.getTracks().forEach(track => track.stop());
-
-				cameraPermissionState = 'granted';
-			} catch (permErr: any) {
-				isRequestingPermission = false;
-
-				if (permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError') {
-					errorMessage = 'Camera permission denied. Please allow camera access and try again.';
-					cameraPermissionState = 'denied';
-				} else if (permErr.name === 'NotFoundError' || permErr.name === 'DevicesNotFoundError') {
-					errorMessage = 'No camera found. Please connect a camera and try again.';
-				} else if (permErr.name === 'NotReadableError' || permErr.name === 'TrackStartError') {
-					errorMessage = 'Camera is already in use by another application. Please close other apps using the camera.';
-				} else if (permErr.name === 'SecurityError') {
-					errorMessage = 'Camera access blocked. Make sure you are using HTTPS or localhost.';
-				} else {
-					errorMessage = `Camera error: ${permErr.message || 'Unknown error'}`;
-				}
-
-				console.error('Camera permission error:', permErr);
-				return;
-			}
-
+			// Request camera permission
+			const stream = await navigator.mediaDevices.getUserMedia({
+				video: { facingMode: 'environment' }
+			});
+			stream.getTracks().forEach(track => track.stop());
+			cameraPermissionState = 'granted';
+		} catch (permErr: any) {
 			isRequestingPermission = false;
-			html5QrCode = new Html5Qrcode('qr-reader');
+			if (permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError') {
+				errorMessage = 'Camera permission denied. Please allow camera access and try again.';
+				cameraPermissionState = 'denied';
+			} else if (permErr.name === 'NotFoundError' || permErr.name === 'DevicesNotFoundError') {
+				errorMessage = 'No camera found. Please connect a camera and try again.';
+			} else {
+				errorMessage = `Camera error: ${permErr.message || 'Unknown error'}`;
+			}
+			console.error('Camera permission error:', permErr);
+			return;
+		}
 
+		isRequestingPermission = false;
+		isScanning = true;
+		await tick(); // Wait for DOM to render
+
+		try {
+			html5QrCode = new Html5Qrcode('qr-reader');
 			await html5QrCode.start(
 				{ facingMode: 'environment' },
-				{
-					fps: 10,
-					qrbox: { width: 250, height: 250 }
-				},
+				{ fps: 10, qrbox: { width: 250, height: 250 } },
 				(decodedText) => {
 					const now = Date.now();
-
-					// Prevent duplicate scans
-					if (decodedText === lastScannedUrl && now - lastScanTime < SCAN_COOLDOWN) {
-						return;
-					}
-
-					// Validate URL
+					if (decodedText === lastScannedUrl && now - lastScanTime < SCAN_COOLDOWN) return;
 					if (!isValidCBFCUrl(decodedText)) {
 						errorMessage = 'Invalid QR code. Must be from www.ecinepramaan.gov.in';
-						setTimeout(() => {
-							errorMessage = '';
-						}, 3000);
+						setTimeout(() => errorMessage = '', 3000);
 						return;
 					}
-
-					// Check if URL already exists
 					if (scannedUrls.some((item) => item.url === decodedText)) {
 						errorMessage = 'This URL has already been scanned';
-						setTimeout(() => {
-							errorMessage = '';
-						}, 3000);
+						setTimeout(() => errorMessage = '', 3000);
 						return;
 					}
-
-					// Add to list
-					const newUrl: ScannedURL = {
-						id: crypto.randomUUID(),
-						url: decodedText,
-						timestamp: now
-					};
-
+					const newUrl: ScannedURL = { id: crypto.randomUUID(), url: decodedText, timestamp: now };
 					scannedUrls = [...scannedUrls, newUrl];
 					onUrlsScanned = scannedUrls;
 					lastScannedUrl = decodedText;
 					lastScanTime = now;
-
-					// Visual feedback
 					errorMessage = '';
 				},
-				(errorMessage) => {
-					// Ignore decode errors (these happen constantly while scanning)
-				}
+				() => {} // Ignore decode errors
 			);
-
-			isScanning = true;
 		} catch (err: any) {
 			console.error('Failed to start scanning:', err);
 			errorMessage = `Failed to start scanner: ${err.message || 'Unknown error'}`;
 			isScanning = false;
-			isRequestingPermission = false;
 		}
 	}
 
