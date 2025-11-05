@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { onMount, onDestroy, tick } from 'svelte';
-	import { Html5Qrcode } from 'html5-qrcode';
+	import { onMount, onDestroy } from 'svelte';
+	import { Html5Qrcode, type Html5QrcodeResult } from 'html5-qrcode';
 	import { Camera, X, Trash2, CheckCircle, AlertCircle } from 'lucide-svelte';
 
 	interface ScannedURL {
@@ -15,119 +15,181 @@
 		onUrlsScanned?: ScannedURL[];
 	} = $props();
 
-	let isScanning = $state(false);
+	// State management
+	type ScannerState = 'idle' | 'initializing' | 'scanning' | 'stopping';
+	let scannerState = $state<ScannerState>('idle');
 	let scannedUrls = $state<ScannedURL[]>([]);
-	let html5QrCode: Html5Qrcode | null = $state(null);
+	let html5QrCode: Html5Qrcode | null = null;
 	let lastScannedUrl = $state('');
 	let lastScanTime = $state(0);
 	let errorMessage = $state('');
 	let successMessage = $state('');
-	let cameraPermissionState = $state<'prompt' | 'granted' | 'denied'>('prompt');
-	let isRequestingPermission = $state(false);
 
 	const SCAN_COOLDOWN = 2000;
+	const SCANNER_ELEMENT_ID = 'qr-reader';
 
 	function isValidCBFCUrl(url: string): boolean {
 		try {
 			const urlObj = new URL(url);
-			return urlObj.hostname === 'www.ecinepramaan.gov.in' || urlObj.hostname === 'ecinepramaan.gov.in';
+			return urlObj.hostname === 'www.ecinepramaan.gov.in' ||
+			       urlObj.hostname === 'ecinepramaan.gov.in';
 		} catch {
-			// If not a valid URL, check if it contains the domain
 			return url.includes('ecinepramaan.gov.in');
 		}
 	}
 
+	async function selectBackCamera(): Promise<string | { facingMode: string }> {
+		try {
+			const cameras = await Html5Qrcode.getCameras();
+			if (!cameras || cameras.length === 0) {
+				throw new Error('No cameras found');
+			}
+
+			// Try to find back camera by label
+			const backCamera = cameras.find(camera =>
+				camera.label.toLowerCase().includes('back') ||
+				camera.label.toLowerCase().includes('rear') ||
+				camera.label.toLowerCase().includes('environment')
+			);
+
+			if (backCamera) {
+				return backCamera.id;
+			}
+
+			// If multiple cameras, prefer the last one (usually back camera)
+			if (cameras.length > 1) {
+				return cameras[cameras.length - 1].id;
+			}
+
+			// Fallback to facingMode constraint
+			return { facingMode: 'environment' };
+		} catch (err) {
+			console.warn('Failed to get cameras, using facingMode fallback:', err);
+			return { facingMode: 'environment' };
+		}
+	}
+
+	function handleScanSuccess(decodedText: string, result: Html5QrcodeResult) {
+		const now = Date.now();
+
+		// Prevent duplicate scans
+		if (decodedText === lastScannedUrl && now - lastScanTime < SCAN_COOLDOWN) {
+			return;
+		}
+
+		// Validate URL
+		if (!isValidCBFCUrl(decodedText)) {
+			errorMessage = '❌ Invalid QR - must be from ecinepramaan.gov.in';
+			setTimeout(() => errorMessage = '', 3000);
+			return;
+		}
+
+		// Check for duplicates
+		if (scannedUrls.some(item => item.url === decodedText)) {
+			errorMessage = '⚠️ Already scanned this URL';
+			setTimeout(() => errorMessage = '', 3000);
+			return;
+		}
+
+		// Add successful scan
+		const newUrl: ScannedURL = {
+			id: crypto.randomUUID(),
+			url: decodedText,
+			timestamp: now
+		};
+
+		scannedUrls = [...scannedUrls, newUrl];
+		onUrlsScanned = scannedUrls;
+		lastScannedUrl = decodedText;
+		lastScanTime = now;
+
+		successMessage = `✓ Scanned! (${scannedUrls.length} total)`;
+		errorMessage = '';
+		setTimeout(() => successMessage = '', 2000);
+
+		if (navigator.vibrate) {
+			navigator.vibrate(200);
+		}
+	}
+
+	function handleScanFailure(error: string) {
+		// Silently ignore decode errors - they happen constantly while scanning
+	}
+
 	async function startScanning() {
+		if (scannerState !== 'idle') {
+			return;
+		}
+
 		errorMessage = '';
 		successMessage = '';
-		isRequestingPermission = true;
-
-		if (!navigator.mediaDevices?.getUserMedia) {
-			errorMessage = 'Camera not supported. Use HTTPS or try Manual Entry mode.';
-			isRequestingPermission = false;
-			return;
-		}
+		scannerState = 'initializing';
 
 		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				video: { facingMode: { ideal: 'environment' } }
-			});
-			stream.getTracks().forEach(track => track.stop());
-			cameraPermissionState = 'granted';
-		} catch (permErr: any) {
-			isRequestingPermission = false;
-			if (permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError') {
-				errorMessage = 'Camera permission denied. Please allow camera access.';
-				cameraPermissionState = 'denied';
-			} else if (permErr.name === 'NotFoundError' || permErr.name === 'DevicesNotFoundError') {
-				errorMessage = 'No camera found.';
-			} else {
-				errorMessage = `Camera error: ${permErr.message}`;
+			// Check for camera support
+			if (!navigator.mediaDevices?.getUserMedia) {
+				throw new Error('Camera not supported. Please use HTTPS or a modern browser.');
 			}
-			return;
-		}
 
-		isRequestingPermission = false;
-		isScanning = true;
-		await tick();
+			// Get camera ID
+			const cameraId = await selectBackCamera();
 
-		try {
-			html5QrCode = new Html5Qrcode('qr-reader');
+			// Initialize scanner if not already done
+			if (!html5QrCode) {
+				html5QrCode = new Html5Qrcode(SCANNER_ELEMENT_ID, { verbose: false });
+			}
+
+			// Start scanning
 			await html5QrCode.start(
-				{ facingMode: { ideal: 'environment' } },
-				{ fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 },
-				(decodedText) => {
-					const now = Date.now();
-					if (decodedText === lastScannedUrl && now - lastScanTime < SCAN_COOLDOWN) return;
-
-					if (!isValidCBFCUrl(decodedText)) {
-						errorMessage = '❌ Invalid QR - must be from ecinepramaan.gov.in';
-						setTimeout(() => errorMessage = '', 3000);
-						return;
-					}
-
-					if (scannedUrls.some((item) => item.url === decodedText)) {
-						errorMessage = '⚠️ Already scanned this URL';
-						setTimeout(() => errorMessage = '', 3000);
-						return;
-					}
-
-					const newUrl: ScannedURL = { id: crypto.randomUUID(), url: decodedText, timestamp: now };
-					scannedUrls = [...scannedUrls, newUrl];
-					onUrlsScanned = scannedUrls;
-					lastScannedUrl = decodedText;
-					lastScanTime = now;
-
-					successMessage = `✓ Scanned! (${scannedUrls.length} total)`;
-					errorMessage = '';
-					setTimeout(() => successMessage = '', 2000);
-
-					// Vibrate on success (mobile)
-					if (navigator.vibrate) navigator.vibrate(200);
+				cameraId,
+				{
+					fps: 10,
+					qrbox: { width: 250, height: 250 },
+					aspectRatio: 1.0
 				},
-				() => {}
+				handleScanSuccess,
+				handleScanFailure
 			);
+
+			scannerState = 'scanning';
 		} catch (err: any) {
-			errorMessage = `Scanner error: ${err.message}`;
-			isScanning = false;
+			console.error('Failed to start scanner:', err);
+
+			// Provide specific error messages
+			if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+				errorMessage = '📷 Camera permission denied. Please allow camera access and try again.';
+			} else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+				errorMessage = '📷 No camera found. Please check your device.';
+			} else if (err.name === 'NotReadableError') {
+				errorMessage = '📷 Camera is in use by another app. Please close other apps and try again.';
+			} else if (err.message) {
+				errorMessage = err.message;
+			} else {
+				errorMessage = '❌ Failed to start scanner. Please refresh and try again.';
+			}
+
+			scannerState = 'idle';
 		}
 	}
 
 	async function stopScanning() {
-		if (html5QrCode && isScanning) {
-			try {
-				await html5QrCode.stop();
-				html5QrCode.clear();
-			} catch (err) {
-				console.error('Failed to stop scanning:', err);
-			}
+		if (scannerState !== 'scanning' || !html5QrCode) {
+			return;
 		}
-		isScanning = false;
-		html5QrCode = null;
+
+		scannerState = 'stopping';
+
+		try {
+			await html5QrCode.stop();
+			scannerState = 'idle';
+		} catch (err) {
+			console.error('Failed to stop scanner:', err);
+			scannerState = 'idle';
+		}
 	}
 
 	function removeUrl(id: string) {
-		scannedUrls = scannedUrls.filter((item) => item.id !== id);
+		scannedUrls = scannedUrls.filter(item => item.id !== id);
 		onUrlsScanned = scannedUrls;
 	}
 
@@ -136,8 +198,17 @@
 		onUrlsScanned = [];
 	}
 
-	onDestroy(() => {
-		stopScanning();
+	onDestroy(async () => {
+		if (html5QrCode) {
+			try {
+				if (scannerState === 'scanning') {
+					await html5QrCode.stop();
+				}
+				html5QrCode.clear();
+			} catch (err) {
+				console.error('Cleanup error:', err);
+			}
+		}
 	});
 </script>
 
@@ -147,8 +218,10 @@
 		<div class="flex-1">
 			<h3 class="font-atkinson text-sepia-brown text-lg font-semibold">QR Bulk Scan</h3>
 			<p class="font-atkinson text-sm text-gray-600">
-				{#if isScanning}
+				{#if scannerState === 'scanning'}
 					<span class="text-sepia-brown font-semibold">📹 Scanning... Point camera at QR codes</span>
+				{:else if scannerState === 'initializing'}
+					<span class="text-sepia-brown font-semibold">⏳ Starting camera...</span>
 				{:else}
 					Scan multiple certificates in one session
 				{/if}
@@ -156,13 +229,17 @@
 		</div>
 		<button
 			type="button"
-			onclick={() => (isScanning ? stopScanning() : startScanning())}
-			disabled={isRequestingPermission}
+			onclick={() => (scannerState === 'scanning' ? stopScanning() : startScanning())}
+			disabled={scannerState === 'initializing' || scannerState === 'stopping'}
 			class="bg-sepia-brown hover:bg-sepia-dark flex items-center gap-2 px-4 py-3 text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
 		>
-			{#if isRequestingPermission}
+			{#if scannerState === 'initializing'}
 				<div class="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-			{:else if isScanning}
+				Starting...
+			{:else if scannerState === 'stopping'}
+				<div class="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+				Stopping...
+			{:else if scannerState === 'scanning'}
 				<X class="h-5 w-5" />
 				Stop
 			{:else}
@@ -189,9 +266,9 @@
 	{/if}
 
 	<!-- Scanner View -->
-	{#if isScanning}
+	{#if scannerState === 'scanning' || scannerState === 'stopping'}
 		<div class="border-sepia-dark relative overflow-hidden border bg-black">
-			<div id="qr-reader"></div>
+			<div id={SCANNER_ELEMENT_ID}></div>
 			<div class="bg-sepia-brown absolute bottom-0 left-0 right-0 p-3 text-center text-white">
 				<p class="font-atkinson text-sm font-semibold">
 					{scannedUrls.length} URL{scannedUrls.length !== 1 ? 's' : ''} scanned • Point at QR code
@@ -222,9 +299,7 @@
 
 			<div class="max-h-96 overflow-y-auto">
 				{#each scannedUrls as item (item.id)}
-					<div
-						class="border-sepia-dark flex items-start justify-between gap-4 border-b p-4 last:border-b-0"
-					>
+					<div class="border-sepia-dark flex items-start justify-between gap-4 border-b p-4 last:border-b-0">
 						<div class="flex-1 overflow-hidden">
 							<p class="font-atkinson break-all text-sm text-gray-700">
 								{item.url}
@@ -247,7 +322,7 @@
 		</div>
 	{/if}
 
-	{#if !isScanning && scannedUrls.length === 0}
+	{#if scannerState === 'idle' && scannedUrls.length === 0}
 		<div class="border-sepia-dark bg-sepia-light border p-8 text-center">
 			<Camera class="text-sepia-brown mx-auto mb-3 h-12 w-12 opacity-50" />
 			<p class="font-atkinson text-sepia-brown mb-1 font-semibold">Ready to scan</p>
