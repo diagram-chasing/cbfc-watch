@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Camera, Upload, CheckCircle, MapPin } from 'lucide-svelte';
+	import { Camera, Upload, CheckCircle, MapPin, QrCode } from 'lucide-svelte';
 	import * as Form from '$lib/components/ui/form';
 	import SEO from '$lib/components/SEO.svelte';
 	import { Input } from '$lib/components/ui/input';
@@ -10,6 +10,7 @@
 	import type { PageData } from './$types.js';
 	import { toast } from 'svelte-sonner';
 	import { fly, scale } from 'svelte/transition';
+	import QRBulkScanner from '$lib/components/QRBulkScanner.svelte';
 
 	import ClearPicture from '$lib/assets/clear-picture.webp';
 	import Certificates from '$lib/assets/censor-certificate.jpg';
@@ -17,11 +18,26 @@
 
 	let { data }: { data: PageData } = $props();
 
+	// Mode selection
+	type Mode = 'manual' | 'bulk';
+	let currentMode = $state<Mode>('manual');
+
+	// Bulk scanning state
+	interface ScannedURL {
+		id: string;
+		url: string;
+		timestamp: number;
+	}
+	let scannedUrls = $state<ScannedURL[]>([]);
+	let isBulkSubmitting = $state(false);
+	let bulkSubmitSuccess = $state(false);
+	let bulkSubmitProgress = $state({ current: 0, total: 0 });
+
 	// Submission state management
 	let isSubmitting = $state(false);
 	let isSuccess = $state(false);
 	let buttonVariant = $derived(() => {
-		if (isSuccess) return 'green';
+		if (isSuccess || bulkSubmitSuccess) return 'green';
 		return 'default';
 	});
 
@@ -64,6 +80,94 @@
 
 	const { form: formData, enhance } = form;
 
+	// Bulk submission handler
+	async function handleBulkSubmit() {
+		if (scannedUrls.length === 0) {
+			toast.error('No URLs to submit', {
+				description: 'Please scan at least one QR code first.',
+				duration: 3000,
+				unstyled: true,
+				classes: {
+					toast: 'bg-red w-fit gap-2 py-2 px-4 flex items-center justify-center text-white',
+					description: 'text-sm'
+				}
+			});
+			return;
+		}
+
+		isBulkSubmitting = true;
+		bulkSubmitSuccess = false;
+		bulkSubmitProgress = { current: 0, total: scannedUrls.length };
+
+		let successCount = 0;
+		let failCount = 0;
+
+		// Get contributor name from the form
+		const contributorName = $formData.contributorName || undefined;
+
+		// Submit each URL individually
+		for (let i = 0; i < scannedUrls.length; i++) {
+			bulkSubmitProgress.current = i + 1;
+
+			try {
+				const response = await fetch('?/default', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					body: new URLSearchParams({
+						url: scannedUrls[i].url,
+						contributorName: contributorName || ''
+					})
+				});
+
+				if (response.ok) {
+					successCount++;
+				} else {
+					failCount++;
+				}
+			} catch (error) {
+				console.error('Failed to submit URL:', error);
+				failCount++;
+			}
+
+			// Small delay between submissions
+			await new Promise((resolve) => setTimeout(resolve, 100));
+		}
+
+		isBulkSubmitting = false;
+
+		if (failCount === 0) {
+			bulkSubmitSuccess = true;
+			toast.success(`Successfully submitted ${successCount} contributions!`, {
+				description: 'Thank you for helping expand our database.',
+				duration: 3000,
+				unstyled: true,
+				classes: {
+					toast: 'bg-sepia-brown w-fit gap-2 py-2 px-4 flex items-center justify-center',
+					description: 'text-sm'
+				}
+			});
+
+			// Clear scanned URLs after successful submission
+			scannedUrls = [];
+
+			setTimeout(() => {
+				bulkSubmitSuccess = false;
+			}, 5000);
+		} else {
+			toast.error(`Submitted ${successCount} of ${scannedUrls.length} URLs`, {
+				description: `${failCount} submission(s) failed. Please try again.`,
+				duration: 5000,
+				unstyled: true,
+				classes: {
+					toast: 'bg-red w-fit gap-2 py-2 px-4 flex items-center justify-center text-white',
+					description: 'text-sm'
+				}
+			});
+		}
+	}
+
 	interface Step {
 		number: number;
 		title: string;
@@ -93,17 +197,17 @@
 			icon: Camera,
 			iconLabel: 'Clear photo of certificate',
 			description:
-				'Each certificate has a QR code on it. This is the most important part! Scan the QR code with your phone and wait for the URL to open. You should be redirected to the E-Cinepramaan page for this particular movie. Copy this URL.',
+				'Each certificate has a QR code on it. This is the most important part! You can either use our built-in QR Bulk Scan mode above (recommended for multiple certificates) or scan the QR code with your phone and copy the ecinepramaan.gov.in URL manually.',
 			image: ClearPicture,
 			details: null,
 			align: 'object-right scale-150'
 		},
 		{
 			number: 3,
-			title: 'Upload via Our Form',
+			title: 'Submit Your Findings',
 
 			description:
-				'Submit this URL on the form above. You may optionally submit your name so we can credit you on our website.',
+				'Use the form above to submit. Choose "Manual Entry" for single URLs or "QR Bulk Scan" to scan and submit multiple certificates at once. You may optionally provide your name for attribution.',
 			details: null
 		},
 		{
@@ -253,10 +357,37 @@
 					→ See how to contribute guide below
 				</a>
 			</p>
+
+			<!-- Mode Toggle -->
+			<div class="mt-6 flex gap-2">
+				<button
+					type="button"
+					onclick={() => (currentMode = 'manual')}
+					class="font-atkinson flex flex-1 items-center justify-center gap-2 border px-4 py-3 text-sm font-medium transition-colors md:text-base {currentMode ===
+					'manual'
+						? 'bg-sepia-brown border-sepia-dark text-white'
+						: 'bg-white border-sepia-dark text-sepia-brown hover:bg-sepia-light'}"
+				>
+					<Upload class="h-4 w-4" />
+					Manual Entry
+				</button>
+				<button
+					type="button"
+					onclick={() => (currentMode = 'bulk')}
+					class="font-atkinson flex flex-1 items-center justify-center gap-2 border px-4 py-3 text-sm font-medium transition-colors md:text-base {currentMode ===
+					'bulk'
+						? 'bg-sepia-brown border-sepia-dark text-white'
+						: 'bg-white border-sepia-dark text-sepia-brown hover:bg-sepia-light'}"
+				>
+					<QrCode class="h-4 w-4" />
+					QR Bulk Scan
+				</button>
+			</div>
 		</div>
 
 		<div class="p-6">
-			<form method="POST" use:enhance class="space-y-6" enctype="multipart/form-data">
+			{#if currentMode === 'manual'}
+				<form method="POST" use:enhance class="space-y-6" enctype="multipart/form-data">
 				<!-- URL with Form validation -->
 				<Form.Field {form} name="url" class="space-y-3">
 					<Form.Control>
@@ -329,6 +460,68 @@
 					</Form.Button>
 				</div>
 			</form>
+			{:else}
+				<!-- Bulk QR Scanning Mode -->
+				<div class="space-y-6">
+					<!-- Contributor Name (shared across both modes) -->
+					<Form.Field {form} name="contributorName" class="space-y-3">
+						<Form.Control>
+							{#snippet children({ props })}
+								<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
+									>Your Name (Optional)</Form.Label
+								>
+								<Input
+									{...props}
+									bind:value={$formData.contributorName}
+									placeholder="Enter your name for attribution"
+									class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
+								/>
+							{/snippet}
+						</Form.Control>
+						<Form.Description class="font-atkinson text-sm text-gray-600">
+							We'll credit you for all contributions in this session if you provide your name
+						</Form.Description>
+						<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
+					</Form.Field>
+
+					<!-- QR Bulk Scanner Component -->
+					<QRBulkScanner bind:onUrlsScanned={scannedUrls} />
+
+					<!-- Bulk Submit Button -->
+					{#if scannedUrls.length > 0}
+						<div class="pt-4">
+							<button
+								type="button"
+								onclick={handleBulkSubmit}
+								disabled={isBulkSubmitting || bulkSubmitSuccess}
+								class="font-atkinson h-14 w-full text-lg font-semibold tracking-wide transition-all duration-300 ease-out {buttonVariant() ===
+								'green'
+									? 'bg-green-600 hover:bg-green-700 text-white'
+									: 'bg-sepia-brown hover:bg-sepia-dark text-white'} disabled:opacity-50 disabled:cursor-not-allowed"
+							>
+								{#if bulkSubmitSuccess}
+									<div in:scale={{ duration: 200, start: 0.8 }} class="flex items-center justify-center">
+										<CheckCircle class="mr-3 h-5 w-5" />
+										Success!
+									</div>
+								{:else if isBulkSubmitting}
+									<div in:fly={{ y: -10, duration: 200 }} class="flex items-center justify-center">
+										<div
+											class="mr-3 h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
+										></div>
+										Submitting... ({bulkSubmitProgress.current}/{bulkSubmitProgress.total})
+									</div>
+								{:else}
+									<div class="flex items-center justify-center">
+										<Upload class="mr-3 h-5 w-5" />
+										Submit {scannedUrls.length} Contribution{scannedUrls.length > 1 ? 's' : ''}
+									</div>
+								{/if}
+							</button>
+						</div>
+					{/if}
+				</div>
+			{/if}
 		</div>
 
 		<div class="border-t border-gray-200 bg-gray-50 p-4">

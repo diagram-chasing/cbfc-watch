@@ -92,6 +92,7 @@
 		"d3-hierarchy": "^3.1.2",
 		"d3-sankey": "^0.12.3",
 		"flexsearch": "^0.8.158",
+		"html5-qrcode": "^2.3.8",
 		"instantsearch.js": "^4.78.3",
 		"pack-spheres": "^1.0.4",
 		"satori": "^0.18.2",
