@@ -42,6 +42,12 @@
 		successMessage = '';
 		isRequestingPermission = true;
 
+		if (!navigator.mediaDevices?.getUserMedia) {
+			errorMessage = 'Camera not supported. Use HTTPS or try Manual Entry mode.';
+			isRequestingPermission = false;
+			return;
+		}
+
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({
 				video: { facingMode: { ideal: 'environment' } }
