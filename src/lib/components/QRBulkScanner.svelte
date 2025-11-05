@@ -22,9 +22,37 @@
 	let lastScannedUrl = $state('');
 	let lastScanTime = $state(0);
 	let errorMessage = $state('');
+	let cameraPermissionState = $state<'prompt' | 'granted' | 'denied'>('prompt');
+	let isRequestingPermission = $state(false);
 
 	// Prevent duplicate scans within 2 seconds
 	const SCAN_COOLDOWN = 2000;
+
+	// Check camera permission status
+	async function checkCameraPermission() {
+		if (!navigator.permissions || !navigator.mediaDevices) {
+			return 'prompt';
+		}
+
+		try {
+			const result = await navigator.permissions.query({ name: 'camera' as PermissionName });
+			cameraPermissionState = result.state as 'prompt' | 'granted' | 'denied';
+
+			// Listen for permission changes
+			result.onchange = () => {
+				cameraPermissionState = result.state as 'prompt' | 'granted' | 'denied';
+			};
+
+			return result.state;
+		} catch (err) {
+			// Permissions API might not be available
+			return 'prompt';
+		}
+	}
+
+	onMount(() => {
+		checkCameraPermission();
+	});
 
 	function isValidCBFCUrl(url: string): boolean {
 		try {
@@ -38,6 +66,55 @@
 	async function startScanning() {
 		try {
 			errorMessage = '';
+			isRequestingPermission = true;
+
+			// Check if we have permission first
+			const permissionStatus = await checkCameraPermission();
+
+			if (permissionStatus === 'denied') {
+				errorMessage = 'Camera access denied. Please enable camera permissions in your browser settings.';
+				isRequestingPermission = false;
+				return;
+			}
+
+			// Try to get camera access first to trigger permission prompt
+			if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+				errorMessage = 'Camera access is not supported in this browser. Please use a modern browser (Chrome, Firefox, Safari).';
+				isRequestingPermission = false;
+				return;
+			}
+
+			try {
+				// This will trigger the browser permission prompt
+				const stream = await navigator.mediaDevices.getUserMedia({
+					video: { facingMode: 'environment' }
+				});
+
+				// Stop the stream immediately - html5-qrcode will request it again
+				stream.getTracks().forEach(track => track.stop());
+
+				cameraPermissionState = 'granted';
+			} catch (permErr: any) {
+				isRequestingPermission = false;
+
+				if (permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError') {
+					errorMessage = 'Camera permission denied. Please allow camera access and try again.';
+					cameraPermissionState = 'denied';
+				} else if (permErr.name === 'NotFoundError' || permErr.name === 'DevicesNotFoundError') {
+					errorMessage = 'No camera found. Please connect a camera and try again.';
+				} else if (permErr.name === 'NotReadableError' || permErr.name === 'TrackStartError') {
+					errorMessage = 'Camera is already in use by another application. Please close other apps using the camera.';
+				} else if (permErr.name === 'SecurityError') {
+					errorMessage = 'Camera access blocked. Make sure you are using HTTPS or localhost.';
+				} else {
+					errorMessage = `Camera error: ${permErr.message || 'Unknown error'}`;
+				}
+
+				console.error('Camera permission error:', permErr);
+				return;
+			}
+
+			isRequestingPermission = false;
 			html5QrCode = new Html5Qrcode('qr-reader');
 
 			await html5QrCode.start(
@@ -93,10 +170,11 @@
 			);
 
 			isScanning = true;
-		} catch (err) {
+		} catch (err: any) {
 			console.error('Failed to start scanning:', err);
-			errorMessage = 'Failed to access camera. Please check permissions.';
+			errorMessage = `Failed to start scanner: ${err.message || 'Unknown error'}`;
 			isScanning = false;
+			isRequestingPermission = false;
 		}
 	}
 
@@ -131,18 +209,33 @@
 <div class="space-y-4">
 	<!-- Scanner Controls -->
 	<div class="border-sepia-dark bg-sepia-light flex items-center justify-between border p-4">
-		<div>
+		<div class="flex-1">
 			<h3 class="font-atkinson text-sepia-brown text-lg font-semibold">QR Bulk Scan Mode</h3>
 			<p class="font-atkinson text-sm text-gray-600">
 				Scan multiple QR codes in one session
 			</p>
+			{#if cameraPermissionState === 'prompt' && !isScanning && !isRequestingPermission}
+				<p class="font-atkinson mt-1 text-xs text-gray-500">
+					📷 Camera permission will be requested when you start scanning
+				</p>
+			{:else if cameraPermissionState === 'denied'}
+				<p class="font-atkinson mt-1 text-xs text-red-600">
+					⚠️ Camera access denied. Please enable in browser settings.
+				</p>
+			{/if}
 		</div>
 		<button
 			type="button"
 			onclick={() => (isScanning ? stopScanning() : startScanning())}
-			class="bg-sepia-brown hover:bg-sepia-dark flex items-center gap-2 px-4 py-2 text-white transition-colors"
+			disabled={isRequestingPermission || cameraPermissionState === 'denied'}
+			class="bg-sepia-brown hover:bg-sepia-dark flex items-center gap-2 px-4 py-2 text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
 		>
-			{#if isScanning}
+			{#if isRequestingPermission}
+				<div
+					class="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
+				></div>
+				Requesting...
+			{:else if isScanning}
 				<X class="h-5 w-5" />
 				Stop Scanning
 			{:else}
@@ -154,9 +247,24 @@
 
 	<!-- Error Message -->
 	{#if errorMessage}
-		<div class="flex items-center gap-2 border border-red-300 bg-red-50 p-3 text-red-700">
-			<AlertCircle class="h-5 w-5 flex-shrink-0" />
-			<p class="font-atkinson text-sm">{errorMessage}</p>
+		<div class="border border-red-300 bg-red-50 p-4 text-red-700">
+			<div class="flex items-start gap-2">
+				<AlertCircle class="mt-0.5 h-5 w-5 flex-shrink-0" />
+				<div class="flex-1">
+					<p class="font-atkinson text-sm font-semibold">{errorMessage}</p>
+					{#if cameraPermissionState === 'denied' || errorMessage.includes('permission') || errorMessage.includes('denied')}
+						<div class="font-atkinson mt-2 text-xs">
+							<p class="mb-1 font-medium">How to enable camera access:</p>
+							<ul class="ml-4 list-disc space-y-0.5">
+								<li>Click the camera icon in your browser's address bar</li>
+								<li>Select "Allow" for camera access</li>
+								<li>Refresh the page if needed</li>
+								<li>Alternatively, use Manual Entry mode to paste URLs directly</li>
+							</ul>
+						</div>
+					{/if}
+				</div>
+			</div>
 		</div>
 	{/if}
 
