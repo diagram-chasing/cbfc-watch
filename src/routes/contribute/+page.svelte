@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Camera, Upload, CheckCircle, MapPin, QrCode } from 'lucide-svelte';
+	import { Camera, Upload, CheckCircle, MapPin, QrCode, X } from 'lucide-svelte';
 	import * as Form from '$lib/components/ui/form';
 	import SEO from '$lib/components/SEO.svelte';
 	import { Input } from '$lib/components/ui/input';
@@ -18,11 +18,9 @@
 
 	let { data }: { data: PageData } = $props();
 
-	// Mode selection
 	let showScanner = $state(false);
 	let showGuide = $state(false);
 
-	// Bulk scanning state
 	interface ScannedURL {
 		id: string;
 		url: string;
@@ -33,7 +31,6 @@
 	let bulkSubmitSuccess = $state(false);
 	let bulkSubmitProgress = $state({ current: 0, total: 0 });
 
-	// Submission state management
 	let isSubmitting = $state(false);
 	let isSuccess = $state(false);
 	let buttonVariant = $derived(() => {
@@ -60,7 +57,6 @@
 						description: 'text-sm'
 					}
 				});
-				// Reset states after 5 seconds
 				setTimeout(() => {
 					isSuccess = false;
 				}, 5000);
@@ -80,12 +76,10 @@
 
 	const { form: formData, enhance } = form;
 
-	// Bulk submission handler
 	async function handleBulkSubmit() {
 		const urlsToSubmit = scannedUrls;
 		const manualUrl = $formData.url?.trim();
 
-		// Check if we have anything to submit
 		if (urlsToSubmit.length === 0 && !manualUrl) {
 			toast.error('Nothing to submit', {
 				description: 'Please scan QR codes or enter a URL.',
@@ -99,7 +93,6 @@
 			return;
 		}
 
-		// Add manual URL to submission list if provided
 		const allUrls = [...urlsToSubmit];
 		if (manualUrl) {
 			allUrls.push({ id: crypto.randomUUID(), url: manualUrl, timestamp: Date.now() });
@@ -114,7 +107,6 @@
 
 		const contributorName = $formData.contributorName || undefined;
 
-		// Submit each URL individually
 		for (let i = 0; i < allUrls.length; i++) {
 			bulkSubmitProgress.current = i + 1;
 
@@ -147,17 +139,19 @@
 
 		if (failCount === 0) {
 			bulkSubmitSuccess = true;
-			toast.success(`Successfully submitted ${successCount} contribution${successCount > 1 ? 's' : ''}!`, {
-				description: 'Thank you for helping expand our database.',
-				duration: 3000,
-				unstyled: true,
-				classes: {
-					toast: 'bg-sepia-brown w-fit gap-2 py-2 px-4 flex items-center justify-center',
-					description: 'text-sm'
+			toast.success(
+				`Successfully submitted ${successCount} contribution${successCount > 1 ? 's' : ''}!`,
+				{
+					description: 'Thank you for helping expand our database.',
+					duration: 3000,
+					unstyled: true,
+					classes: {
+						toast: 'bg-sepia-brown w-fit gap-2 py-2 px-4 flex items-center justify-center',
+						description: 'text-sm'
+					}
 				}
-			});
+			);
 
-			// Clear everything after successful submission
 			scannedUrls = [];
 			$formData.url = '';
 
@@ -277,262 +271,174 @@
 </svelte:head>
 
 <div class="mx-auto max-w-4xl space-y-6 px-2 py-6 md:px-0 md:py-8">
-	<!-- Quick Actions - Payment App Style -->
-	{#if currentMode === 'select'}
-		<section class="space-y-6">
-			<!-- Simple Header -->
-			<div class="text-center">
-				<h1 class="font-gothic text-sepia-brown mb-2 text-3xl font-bold md:text-4xl">
-					Contribute a Certificate
-				</h1>
-				<p class="font-atkinson text-gray-600">
-					Choose how you'd like to submit CBFC certificate URLs
-				</p>
-			</div>
+	<!-- Simple Header -->
+	<div class="text-center">
+		<h1 class="font-gothic text-sepia-brown mb-2 text-3xl font-bold md:text-4xl">
+			Contribute a Certificate
+		</h1>
+		<p class="font-atkinson text-gray-600">Scan QR codes or paste URLs from CBFC certificates</p>
+	</div>
 
-			<!-- Primary Action Cards -->
-			<div class="grid gap-4 md:grid-cols-2">
-				<!-- QR Scan Card -->
+	<!-- Main Contribution Form -->
+	<section class="border-sepia-dark border bg-white shadow-md">
+		<div class="bg-sepia-light border-sepia-dark border-b p-4">
+			<h2 class="font-atkinson text-sepia-brown text-lg font-semibold">Submit Certificates</h2>
+		</div>
+
+		<div class="space-y-6 p-6">
+			<!-- Contributor Name -->
+			<Form.Field {form} name="contributorName" class="space-y-2">
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label class="font-atkinson text-sm font-semibold text-gray-900"
+							>Your Name (Optional)</Form.Label
+						>
+						<Input
+							{...props}
+							bind:value={$formData.contributorName}
+							placeholder="Enter your name for attribution"
+							class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2"
+						/>
+					{/snippet}
+				</Form.Control>
+				<Form.Description class="font-atkinson text-xs text-gray-600">
+					We'll credit you for your contributions
+				</Form.Description>
+			</Form.Field>
+
+			<!-- Manual URL Input -->
+			<Form.Field {form} name="url" class="space-y-2">
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label class="font-atkinson text-sm font-semibold text-gray-900"
+							>Certificate URL</Form.Label
+						>
+						<Input
+							{...props}
+							bind:value={$formData.url}
+							type="url"
+							placeholder="https://www.ecinepramaan.gov.in/cbfc/?a=..."
+							class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2"
+						/>
+					{/snippet}
+				</Form.Control>
+				<Form.Description class="font-atkinson text-xs text-gray-600">
+					Paste URL from ecinepramaan.gov.in
+				</Form.Description>
+				<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
+			</Form.Field>
+
+			<!-- QR Scanner Toggle -->
+			<div class="border-sepia-dark border-t pt-6">
 				<button
 					type="button"
-					onclick={() => (currentMode = 'bulk')}
-					class="border-sepia-dark hover:bg-sepia-light group flex flex-col items-center gap-4 border bg-white p-8 text-center transition-all hover:shadow-md"
+					onclick={() => (showScanner = !showScanner)}
+					class="bg-sepia-brown hover:bg-sepia-dark flex w-full items-center justify-center gap-2 px-4 py-3 text-white transition-colors"
 				>
-					<div class="bg-sepia-brown flex h-16 w-16 items-center justify-center">
-						<QrCode class="h-8 w-8 text-white" />
-					</div>
-					<div>
-						<h3 class="font-atkinson text-sepia-brown mb-1 text-xl font-bold">Scan QR Codes</h3>
-						<p class="font-atkinson text-sm text-gray-600">
-							Use your camera to scan multiple certificates at once
-						</p>
-					</div>
-					<div class="bg-sepia-brown text-sepia-light px-4 py-2 text-sm font-semibold">
-						Recommended
-					</div>
-				</button>
-
-				<!-- Manual Entry Card -->
-				<button
-					type="button"
-					onclick={() => (currentMode = 'manual')}
-					class="border-sepia-dark hover:bg-sepia-light group flex flex-col items-center gap-4 border bg-white p-8 text-center transition-all hover:shadow-md"
-				>
-					<div class="bg-sepia-brown flex h-16 w-16 items-center justify-center">
-						<Upload class="h-8 w-8 text-white" />
-					</div>
-					<div>
-						<h3 class="font-atkinson text-sepia-brown mb-1 text-xl font-bold">Paste URL</h3>
-						<p class="font-atkinson text-sm text-gray-600">
-							Enter certificate URLs manually one at a time
-						</p>
-					</div>
+					{#if showScanner}
+						<X class="h-5 w-5" />
+						Hide QR Scanner
+					{:else}
+						<QrCode class="h-5 w-5" />
+						Scan Multiple QR Codes
+					{/if}
 				</button>
 			</div>
 
-			<!-- Quick Guide Toggle -->
-			<div class="text-center">
-				<button
-					type="button"
-					onclick={() => (showGuide = !showGuide)}
-					class="font-atkinson text-sepia-brown hover:text-sepia-dark text-sm underline transition-colors"
-				>
-					{showGuide ? '↑ Hide' : '↓ Show'} how this works
-				</button>
-			</div>
-		</section>
-	{/if}
-
-	<!-- Contribution Form - Shown when mode selected -->
-	{#if currentMode !== 'select'}
-		<section class="border-sepia-dark border bg-white shadow-md">
-			<!-- Header with back button -->
-			<div class="bg-sepia-light border-sepia-dark flex items-center justify-between border-b p-4">
-				<button
-					type="button"
-					onclick={() => (currentMode = 'select')}
-					class="hover:text-sepia-dark flex items-center gap-2 text-sm transition-colors"
-				>
-					<span class="text-xl">←</span> Back
-				</button>
-				<h2 class="font-atkinson text-sepia-brown text-lg font-semibold">
-					{currentMode === 'bulk' ? 'QR Bulk Scan' : 'Manual Entry'}
-				</h2>
-				<div class="w-16"></div>
-			</div>
-
-			<div class="p-6">
-				{#if currentMode === 'manual'}
-					<form method="POST" use:enhance class="space-y-6" enctype="multipart/form-data">
-					<!-- URL with Form validation -->
-					<Form.Field {form} name="url" class="space-y-3">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
-								>QR Code URL *</Form.Label
-							>
-							<Input
-								{...props}
-								bind:value={$formData.url}
-								type="url"
-								placeholder="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i=..."
-								class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
-							/>
-						{/snippet}
-					</Form.Control>
-					<Form.Description class="font-atkinson text-sm text-gray-600">
-						Scan the QR code on the certificate and paste the ecinepramaan.gov.in URL here
-					</Form.Description>
-					<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
-				</Form.Field>
-
-				<!-- Contributor Name with Form validation -->
-				<Form.Field {form} name="contributorName" class="space-y-3">
-					<Form.Control>
-						{#snippet children({ props })}
-							<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
-								>Your Name (Optional)</Form.Label
-							>
-							<Input
-								{...props}
-								bind:value={$formData.contributorName}
-								placeholder="Enter your name for attribution"
-								class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
-							/>
-						{/snippet}
-					</Form.Control>
-					<Form.Description class="font-atkinson text-sm text-gray-600">
-						We'll credit you for your contribution if you provide your name
-					</Form.Description>
-					<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
-				</Form.Field>
-
-				<!-- Submit Button -->
-				<div class="pt-4">
-					<Form.Button
-						type="submit"
-						variant={buttonVariant()}
-						disabled={isSubmitting || isSuccess}
-						class="font-atkinson h-14 w-full text-lg font-semibold tracking-wide transition-all duration-300 ease-out"
-					>
-						{#if isSuccess}
-							<div in:scale={{ duration: 200, start: 0.8 }} class="flex items-center">
-								<CheckCircle class="mr-3 h-5 w-5" />
-								Success!
-							</div>
-						{:else if isSubmitting}
-							<div in:fly={{ y: -10, duration: 200 }} class="flex items-center">
-								<div
-									class="mr-3 h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
-								></div>
-								Submitting...
-							</div>
-						{:else}
-							<div class="flex items-center">
-								<Upload class="mr-3 h-5 w-5" />
-								Submit Contribution
-							</div>
-						{/if}
-						</Form.Button>
-					</div>
-				</form>
-				{:else}
-					<!-- Bulk QR Scanning Mode -->
-					<div class="space-y-6">
-					<!-- Contributor Name (shared across both modes) -->
-					<Form.Field {form} name="contributorName" class="space-y-3">
-						<Form.Control>
-							{#snippet children({ props })}
-								<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
-									>Your Name (Optional)</Form.Label
-								>
-								<Input
-									{...props}
-									bind:value={$formData.contributorName}
-									placeholder="Enter your name for attribution"
-									class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
-								/>
-							{/snippet}
-						</Form.Control>
-						<Form.Description class="font-atkinson text-sm text-gray-600">
-							We'll credit you for all contributions in this session if you provide your name
-						</Form.Description>
-						<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
-					</Form.Field>
-
-					<!-- QR Bulk Scanner Component -->
+			<!-- QR Scanner Section -->
+			{#if showScanner}
+				<div class="border-sepia-dark border-t pt-6">
 					<QRBulkScanner bind:onUrlsScanned={scannedUrls} />
-
-					<!-- Bulk Submit Button -->
-					{#if scannedUrls.length > 0}
-						<div class="pt-4">
-							<button
-								type="button"
-								onclick={handleBulkSubmit}
-								disabled={isBulkSubmitting || bulkSubmitSuccess}
-								class="font-atkinson h-14 w-full text-lg font-semibold tracking-wide transition-all duration-300 ease-out {buttonVariant() ===
-								'green'
-									? 'bg-green-600 hover:bg-green-700 text-white'
-									: 'bg-sepia-brown hover:bg-sepia-dark text-white'} disabled:opacity-50 disabled:cursor-not-allowed"
-							>
-								{#if bulkSubmitSuccess}
-									<div in:scale={{ duration: 200, start: 0.8 }} class="flex items-center justify-center">
-										<CheckCircle class="mr-3 h-5 w-5" />
-										Success!
-									</div>
-								{:else if isBulkSubmitting}
-									<div in:fly={{ y: -10, duration: 200 }} class="flex items-center justify-center">
-										<div
-											class="mr-3 h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
-										></div>
-										Submitting... ({bulkSubmitProgress.current}/{bulkSubmitProgress.total})
-									</div>
-								{:else}
-									<div class="flex items-center justify-center">
-										<Upload class="mr-3 h-5 w-5" />
-										Submit {scannedUrls.length} Contribution{scannedUrls.length > 1 ? 's' : ''}
-									</div>
-								{/if}
-							</button>
-						</div>
-						{/if}
-					</div>
-				{/if}
-			</div>
-
-			<div class="border-t border-gray-200 bg-gray-50 p-4">
-				<p class="font-atkinson text-center text-sm text-gray-600">
-					By submitting, you agree to let us process and archive your contribution for public research
-					access.
-				</p>
-			</div>
-		</section>
-	{/if}
-
-	<!-- Context Section - Collapsible or Always Visible -->
-	{#if showGuide || currentMode === 'select'}
-		<section class="space-y-6">
-			<!-- Why We Need This -->
-			{#if currentMode === 'select'}
-				<div class="border-sepia-dark border bg-white p-6">
-					<h3 class="font-atkinson text-sepia-brown mb-3 text-lg font-semibold">
-						Why we need your help
-					</h3>
-					<div class="font-atkinson space-y-3 text-sm leading-relaxed text-gray-700">
-						<p>
-							Our automated data collection from the CBFC has been disrupted. The good news is the
-							data still exists—it's printed on certificates that theaters display for every film.
-						</p>
-						<p>
-							<strong>That's where you come in!</strong> Next time you're at the movies, you can help
-							preserve this important censorship data for public access.
-						</p>
-					</div>
 				</div>
 			{/if}
 
-			<!-- Process Steps -->
-			<div id="how-to-contribute" class="space-y-4">
+			<!-- Submit Button -->
+			<div class="border-sepia-dark border-t pt-6">
+				{#if scannedUrls.length > 0 || $formData.url?.trim()}
+					<button
+						type="button"
+						onclick={handleBulkSubmit}
+						disabled={isBulkSubmitting || bulkSubmitSuccess}
+						class="font-atkinson h-14 w-full text-lg font-semibold tracking-wide transition-all duration-300 ease-out {buttonVariant() ===
+						'green'
+							? 'bg-green-600 hover:bg-green-700 text-white'
+							: 'bg-sepia-brown hover:bg-sepia-dark text-white'} disabled:cursor-not-allowed disabled:opacity-50"
+					>
+						{#if bulkSubmitSuccess}
+							<div
+								in:scale={{ duration: 200, start: 0.8 }}
+								class="flex items-center justify-center"
+							>
+								<CheckCircle class="mr-3 h-5 w-5" />
+								Success!
+							</div>
+						{:else if isBulkSubmitting}
+							<div in:fly={{ y: -10, duration: 200 }} class="flex items-center justify-center">
+								<div
+									class="mr-3 h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
+								></div>
+								Submitting... ({bulkSubmitProgress.current}/{bulkSubmitProgress.total})
+							</div>
+						{:else}
+							<div class="flex items-center justify-center">
+								<Upload class="mr-3 h-5 w-5" />
+								Submit {scannedUrls.length + ($formData.url?.trim() ? 1 : 0)} Contribution{scannedUrls.length +
+									($formData.url?.trim() ? 1 : 0) >
+								1
+									? 's'
+									: ''}
+							</div>
+						{/if}
+					</button>
+				{:else}
+					<div class="bg-sepia-light border-sepia-dark border p-6 text-center">
+						<p class="font-atkinson text-sm text-gray-600">
+							Enter a URL or scan QR codes to submit
+						</p>
+					</div>
+				{/if}
+			</div>
+		</div>
+
+		<div class="border-t border-gray-200 bg-gray-50 p-4">
+			<p class="font-atkinson text-center text-sm text-gray-600">
+				By submitting, you agree to let us process and archive your contribution for public
+				research access.
+			</p>
+		</div>
+	</section>
+
+	<!-- Guide Toggle -->
+	<div class="text-center">
+		<button
+			type="button"
+			onclick={() => (showGuide = !showGuide)}
+			class="font-atkinson text-sepia-brown hover:text-sepia-dark text-sm underline transition-colors"
+		>
+			{showGuide ? '↑ Hide' : '↓ Show'} how to find certificates
+		</button>
+	</div>
+
+	<!-- Context Section -->
+	{#if showGuide}
+		<section class="space-y-6">
+			<div class="border-sepia-dark border bg-white p-6">
+				<h3 class="font-atkinson text-sepia-brown mb-3 text-lg font-semibold">
+					Why we need your help
+				</h3>
+				<div class="font-atkinson space-y-3 text-sm leading-relaxed text-gray-700">
+					<p>
+						Our automated data collection from the CBFC has been disrupted. The good news is the
+						data still exists—it's printed on certificates that theaters display for every film.
+					</p>
+					<p>
+						<strong>That's where you come in!</strong> Next time you're at the movies, you can
+						help preserve this important censorship data for public access.
+					</p>
+				</div>
+			</div>
+
+			<div class="space-y-4">
 				<h3 class="font-atkinson text-sepia-brown mb-4 text-center text-xl font-semibold">
 					How to Contribute
 				</h3>
