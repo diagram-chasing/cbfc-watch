@@ -19,8 +19,7 @@
 	let { data }: { data: PageData } = $props();
 
 	// Mode selection
-	type Mode = 'select' | 'manual' | 'bulk';
-	let currentMode = $state<Mode>('select');
+	let showScanner = $state(false);
 	let showGuide = $state(false);
 
 	// Bulk scanning state
@@ -83,9 +82,13 @@
 
 	// Bulk submission handler
 	async function handleBulkSubmit() {
-		if (scannedUrls.length === 0) {
-			toast.error('No URLs to submit', {
-				description: 'Please scan at least one QR code first.',
+		const urlsToSubmit = scannedUrls;
+		const manualUrl = $formData.url?.trim();
+
+		// Check if we have anything to submit
+		if (urlsToSubmit.length === 0 && !manualUrl) {
+			toast.error('Nothing to submit', {
+				description: 'Please scan QR codes or enter a URL.',
 				duration: 3000,
 				unstyled: true,
 				classes: {
@@ -96,18 +99,23 @@
 			return;
 		}
 
+		// Add manual URL to submission list if provided
+		const allUrls = [...urlsToSubmit];
+		if (manualUrl) {
+			allUrls.push({ id: crypto.randomUUID(), url: manualUrl, timestamp: Date.now() });
+		}
+
 		isBulkSubmitting = true;
 		bulkSubmitSuccess = false;
-		bulkSubmitProgress = { current: 0, total: scannedUrls.length };
+		bulkSubmitProgress = { current: 0, total: allUrls.length };
 
 		let successCount = 0;
 		let failCount = 0;
 
-		// Get contributor name from the form
 		const contributorName = $formData.contributorName || undefined;
 
 		// Submit each URL individually
-		for (let i = 0; i < scannedUrls.length; i++) {
+		for (let i = 0; i < allUrls.length; i++) {
 			bulkSubmitProgress.current = i + 1;
 
 			try {
@@ -117,7 +125,7 @@
 						'Content-Type': 'application/x-www-form-urlencoded'
 					},
 					body: new URLSearchParams({
-						url: scannedUrls[i].url,
+						url: allUrls[i].url,
 						contributorName: contributorName || ''
 					})
 				});
@@ -132,7 +140,6 @@
 				failCount++;
 			}
 
-			// Small delay between submissions
 			await new Promise((resolve) => setTimeout(resolve, 100));
 		}
 
@@ -140,7 +147,7 @@
 
 		if (failCount === 0) {
 			bulkSubmitSuccess = true;
-			toast.success(`Successfully submitted ${successCount} contributions!`, {
+			toast.success(`Successfully submitted ${successCount} contribution${successCount > 1 ? 's' : ''}!`, {
 				description: 'Thank you for helping expand our database.',
 				duration: 3000,
 				unstyled: true,
@@ -150,14 +157,15 @@
 				}
 			});
 
-			// Clear scanned URLs after successful submission
+			// Clear everything after successful submission
 			scannedUrls = [];
+			$formData.url = '';
 
 			setTimeout(() => {
 				bulkSubmitSuccess = false;
 			}, 5000);
 		} else {
-			toast.error(`Submitted ${successCount} of ${scannedUrls.length} URLs`, {
+			toast.error(`Submitted ${successCount} of ${allUrls.length} URLs`, {
 				description: `${failCount} submission(s) failed. Please try again.`,
 				duration: 5000,
 				unstyled: true,
