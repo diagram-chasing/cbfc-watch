@@ -19,8 +19,9 @@
 	let { data }: { data: PageData } = $props();
 
 	// Mode selection
-	type Mode = 'manual' | 'bulk';
-	let currentMode = $state<Mode>('manual');
+	type Mode = 'select' | 'manual' | 'bulk';
+	let currentMode = $state<Mode>('select');
+	let showGuide = $state(false);
 
 	// Bulk scanning state
 	interface ScannedURL {
@@ -231,57 +232,31 @@
 />
 
 {#snippet stepCard(step: Step)}
-	<div class="border-sepia-dark border bg-white p-4 shadow-xs">
+	<div class="border-sepia-dark border bg-white p-4">
 		<div class="mb-3 flex items-center gap-2">
 			<div
-				class="bg-sepia-brown text-sepia-light flex h-6 w-6 items-center justify-center text-sm font-bold"
+				class="bg-sepia-brown text-sepia-light flex h-6 w-6 flex-shrink-0 items-center justify-center text-sm font-bold"
 			>
 				{step.number}
 			</div>
-			<h3 class="font-atkinson text-sepia-brown text-sm font-bold">{step.title}</h3>
+			<h4 class="font-atkinson text-sepia-brown text-sm font-bold">{step.title}</h4>
 		</div>
 
 		{#if step.image}
 			<div
-				class="bg-sepia-med border-sepia-dark mb-3 flex h-92 items-center justify-center overflow-hidden border"
+				class="bg-sepia-med border-sepia-dark mb-3 flex h-32 items-center justify-center overflow-hidden border"
 			>
-				{#if step.image}
-					<img
-						src={step.image}
-						alt={step.iconLabel}
-						class="h-full w-full border border-black object-cover {step.align
-							? step.align
-							: 'object-center'}"
-					/>
-				{:else}
-					<div class="text-center">
-						<svelte:component
-							this={step.icon}
-							class="text-sepia-brown mx-auto mb-1 h-6 w-6 opacity-60"
-						/>
-						<span class="font-atkinson text-sepia-brown text-xs opacity-80">
-							{step.iconLabel}
-						</span>
-					</div>
-				{/if}
+				<img
+					src={step.image}
+					alt={step.iconLabel}
+					class="h-full w-full object-cover {step.align ? step.align : 'object-center'}"
+				/>
 			</div>
 		{/if}
 
-		<p
-			class="font-atkinson text-base leading-relaxed text-gray-600 md:text-base"
-			class:mb-2={step.details}
-		>
+		<p class="font-atkinson text-sm leading-relaxed text-gray-600">
 			{step.description}
 		</p>
-
-		{#if step.details}
-			<div class="flex flex-wrap gap-1 text-xs text-gray-500">
-				{#each step.details as detail, index}
-					{#if index > 0}<span>•</span>{/if}
-					<span>{detail}</span>
-				{/each}
-			</div>
-		{/if}
 	</div>
 {/snippet}
 
@@ -293,103 +268,96 @@
 	/>
 </svelte:head>
 
-<div class="mx-auto max-w-4xl space-y-4">
-	<section class="relative" aria-label="Statistics hero section">
-		<div class="relative mx-auto max-w-6xl">
-			<div class="grain-effect">
-				<div class="px-2 py-4 md:px-0">
-					<!-- Title -->
-					<h1
-						class="font-gothic mb-6 text-4xl leading-tight font-bold tracking-[-0.01em] text-black sm:text-5xl md:text-6xl"
-						style="text-wrap: balance;"
-					>
-						Contribute to the Archive
-					</h1>
-
-					<!-- Context paragraph -->
-					<div class="max-w-2xl">
-						<p
-							class="font-atkinson text-base leading-relaxed text-gray-700"
-							style="text-wrap: pretty;"
-						>
-							As of June 2025, our methodology for collecting data from the Central Board of Film
-							Certification (CBFC) has been disrupted. Due to a significant overhaul of the CBFC's
-							public-facing systems, our automated data retrieval processes are no longer
-							functional.
-						</p>
-					</div>
-				</div>
+<div class="mx-auto max-w-4xl space-y-6 px-2 py-6 md:px-0 md:py-8">
+	<!-- Quick Actions - Payment App Style -->
+	{#if currentMode === 'select'}
+		<section class="space-y-6">
+			<!-- Simple Header -->
+			<div class="text-center">
+				<h1 class="font-gothic text-sepia-brown mb-2 text-3xl font-bold md:text-4xl">
+					Contribute a Certificate
+				</h1>
+				<p class="font-atkinson text-gray-600">
+					Choose how you'd like to submit CBFC certificate URLs
+				</p>
 			</div>
-		</div>
-	</section>
 
-	<section>
-		<div class="columns-1 space-y-6 px-2 md:columns-2 md:px-0">
-			<p class="font-atkinson text-base leading-relaxed text-gray-700" style="text-wrap: pretty;">
-				While we try to work on engineering a new solution to ensure continuity, we're pivoting to a
-				crowdsourced methodology. The good news is the raw data still exists in the wild; it's
-				printed on the CBFC certificates that theaters are required to display for every film
-				running in it.
-			</p>
-			<p class="font-atkinson text-base leading-relaxed text-gray-700" style="text-wrap: pretty;">
-				<strong>That's where you come in!</strong> The next time you go to the movies, you can be a data
-				contributor. By sending us a clear photo of the film's certificate, you can help us fill in the
-				gaps. These contributions will allow us to process, verify, and publish this important data for
-				open access.
-			</p>
-		</div>
-	</section>
-
-	<!-- Contribution Form -->
-	<section class="border-sepia-dark border bg-white shadow-md">
-		<div class="bg-sepia-light border-sepia-dark border-b p-6">
-			<h2 class="font-gothic text-sepia-brown text-3xl font-medium tracking-tight">
-				Submit Your Contribution
-			</h2>
-			<p class="font-atkinson mt-2 text-sm text-gray-700 md:text-base">
-				Scan a CBFC certificate you found at a cinema and help us archive it for everyone to use.
-			</p>
-			<p class="font-atkinson mt-3 text-sm">
-				<a
-					href="#how-to-contribute"
-					class="text-sepia-brown hover:text-sepia-dark underline transition-colors"
-				>
-					→ See how to contribute guide below
-				</a>
-			</p>
-
-			<!-- Mode Toggle -->
-			<div class="mt-6 flex gap-2">
-				<button
-					type="button"
-					onclick={() => (currentMode = 'manual')}
-					class="font-atkinson flex flex-1 items-center justify-center gap-2 border px-4 py-3 text-sm font-medium transition-colors md:text-base {currentMode ===
-					'manual'
-						? 'bg-sepia-brown border-sepia-dark text-white'
-						: 'bg-white border-sepia-dark text-sepia-brown hover:bg-sepia-light'}"
-				>
-					<Upload class="h-4 w-4" />
-					Manual Entry
-				</button>
+			<!-- Primary Action Cards -->
+			<div class="grid gap-4 md:grid-cols-2">
+				<!-- QR Scan Card -->
 				<button
 					type="button"
 					onclick={() => (currentMode = 'bulk')}
-					class="font-atkinson flex flex-1 items-center justify-center gap-2 border px-4 py-3 text-sm font-medium transition-colors md:text-base {currentMode ===
-					'bulk'
-						? 'bg-sepia-brown border-sepia-dark text-white'
-						: 'bg-white border-sepia-dark text-sepia-brown hover:bg-sepia-light'}"
+					class="border-sepia-dark hover:bg-sepia-light group flex flex-col items-center gap-4 border bg-white p-8 text-center transition-all hover:shadow-md"
 				>
-					<QrCode class="h-4 w-4" />
-					QR Bulk Scan
+					<div class="bg-sepia-brown flex h-16 w-16 items-center justify-center">
+						<QrCode class="h-8 w-8 text-white" />
+					</div>
+					<div>
+						<h3 class="font-atkinson text-sepia-brown mb-1 text-xl font-bold">Scan QR Codes</h3>
+						<p class="font-atkinson text-sm text-gray-600">
+							Use your camera to scan multiple certificates at once
+						</p>
+					</div>
+					<div class="bg-sepia-brown text-sepia-light px-4 py-2 text-sm font-semibold">
+						Recommended
+					</div>
+				</button>
+
+				<!-- Manual Entry Card -->
+				<button
+					type="button"
+					onclick={() => (currentMode = 'manual')}
+					class="border-sepia-dark hover:bg-sepia-light group flex flex-col items-center gap-4 border bg-white p-8 text-center transition-all hover:shadow-md"
+				>
+					<div class="bg-sepia-brown flex h-16 w-16 items-center justify-center">
+						<Upload class="h-8 w-8 text-white" />
+					</div>
+					<div>
+						<h3 class="font-atkinson text-sepia-brown mb-1 text-xl font-bold">Paste URL</h3>
+						<p class="font-atkinson text-sm text-gray-600">
+							Enter certificate URLs manually one at a time
+						</p>
+					</div>
 				</button>
 			</div>
-		</div>
 
-		<div class="p-6">
-			{#if currentMode === 'manual'}
-				<form method="POST" use:enhance class="space-y-6" enctype="multipart/form-data">
-				<!-- URL with Form validation -->
-				<Form.Field {form} name="url" class="space-y-3">
+			<!-- Quick Guide Toggle -->
+			<div class="text-center">
+				<button
+					type="button"
+					onclick={() => (showGuide = !showGuide)}
+					class="font-atkinson text-sepia-brown hover:text-sepia-dark text-sm underline transition-colors"
+				>
+					{showGuide ? '↑ Hide' : '↓ Show'} how this works
+				</button>
+			</div>
+		</section>
+	{/if}
+
+	<!-- Contribution Form - Shown when mode selected -->
+	{#if currentMode !== 'select'}
+		<section class="border-sepia-dark border bg-white shadow-md">
+			<!-- Header with back button -->
+			<div class="bg-sepia-light border-sepia-dark flex items-center justify-between border-b p-4">
+				<button
+					type="button"
+					onclick={() => (currentMode = 'select')}
+					class="hover:text-sepia-dark flex items-center gap-2 text-sm transition-colors"
+				>
+					<span class="text-xl">←</span> Back
+				</button>
+				<h2 class="font-atkinson text-sepia-brown text-lg font-semibold">
+					{currentMode === 'bulk' ? 'QR Bulk Scan' : 'Manual Entry'}
+				</h2>
+				<div class="w-16"></div>
+			</div>
+
+			<div class="p-6">
+				{#if currentMode === 'manual'}
+					<form method="POST" use:enhance class="space-y-6" enctype="multipart/form-data">
+					<!-- URL with Form validation -->
+					<Form.Field {form} name="url" class="space-y-3">
 					<Form.Control>
 						{#snippet children({ props })}
 							<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
@@ -457,12 +425,12 @@
 								Submit Contribution
 							</div>
 						{/if}
-					</Form.Button>
-				</div>
-			</form>
-			{:else}
-				<!-- Bulk QR Scanning Mode -->
-				<div class="space-y-6">
+						</Form.Button>
+					</div>
+				</form>
+				{:else}
+					<!-- Bulk QR Scanning Mode -->
+					<div class="space-y-6">
 					<!-- Contributor Name (shared across both modes) -->
 					<Form.Field {form} name="contributorName" class="space-y-3">
 						<Form.Control>
@@ -519,29 +487,54 @@
 								{/if}
 							</button>
 						</div>
-					{/if}
+						{/if}
+					</div>
+				{/if}
+			</div>
+
+			<div class="border-t border-gray-200 bg-gray-50 p-4">
+				<p class="font-atkinson text-center text-sm text-gray-600">
+					By submitting, you agree to let us process and archive your contribution for public research
+					access.
+				</p>
+			</div>
+		</section>
+	{/if}
+
+	<!-- Context Section - Collapsible or Always Visible -->
+	{#if showGuide || currentMode === 'select'}
+		<section class="space-y-6">
+			<!-- Why We Need This -->
+			{#if currentMode === 'select'}
+				<div class="border-sepia-dark border bg-white p-6">
+					<h3 class="font-atkinson text-sepia-brown mb-3 text-lg font-semibold">
+						Why we need your help
+					</h3>
+					<div class="font-atkinson space-y-3 text-sm leading-relaxed text-gray-700">
+						<p>
+							Our automated data collection from the CBFC has been disrupted. The good news is the
+							data still exists—it's printed on certificates that theaters display for every film.
+						</p>
+						<p>
+							<strong>That's where you come in!</strong> Next time you're at the movies, you can help
+							preserve this important censorship data for public access.
+						</p>
+					</div>
 				</div>
 			{/if}
-		</div>
 
-		<div class="border-t border-gray-200 bg-gray-50 p-4">
-			<p class="font-atkinson text-center text-sm text-gray-600">
-				By submitting, you agree to let us process and archive your contribution for public research
-				access.
-			</p>
-		</div>
-	</section>
+			<!-- Process Steps -->
+			<div id="how-to-contribute" class="space-y-4">
+				<h3 class="font-atkinson text-sepia-brown mb-4 text-center text-xl font-semibold">
+					How to Contribute
+				</h3>
 
-	<!-- Process Steps -->
-	<section id="how-to-contribute" class="mt-12 mb-8">
-		<h2 class="font-gothic mb-4 text-center text-4xl font-medium tracking-tight text-black">
-			How to Contribute
-		</h2>
-
-		<div class="grid grid-cols-1 gap-4">
-			{#each steps as step}
-				{@render stepCard(step)}
-			{/each}
-		</div>
-	</section>
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+					{#each steps as step}
+						{@render stepCard(step)}
+					{/each}
+				</div>
+			</div>
+		</section>
+	{/if}
 </div>
