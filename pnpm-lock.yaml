@@ -23,6 +23,9 @@ dependencies:
   flexsearch:
     specifier: ^0.8.158
     version: 0.8.158
+  html5-qrcode:
+    specifier: ^2.3.8
+    version: 2.3.8
   instantsearch.js:
     specifier: ^4.78.3
     version: 4.78.3(algoliasearch@5.27.0)
@@ -3757,6 +3760,10 @@ packages:
 
   /htm@3.1.1:
     resolution: {integrity: sha512-983Vyg8NwUE7JkZ6NmOqpCZ+sh1bKv2iYTlUkzlWmA5JD2acKoxd4KVxbMmxX/85mtfdnDmTFoNKcg5DGAvxNQ==}
+    dev: false
+
+  /html5-qrcode@2.3.8:
+    resolution: {integrity: sha512-jsr4vafJhwoLVEDW3n1KvPnCCXWaQfRng0/EEYk1vNcQGcG/htAdhJX0be8YyqMoSz7+hZvOZSTAepsabiuhiQ==}
     dev: false
 
   /http-errors@2.0.0:

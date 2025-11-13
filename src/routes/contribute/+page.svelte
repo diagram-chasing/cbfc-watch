@@ -1,6 +1,10 @@
 <script lang="ts">
-	import { Camera, Upload, CheckCircle, MapPin } from 'lucide-svelte';
+	import { Camera, Upload, CheckCircle, MapPin, QrCode, X, Loader2, Trash2 } from 'lucide-svelte';
 	import * as Form from '$lib/components/ui/form';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { Button } from '$lib/components/ui/button';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { Badge } from '$lib/components/ui/badge';
 	import SEO from '$lib/components/SEO.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -10,6 +14,8 @@
 	import type { PageData } from './$types.js';
 	import { toast } from 'svelte-sonner';
 	import { fly, scale } from 'svelte/transition';
+	import { onMount, onDestroy } from 'svelte';
+	import { Html5Qrcode } from 'html5-qrcode';
 
 	import ClearPicture from '$lib/assets/clear-picture.webp';
 	import Certificates from '$lib/assets/censor-certificate.jpg';
@@ -17,13 +23,24 @@
 
 	let { data }: { data: PageData } = $props();
 
-	// Submission state management
+	// Submission state management (single URL mode)
 	let isSubmitting = $state(false);
 	let isSuccess = $state(false);
 	let buttonVariant = $derived(() => {
 		if (isSuccess) return 'green';
 		return 'default';
 	});
+
+	// Bulk QR Mode state management
+	let isBulkModeOpen = $state(false);
+	let scannedUrls = $state<string[]>([]);
+	let isScanning = $state(false);
+	let isBulkSubmitting = $state(false);
+	let html5QrCode: Html5Qrcode | null = null;
+	let scannerReaderElement: HTMLElement | null = null;
+
+	// Track which URLs are currently being submitted (for individual feedback)
+	let submissionStates = $state<Record<string, 'pending' | 'submitting' | 'success' | 'error'>>({});
 
 	const form = superForm(data.form, {
 		validators: zodClient(contributionSchema),
@@ -63,6 +80,270 @@
 	});
 
 	const { form: formData, enhance } = form;
+
+	// ===== BULK QR MODE FUNCTIONS =====
+
+	/**
+	 * Initialize and start the QR scanner
+	 * The scanner continuously scans without stopping after each successful read
+	 */
+	async function startScanner() {
+		if (!scannerReaderElement || isScanning) return;
+
+		try {
+			// Initialize Html5Qrcode instance
+			html5QrCode = new Html5Qrcode('qr-reader');
+			isScanning = true;
+
+			// Configure scanner with continuous scanning enabled
+			const config = {
+				fps: 10, // Frames per second for scanning
+				qrbox: { width: 250, height: 250 }, // Scanner viewfinder size
+				aspectRatio: 1.0
+			};
+
+			// Start scanning - onScanSuccess will be called for each successful scan
+			await html5QrCode.start(
+				{ facingMode: 'environment' }, // Use rear camera on mobile
+				config,
+				onScanSuccess,
+				onScanError
+			);
+		} catch (err) {
+			console.error('Error starting scanner:', err);
+			isScanning = false;
+			toast.error('Camera Error', {
+				description: 'Could not access camera. Please check permissions.',
+				duration: 3000
+			});
+		}
+	}
+
+	/**
+	 * Handle successful QR code scan
+	 * This is called continuously for each detected QR code
+	 */
+	function onScanSuccess(decodedText: string, decodedResult: any) {
+		// Validate that the URL is from ecinepramaan.gov.in
+		try {
+			const urlObj = new URL(decodedText);
+			if (urlObj.hostname !== 'www.ecinepramaan.gov.in') {
+				toast.error('Invalid QR Code', {
+					description: 'URL must be from www.ecinepramaan.gov.in',
+					duration: 2000
+				});
+				return;
+			}
+		} catch {
+			// Not a valid URL
+			return;
+		}
+
+		// Check for duplicates
+		if (scannedUrls.includes(decodedText)) {
+			toast.warning('Duplicate URL', {
+				description: 'This URL has already been scanned',
+				duration: 2000
+			});
+			return;
+		}
+
+		// Add the URL to our collection
+		scannedUrls = [...scannedUrls, decodedText];
+
+		// Initialize submission state for this URL
+		submissionStates[decodedText] = 'pending';
+
+		// Show success toast with URL count
+		toast.success(`URL ${scannedUrls.length} added`, {
+			description: 'Scanner ready for next code',
+			duration: 2000,
+			unstyled: true,
+			classes: {
+				toast: 'bg-sepia-brown w-fit gap-2 py-2 px-4 flex items-center justify-center',
+				description: 'text-sm'
+			}
+		});
+
+		// Scanner continues automatically - no need to stop/restart
+	}
+
+	/**
+	 * Handle scan errors (most are just "no QR code in view" - we can ignore these)
+	 */
+	function onScanError(errorMessage: string) {
+		// Suppress "No MultiFormat Readers were able to detect the code" errors
+		// These just mean no QR code is currently visible
+		if (!errorMessage.includes('NotFoundException')) {
+			console.warn('QR Scan error:', errorMessage);
+		}
+	}
+
+	/**
+	 * Stop the QR scanner and clean up resources
+	 */
+	async function stopScanner() {
+		if (html5QrCode && isScanning) {
+			try {
+				await html5QrCode.stop();
+				await html5QrCode.clear();
+			} catch (err) {
+				console.error('Error stopping scanner:', err);
+			}
+		}
+		isScanning = false;
+		html5QrCode = null;
+	}
+
+	/**
+	 * Remove a URL from the scanned list
+	 */
+	function removeUrl(url: string) {
+		scannedUrls = scannedUrls.filter((u) => u !== url);
+		delete submissionStates[url];
+	}
+
+	/**
+	 * Clear all scanned URLs
+	 */
+	function clearAllUrls() {
+		scannedUrls = [];
+		submissionStates = {};
+	}
+
+	/**
+	 * Submit all scanned URLs as individual API requests
+	 * This handles the sequential submission with progress tracking
+	 */
+	async function submitBulkUrls() {
+		if (scannedUrls.length === 0) return;
+
+		isBulkSubmitting = true;
+		const total = scannedUrls.length;
+		let successCount = 0;
+		let failCount = 0;
+
+		// Create a loading toast that we'll update with progress
+		const submissionToastId = toast.loading(`Submitting 1 of ${total}...`, {
+			duration: Infinity // Keep toast visible until we manually dismiss it
+		});
+
+		// Submit each URL individually
+		for (let i = 0; i < scannedUrls.length; i++) {
+			const url = scannedUrls[i];
+			const currentNum = i + 1;
+
+			// Update toast with current progress
+			toast.loading(`Submitting ${currentNum} of ${total}...`, {
+				id: submissionToastId
+			});
+
+			// Mark this URL as currently submitting
+			submissionStates[url] = 'submitting';
+
+			try {
+				// Make the API request
+				const formData = new FormData();
+				formData.append('url', url);
+				// Note: contributorName is optional - we could add a field for this in bulk mode
+
+				const response = await fetch('?', {
+					method: 'POST',
+					body: formData
+				});
+
+				if (response.ok) {
+					submissionStates[url] = 'success';
+					successCount++;
+				} else {
+					submissionStates[url] = 'error';
+					failCount++;
+				}
+			} catch (error) {
+				console.error('Submission error for URL:', url, error);
+				submissionStates[url] = 'error';
+				failCount++;
+			}
+
+			// Small delay between requests to avoid overwhelming the server
+			if (i < scannedUrls.length - 1) {
+				await new Promise((resolve) => setTimeout(resolve, 300));
+			}
+		}
+
+		// All submissions complete - update final toast
+		isBulkSubmitting = false;
+
+		if (failCount === 0) {
+			// Perfect success
+			toast.success(`All ${total} URLs submitted!`, {
+				id: submissionToastId,
+				description: 'Thank you for your contribution',
+				duration: 3000,
+				unstyled: true,
+				classes: {
+					toast: 'bg-sepia-brown w-fit gap-2 py-2 px-4 flex items-center justify-center',
+					description: 'text-sm'
+				}
+			});
+
+			// Close modal and reset after short delay
+			setTimeout(() => {
+				closeBulkMode();
+			}, 1500);
+		} else if (successCount === 0) {
+			// Total failure
+			toast.error('All submissions failed', {
+				id: submissionToastId,
+				description: 'Please try again later',
+				duration: 3000,
+				unstyled: true,
+				classes: {
+					toast: 'bg-red w-fit gap-2 py-2 px-4 flex items-center justify-center text-white',
+					description: 'text-sm'
+				}
+			});
+		} else {
+			// Partial success
+			toast.warning(`Submitted ${successCount} of ${total} URLs. ${failCount} failed.`, {
+				id: submissionToastId,
+				description: 'Some submissions could not be completed',
+				duration: 5000
+			});
+
+			// Remove successfully submitted URLs from the list
+			scannedUrls = scannedUrls.filter((url) => submissionStates[url] !== 'success');
+		}
+	}
+
+	/**
+	 * Open the bulk QR mode dialog and start the scanner
+	 */
+	async function openBulkMode() {
+		isBulkModeOpen = true;
+		// Wait for the dialog to render before starting scanner
+		setTimeout(() => {
+			startScanner();
+		}, 300);
+	}
+
+	/**
+	 * Close the bulk mode dialog and clean up
+	 */
+	async function closeBulkMode() {
+		await stopScanner();
+		isBulkModeOpen = false;
+
+		// Clear data after modal close animation
+		setTimeout(() => {
+			clearAllUrls();
+		}, 300);
+	}
+
+	// Clean up scanner when component is destroyed
+	onDestroy(() => {
+		stopScanner();
+	});
 
 	interface Step {
 		number: number;
@@ -328,6 +609,21 @@
 						{/if}
 					</Form.Button>
 				</div>
+
+				<!-- Bulk QR Mode Trigger Button -->
+				<div class="border-sepia-dark mt-4 border-t pt-4">
+					<Button
+						variant="outline"
+						onclick={openBulkMode}
+						class="font-atkinson h-12 w-full text-base font-medium"
+					>
+						<QrCode class="mr-2 h-5 w-5" />
+						Scan Multiple QR Codes
+					</Button>
+					<p class="font-atkinson mt-2 text-center text-xs text-gray-600">
+						Scan multiple certificates in one session
+					</p>
+				</div>
 			</form>
 		</div>
 
@@ -352,3 +648,172 @@
 		</div>
 	</section>
 </div>
+
+<!-- Bulk QR Code Scanning Dialog -->
+<Dialog.Root open={isBulkModeOpen} onOpenChange={(open) => !open && closeBulkMode()}>
+	<Dialog.Content class="max-h-[90vh] max-w-4xl overflow-hidden">
+		<Dialog.Header>
+			<Dialog.Title class="font-gothic text-2xl font-medium">
+				Bulk QR Code Scanner
+			</Dialog.Title>
+			<Dialog.Description class="font-atkinson text-sm text-gray-600">
+				Scan multiple QR codes continuously. Each scan will be added to your list.
+			</Dialog.Description>
+		</Dialog.Header>
+
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<!-- Left: Scanner View -->
+			<div class="flex flex-col">
+				<div class="mb-3 flex items-center justify-between">
+					<h3 class="font-atkinson text-sm font-semibold text-gray-900">Camera Scanner</h3>
+					{#if isScanning}
+						<Badge variant="default" class="bg-green text-white">
+							<div class="mr-1 h-2 w-2 animate-pulse rounded-full bg-white"></div>
+							Active
+						</Badge>
+					{/if}
+				</div>
+
+				<!-- QR Scanner Container -->
+				<div
+					class="border-sepia-dark relative flex aspect-square items-center justify-center overflow-hidden border bg-black"
+				>
+					<!-- Scanner element - html5-qrcode will render the video feed here -->
+					<div id="qr-reader" bind:this={scannerReaderElement} class="h-full w-full"></div>
+
+					<!-- Scanner overlay instructions (shown when not scanning) -->
+					{#if !isScanning}
+						<div class="absolute inset-0 flex items-center justify-center bg-black/80 p-6">
+							<div class="text-center text-white">
+								<Camera class="mx-auto mb-3 h-12 w-12 opacity-60" />
+								<p class="font-atkinson text-sm">Initializing camera...</p>
+							</div>
+						</div>
+					{/if}
+				</div>
+
+				<!-- Scanner Instructions -->
+				<div class="bg-sepia-light mt-3 p-3">
+					<p class="font-atkinson text-xs text-gray-700">
+						<strong>Tip:</strong> Point your camera at each QR code. The scanner will automatically
+						detect and add URLs without stopping.
+					</p>
+				</div>
+			</div>
+
+			<!-- Right: Scanned URLs List -->
+			<div class="flex flex-col">
+				<div class="mb-3 flex items-center justify-between">
+					<h3 class="font-atkinson text-sm font-semibold text-gray-900">
+						Scanned URLs ({scannedUrls.length})
+					</h3>
+					{#if scannedUrls.length > 0 && !isBulkSubmitting}
+						<Button
+							variant="ghost"
+							size="sm"
+							onclick={clearAllUrls}
+							class="h-7 text-xs text-red hover:text-red"
+						>
+							<Trash2 class="mr-1 h-3 w-3" />
+							Clear All
+						</Button>
+					{/if}
+				</div>
+
+				<!-- Scanned URLs ScrollArea -->
+				<ScrollArea class="border-sepia-dark h-96 flex-1 border bg-white">
+					<div class="p-3 space-y-2">
+						{#if scannedUrls.length === 0}
+							<div class="flex h-full items-center justify-center py-12 text-center">
+								<div>
+									<QrCode class="text-sepia-dark mx-auto mb-2 h-10 w-10 opacity-40" />
+									<p class="font-atkinson text-sepia-dark text-sm opacity-60">
+										No URLs scanned yet
+									</p>
+									<p class="font-atkinson text-sepia-dark mt-1 text-xs opacity-50">
+										Scan your first QR code to get started
+									</p>
+								</div>
+							</div>
+						{:else}
+							{#each scannedUrls as url, index}
+								<div
+									class="bg-sepia-light border-sepia-dark group relative flex items-start gap-3 border p-3 transition-all"
+									class:opacity-50={submissionStates[url] === 'submitting' ||
+										submissionStates[url] === 'success'}
+								>
+									<!-- URL Number Badge -->
+									<div
+										class="bg-sepia-brown text-sepia-light flex h-6 w-6 flex-shrink-0 items-center justify-center text-xs font-bold"
+									>
+										{index + 1}
+									</div>
+
+									<!-- URL Content -->
+									<div class="min-w-0 flex-1">
+										<p class="font-atkinson break-all text-xs text-gray-700">
+											{new URL(url).hostname}
+										</p>
+										<p class="font-atkinson mt-0.5 break-all text-[10px] text-gray-500">
+											{url.substring(0, 60)}{url.length > 60 ? '...' : ''}
+										</p>
+									</div>
+
+									<!-- Status/Action -->
+									<div class="flex-shrink-0">
+										{#if submissionStates[url] === 'submitting'}
+											<Loader2 class="text-sepia-brown h-4 w-4 animate-spin" />
+										{:else if submissionStates[url] === 'success'}
+											<CheckCircle class="h-4 w-4 text-green-600" />
+										{:else if submissionStates[url] === 'error'}
+											<Badge variant="destructive" class="text-[10px]">Error</Badge>
+										{:else if !isBulkSubmitting}
+											<Button
+												variant="ghost"
+												size="icon"
+												onclick={() => removeUrl(url)}
+												class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+											>
+												<X class="h-3 w-3" />
+											</Button>
+										{/if}
+									</div>
+								</div>
+							{/each}
+						{/if}
+					</div>
+				</ScrollArea>
+			</div>
+		</div>
+
+		<!-- Dialog Footer with Submit Button -->
+		<Dialog.Footer class="mt-6">
+			<div class="flex w-full flex-col gap-3 sm:flex-row">
+				<Button
+					variant="outline"
+					onclick={closeBulkMode}
+					disabled={isBulkSubmitting}
+					class="font-atkinson w-full sm:w-auto"
+				>
+					{isBulkSubmitting ? 'Close when done' : 'Cancel'}
+				</Button>
+				<Button
+					variant="default"
+					onclick={submitBulkUrls}
+					disabled={scannedUrls.length === 0 || isBulkSubmitting}
+					class="font-atkinson w-full flex-1 sm:w-auto"
+				>
+					{#if isBulkSubmitting}
+						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
+						Submitting...
+					{:else if scannedUrls.length === 0}
+						Submit URLs
+					{:else}
+						<Upload class="mr-2 h-4 w-4" />
+						Submit {scannedUrls.length} URL{scannedUrls.length === 1 ? '' : 's'}
+					{/if}
+				</Button>
+			</div>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>
