@@ -15,7 +15,13 @@
 	import { toast } from 'svelte-sonner';
 	import { fly, scale } from 'svelte/transition';
 	import { onMount, onDestroy } from 'svelte';
-	import { Html5Qrcode } from 'html5-qrcode';
+	import { Html5Qrcode, type Html5QrcodeResult } from 'html5-qrcode';
+	import {
+		isValidCBFCUrl,
+		selectBackCamera,
+		shouldProcessScan,
+		getCameraErrorMessage
+	} from '$lib/utils/qrScanner';
 
 	import ClearPicture from '$lib/assets/clear-picture.webp';
 	import Certificates from '$lib/assets/censor-certificate.jpg';
@@ -41,6 +47,10 @@
 
 	// Track which URLs are currently being submitted (for individual feedback)
 	let submissionStates = $state<Record<string, 'pending' | 'submitting' | 'success' | 'error'>>({});
+
+	// Prevent rapid re-scanning of the same QR code
+	let lastScannedUrl = '';
+	let lastScanTime = 0;
 
 	const form = superForm(data.form, {
 		validators: zodClient(contributionSchema),
@@ -92,29 +102,30 @@
 
 		try {
 			// Initialize Html5Qrcode instance
-			html5QrCode = new Html5Qrcode('qr-reader');
+			html5QrCode = new Html5Qrcode('qr-reader', { verbose: false });
 			isScanning = true;
+
+			// Get the best camera (back camera on mobile)
+			const cameraId = await selectBackCamera();
 
 			// Configure scanner with continuous scanning enabled
 			const config = {
-				fps: 10, // Frames per second for scanning
-				qrbox: { width: 250, height: 250 }, // Scanner viewfinder size
+				fps: 30, // Higher FPS for faster scanning
+				qrbox: 250, // Scanner viewfinder size
 				aspectRatio: 1.0
 			};
 
 			// Start scanning - onScanSuccess will be called for each successful scan
-			await html5QrCode.start(
-				{ facingMode: 'environment' }, // Use rear camera on mobile
-				config,
-				onScanSuccess,
-				onScanError
-			);
-		} catch (err) {
-			console.error('Error starting scanner:', err);
+			await html5QrCode.start(cameraId, config, onScanSuccess, onScanError);
+
+			console.log('[Scanner] Started successfully');
+		} catch (err: any) {
+			console.error('[Scanner] Error starting:', err);
 			isScanning = false;
+			const errorMsg = getCameraErrorMessage(err);
 			toast.error('Camera Error', {
-				description: 'Could not access camera. Please check permissions.',
-				duration: 3000
+				description: errorMsg,
+				duration: 5000
 			});
 		}
 	}
@@ -123,26 +134,39 @@
 	 * Handle successful QR code scan
 	 * This is called continuously for each detected QR code
 	 */
-	function onScanSuccess(decodedText: string, decodedResult: any) {
-		// Validate that the URL is from ecinepramaan.gov.in
-		try {
-			const urlObj = new URL(decodedText);
-			if (urlObj.hostname !== 'www.ecinepramaan.gov.in') {
-				toast.error('Invalid QR Code', {
-					description: 'URL must be from www.ecinepramaan.gov.in',
-					duration: 2000
-				});
-				return;
-			}
-		} catch {
-			// Not a valid URL
+	function onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {
+		console.log('[Scanner] QR detected:', decodedText);
+
+		// Check cooldown to prevent rapid re-scanning
+		if (!shouldProcessScan(decodedText, lastScannedUrl, lastScanTime, 2000)) {
+			console.log('[Scanner] Cooldown active, ignoring');
+			return;
+		}
+
+		// Update last scan tracking
+		lastScannedUrl = decodedText;
+		lastScanTime = Date.now();
+
+		// Validate CBFC URL using utility function
+		if (!isValidCBFCUrl(decodedText)) {
+			console.log('[Scanner] Invalid CBFC URL');
+			toast.error('Invalid QR Code', {
+				description: 'This is not a valid CBFC certificate URL',
+				duration: 2000,
+				unstyled: true,
+				classes: {
+					toast: 'bg-red w-fit gap-2 py-2 px-4 flex items-center justify-center text-white',
+					description: 'text-sm'
+				}
+			});
 			return;
 		}
 
 		// Check for duplicates
 		if (scannedUrls.includes(decodedText)) {
+			console.log('[Scanner] Duplicate URL');
 			toast.warning('Duplicate URL', {
-				description: 'This URL has already been scanned',
+				description: 'This certificate has already been scanned',
 				duration: 2000
 			});
 			return;
@@ -150,32 +174,29 @@
 
 		// Add the URL to our collection
 		scannedUrls = [...scannedUrls, decodedText];
-
-		// Initialize submission state for this URL
 		submissionStates[decodedText] = 'pending';
 
+		console.log('[Scanner] URL added successfully. Total:', scannedUrls.length);
+
 		// Show success toast with URL count
-		toast.success(`URL ${scannedUrls.length} added`, {
-			description: 'Scanner ready for next code',
-			duration: 2000,
+		toast.success(`Certificate ${scannedUrls.length} added`, {
+			description: 'Point camera at next QR code',
+			duration: 1500,
 			unstyled: true,
 			classes: {
 				toast: 'bg-sepia-brown w-fit gap-2 py-2 px-4 flex items-center justify-center',
 				description: 'text-sm'
 			}
 		});
-
-		// Scanner continues automatically - no need to stop/restart
 	}
 
 	/**
 	 * Handle scan errors (most are just "no QR code in view" - we can ignore these)
 	 */
 	function onScanError(errorMessage: string) {
-		// Suppress "No MultiFormat Readers were able to detect the code" errors
-		// These just mean no QR code is currently visible
+		// Silently ignore NotFoundException errors - they just mean no QR code is visible
 		if (!errorMessage.includes('NotFoundException')) {
-			console.warn('QR Scan error:', errorMessage);
+			console.warn('[Scanner] Error:', errorMessage);
 		}
 	}
 
@@ -321,6 +342,9 @@
 	 */
 	async function openBulkMode() {
 		isBulkModeOpen = true;
+		// Reset scan tracking
+		lastScannedUrl = '';
+		lastScanTime = 0;
 		// Wait for the dialog to render before starting scanner
 		setTimeout(() => {
 			startScanner();
@@ -337,6 +361,8 @@
 		// Clear data after modal close animation
 		setTimeout(() => {
 			clearAllUrls();
+			lastScannedUrl = '';
+			lastScanTime = 0;
 		}, 300);
 	}
 
@@ -651,24 +677,24 @@
 
 <!-- Bulk QR Code Scanning Dialog -->
 <Dialog.Root open={isBulkModeOpen} onOpenChange={(open) => !open && closeBulkMode()}>
-	<Dialog.Content class="max-h-[90vh] max-w-4xl overflow-hidden">
-		<Dialog.Header>
-			<Dialog.Title class="font-gothic text-2xl font-medium">
-				Bulk QR Code Scanner
+	<Dialog.Content class="max-h-[85vh] max-w-3xl p-4 overflow-hidden sm:p-6">
+		<Dialog.Header class="space-y-1">
+			<Dialog.Title class="font-gothic text-xl font-medium sm:text-2xl">
+				Bulk QR Scanner
 			</Dialog.Title>
-			<Dialog.Description class="font-atkinson text-sm text-gray-600">
-				Scan multiple QR codes continuously. Each scan will be added to your list.
+			<Dialog.Description class="font-atkinson text-xs text-gray-600 sm:text-sm">
+				Scan multiple certificates continuously
 			</Dialog.Description>
 		</Dialog.Header>
 
-		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<!-- Left: Scanner View -->
 			<div class="flex flex-col">
-				<div class="mb-3 flex items-center justify-between">
-					<h3 class="font-atkinson text-sm font-semibold text-gray-900">Camera Scanner</h3>
+				<div class="mb-2 flex items-center justify-between">
+					<h3 class="font-atkinson text-xs font-semibold text-gray-900 sm:text-sm">Camera</h3>
 					{#if isScanning}
-						<Badge variant="default" class="bg-green text-white">
-							<div class="mr-1 h-2 w-2 animate-pulse rounded-full bg-white"></div>
+						<Badge variant="default" class="h-5 bg-green text-[10px] text-white">
+							<div class="mr-1 h-1.5 w-1.5 animate-pulse rounded-full bg-white"></div>
 							Active
 						</Badge>
 					{/if}
@@ -683,98 +709,95 @@
 
 					<!-- Scanner overlay instructions (shown when not scanning) -->
 					{#if !isScanning}
-						<div class="absolute inset-0 flex items-center justify-center bg-black/80 p-6">
+						<div class="absolute inset-0 flex items-center justify-center bg-black/80 p-4">
 							<div class="text-center text-white">
-								<Camera class="mx-auto mb-3 h-12 w-12 opacity-60" />
-								<p class="font-atkinson text-sm">Initializing camera...</p>
+								<Camera class="mx-auto mb-2 h-8 w-8 opacity-60 sm:h-10 sm:w-10" />
+								<p class="font-atkinson text-xs sm:text-sm">Initializing camera...</p>
 							</div>
 						</div>
 					{/if}
 				</div>
 
 				<!-- Scanner Instructions -->
-				<div class="bg-sepia-light mt-3 p-3">
-					<p class="font-atkinson text-xs text-gray-700">
-						<strong>Tip:</strong> Point your camera at each QR code. The scanner will automatically
-						detect and add URLs without stopping.
+				<div class="bg-sepia-light mt-2 p-2">
+					<p class="font-atkinson text-[10px] leading-tight text-gray-700 sm:text-xs">
+						<strong>Tip:</strong> Point camera at each QR code. Scanner runs continuously.
 					</p>
 				</div>
 			</div>
 
 			<!-- Right: Scanned URLs List -->
 			<div class="flex flex-col">
-				<div class="mb-3 flex items-center justify-between">
-					<h3 class="font-atkinson text-sm font-semibold text-gray-900">
-						Scanned URLs ({scannedUrls.length})
+				<div class="mb-2 flex items-center justify-between">
+					<h3 class="font-atkinson text-xs font-semibold text-gray-900 sm:text-sm">
+						Certificates ({scannedUrls.length})
 					</h3>
 					{#if scannedUrls.length > 0 && !isBulkSubmitting}
 						<Button
 							variant="ghost"
 							size="sm"
 							onclick={clearAllUrls}
-							class="h-7 text-xs text-red hover:text-red"
+							class="h-6 px-2 text-[10px] text-red hover:text-red sm:text-xs"
 						>
-							<Trash2 class="mr-1 h-3 w-3" />
-							Clear All
+							<Trash2 class="mr-0.5 h-3 w-3" />
+							Clear
 						</Button>
 					{/if}
 				</div>
 
 				<!-- Scanned URLs ScrollArea -->
-				<ScrollArea class="border-sepia-dark h-96 flex-1 border bg-white">
-					<div class="p-3 space-y-2">
+				<ScrollArea class="border-sepia-dark h-80 flex-1 border bg-white sm:h-96">
+					<div class="space-y-1.5 p-2">
 						{#if scannedUrls.length === 0}
-							<div class="flex h-full items-center justify-center py-12 text-center">
+							<div class="flex h-full items-center justify-center py-8 text-center">
 								<div>
-									<QrCode class="text-sepia-dark mx-auto mb-2 h-10 w-10 opacity-40" />
-									<p class="font-atkinson text-sepia-dark text-sm opacity-60">
-										No URLs scanned yet
-									</p>
-									<p class="font-atkinson text-sepia-dark mt-1 text-xs opacity-50">
-										Scan your first QR code to get started
+									<QrCode class="text-sepia-dark mx-auto mb-1.5 h-8 w-8 opacity-40" />
+									<p class="font-atkinson text-sepia-dark text-xs opacity-60">No certificates yet</p>
+									<p class="font-atkinson text-sepia-dark mt-0.5 text-[10px] opacity-50">
+										Scan your first QR code
 									</p>
 								</div>
 							</div>
 						{:else}
 							{#each scannedUrls as url, index}
 								<div
-									class="bg-sepia-light border-sepia-dark group relative flex items-start gap-3 border p-3 transition-all"
+									class="bg-sepia-light border-sepia-dark group relative flex items-center gap-2 border p-2 transition-all"
 									class:opacity-50={submissionStates[url] === 'submitting' ||
 										submissionStates[url] === 'success'}
 								>
 									<!-- URL Number Badge -->
 									<div
-										class="bg-sepia-brown text-sepia-light flex h-6 w-6 flex-shrink-0 items-center justify-center text-xs font-bold"
+										class="bg-sepia-brown text-sepia-light flex h-5 w-5 flex-shrink-0 items-center justify-center text-[10px] font-bold"
 									>
 										{index + 1}
 									</div>
 
 									<!-- URL Content -->
 									<div class="min-w-0 flex-1">
-										<p class="font-atkinson break-all text-xs text-gray-700">
+										<p class="font-atkinson break-all text-[10px] text-gray-700">
 											{new URL(url).hostname}
 										</p>
-										<p class="font-atkinson mt-0.5 break-all text-[10px] text-gray-500">
-											{url.substring(0, 60)}{url.length > 60 ? '...' : ''}
+										<p class="font-atkinson mt-0.5 break-all text-[9px] text-gray-500 leading-tight">
+											{url.substring(0, 50)}{url.length > 50 ? '...' : ''}
 										</p>
 									</div>
 
 									<!-- Status/Action -->
 									<div class="flex-shrink-0">
 										{#if submissionStates[url] === 'submitting'}
-											<Loader2 class="text-sepia-brown h-4 w-4 animate-spin" />
+											<Loader2 class="text-sepia-brown h-3.5 w-3.5 animate-spin" />
 										{:else if submissionStates[url] === 'success'}
-											<CheckCircle class="h-4 w-4 text-green-600" />
+											<CheckCircle class="h-3.5 w-3.5 text-green-600" />
 										{:else if submissionStates[url] === 'error'}
-											<Badge variant="destructive" class="text-[10px]">Error</Badge>
+											<Badge variant="destructive" class="h-4 px-1.5 text-[9px]">Error</Badge>
 										{:else if !isBulkSubmitting}
 											<Button
 												variant="ghost"
 												size="icon"
 												onclick={() => removeUrl(url)}
-												class="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+												class="h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100"
 											>
-												<X class="h-3 w-3" />
+												<X class="h-2.5 w-2.5" />
 											</Button>
 										{/if}
 									</div>
@@ -787,13 +810,13 @@
 		</div>
 
 		<!-- Dialog Footer with Submit Button -->
-		<Dialog.Footer class="mt-6">
-			<div class="flex w-full flex-col gap-3 sm:flex-row">
+		<Dialog.Footer class="mt-4">
+			<div class="flex w-full flex-col gap-2 sm:flex-row">
 				<Button
 					variant="outline"
 					onclick={closeBulkMode}
 					disabled={isBulkSubmitting}
-					class="font-atkinson w-full sm:w-auto"
+					class="font-atkinson h-9 w-full text-sm sm:w-auto"
 				>
 					{isBulkSubmitting ? 'Close when done' : 'Cancel'}
 				</Button>
@@ -801,16 +824,16 @@
 					variant="default"
 					onclick={submitBulkUrls}
 					disabled={scannedUrls.length === 0 || isBulkSubmitting}
-					class="font-atkinson w-full flex-1 sm:w-auto"
+					class="font-atkinson h-9 w-full flex-1 text-sm sm:w-auto"
 				>
 					{#if isBulkSubmitting}
-						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
+						<Loader2 class="mr-2 h-3.5 w-3.5 animate-spin" />
 						Submitting...
 					{:else if scannedUrls.length === 0}
-						Submit URLs
+						Submit
 					{:else}
-						<Upload class="mr-2 h-4 w-4" />
-						Submit {scannedUrls.length} URL{scannedUrls.length === 1 ? '' : 's'}
+						<Upload class="mr-2 h-3.5 w-3.5" />
+						Submit {scannedUrls.length}
 					{/if}
 				</Button>
 			</div>
