@@ -4,9 +4,9 @@ import dsv from '@rollup/plugin-dsv';
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
 import wasmModuleWorkers from 'vite-plugin-wasm-module-workers';
-
+import mkcert from 'vite-plugin-mkcert'
 export default defineConfig({
-	plugins: [wasmModuleWorkers(), sveltekit(), dsv(), tailwindcss()],
+	plugins: [mkcert(), wasmModuleWorkers(), sveltekit(), dsv(), tailwindcss()],
 	resolve: {
 		alias: {
 			'@assets': path.resolve(__dirname, './src/assets'),
