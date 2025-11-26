@@ -1,16 +1,14 @@
 <script lang="ts">
-	import { Camera, Upload, CheckCircle, MapPin, QrCode, X, Loader2, Trash2, ChevronDown, ChevronUp } from 'lucide-svelte';
+	import { Camera, Upload, CheckCircle, MapPin, QrCode, X, Trash2, ChevronDown, ChevronUp } from 'lucide-svelte';
 	import * as Form from '$lib/components/ui/form';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import { Button } from '$lib/components/ui/button';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Badge } from '$lib/components/ui/badge';
-	import { Switch } from '$lib/components/ui/switch';
 	import SEO from '$lib/components/SEO.svelte';
 	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { contributionSchema, type ContributionSchema } from './schema';
+	import { contributionSchema } from './schema';
 	import type { PageData } from './$types.js';
 	import { toast } from 'svelte-sonner';
 	import { fly, scale, slide } from 'svelte/transition';
@@ -23,7 +21,7 @@
 		getCameraErrorMessage
 	} from '$lib/utils/qrScanner';
 
-	import ClearPicture from '$lib/assets/clear-picture.webp';
+	import ClearPicture from '$lib/assets/demo.jpg';
 	import Certificates from '$lib/assets/censor-certificate.jpg';
 	import CBFCWatch from '$lib/assets/cbfc-watch.webp';
 
@@ -40,8 +38,10 @@
 	// Detect mobile device
 	let isMobile = $state(false);
 
+	// Tab state management
+	let activeTab = $state<'qr' | 'manual'>('manual');
+
 	// QR Mode state management
-	let isQRMode = $state(false);
 	let scannedUrls = $state<string[]>([]);
 	let isScanning = $state(false);
 	let isBulkSubmitting = $state(false);
@@ -138,7 +138,7 @@
 	 * Handle successful QR code scan
 	 * This is called continuously for each detected QR code
 	 */
-	function onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {
+	function onScanSuccess(decodedText: string) {
 		console.log('[Scanner] QR detected:', decodedText);
 
 		// Check cooldown to prevent rapid re-scanning
@@ -211,7 +211,7 @@
 		if (html5QrCode && isScanning) {
 			try {
 				await html5QrCode.stop();
-				await html5QrCode.clear();
+				html5QrCode.clear();
 			} catch (err) {
 				console.error('Error stopping scanner:', err);
 			}
@@ -315,7 +315,7 @@
 			// Reset scanned URLs after successful submission
 			setTimeout(() => {
 				clearAllUrls();
-				isQRMode = false;
+				activeTab = 'manual';
 			}, 1500);
 		} else if (successCount === 0) {
 			// Total failure
@@ -343,12 +343,12 @@
 	}
 
 	/**
-	 * Toggle QR mode on/off
+	 * Handle tab change
 	 */
-	async function toggleQRMode() {
-		isQRMode = !isQRMode;
+	async function handleTabChange(value: string) {
+		activeTab = value as 'qr' | 'manual';
 
-		if (isQRMode) {
+		if (activeTab === 'qr') {
 			// Reset scan tracking
 			lastScannedUrl = '';
 			lastScanTime = 0;
@@ -358,8 +358,6 @@
 			}, 300);
 		} else {
 			await stopScanner();
-			// Optionally clear scanned URLs when switching modes
-			// clearAllUrls();
 		}
 	}
 
@@ -371,7 +369,7 @@
 
 		// Set QR mode as default for mobile devices
 		if (isMobile) {
-			isQRMode = true;
+			activeTab = 'qr';
 			// Start scanner after DOM is ready
 			setTimeout(() => {
 				startScanner();
@@ -520,345 +518,399 @@
 	/>
 </svelte:head>
 
-<div class="mx-auto max-w-4xl space-y-4">
-	<section class="relative" aria-label="Statistics hero section">
-		<div class="relative mx-auto max-w-6xl">
-			<div class="grain-effect">
-				<div class="px-2 py-4 md:px-0">
-					<!-- Title -->
-					<h1
-						class="font-gothic mb-6 text-4xl leading-tight font-bold tracking-[-0.01em] text-black sm:text-5xl md:text-6xl"
-						style="text-wrap: balance;"
-					>
-						Contribute to the Archive
-					</h1>
-
-					<!-- Context paragraph -->
-					<div class="max-w-2xl">
-						<p
-							class="font-atkinson text-base leading-relaxed text-gray-700"
-							style="text-wrap: pretty;"
-						>
-							As of June 2025, our methodology for collecting data from the Central Board of Film
-							Certification (CBFC) has been disrupted. Due to a significant overhaul of the CBFC's
-							public-facing systems, our automated data retrieval processes are no longer
-							functional.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section>
-		<div class="columns-1 space-y-6 px-2 md:columns-2 md:px-0">
-			<p class="font-atkinson text-base leading-relaxed text-gray-700" style="text-wrap: pretty;">
-				While we try to work on engineering a new solution to ensure continuity, we're pivoting to a
-				crowdsourced methodology. The good news is the raw data still exists in the wild; it's
-				printed on the CBFC certificates that theaters are required to display for every film
-				running in it.
-			</p>
-			<p class="font-atkinson text-base leading-relaxed text-gray-700" style="text-wrap: pretty;">
-				<strong>That's where you come in!</strong> The next time you go to the movies, you can be a data
-				contributor. By sending us a clear photo of the film's certificate, you can help us fill in the
-				gaps. These contributions will allow us to process, verify, and publish this important data for
-				open access.
-			</p>
-		</div>
-	</section>
-
-	<!-- Contribution Form -->
+<div class="mx-auto max-w-4xl">
+	<!-- Contribution Form (Priority #1 - Above the fold) -->
 	<section class="border-sepia-dark border bg-white shadow-md">
-		<div class="bg-sepia-light border-sepia-dark border-b p-4 sm:p-6">
-			<h2 class="font-gothic text-sepia-brown text-2xl sm:text-3xl font-medium tracking-tight">
-				Submit Your Contribution
-			</h2>
-			<p class="font-atkinson mt-2 text-sm text-gray-700 md:text-base">
-				Scan a CBFC certificate you found at a cinema and help us archive it for everyone to use.
-			</p>
-			<p class="font-atkinson mt-3 text-sm">
+		<!-- Minimal header on mobile, more context on desktop -->
+		<div class="bg-sepia-light border-sepia-dark border-b p-3 sm:p-6">
+			<div class="flex items-center justify-between">
+				<h1 class="font-gothic text-sepia-brown text-xl sm:text-3xl font-medium tracking-tight">
+					Contribute
+				</h1>
+				<!-- Quick context link - always visible -->
 				<a
-					href="#how-to-contribute"
-					class="text-sepia-brown hover:text-sepia-dark underline transition-colors"
+					href="#context"
+					class="font-atkinson text-sepia-brown hover:text-sepia-dark text-xs sm:text-sm underline transition-colors"
 				>
-					→ See how to contribute guide below
+					Why?
 				</a>
+			</div>
+			<!-- Desktop: Show brief description -->
+			<p class="font-atkinson mt-2 hidden text-sm text-gray-700 sm:block">
+				Scan CBFC certificates from cinemas to help archive censorship data.
 			</p>
 		</div>
 
-		<div class="p-4 sm:p-6">
-			<!-- Mode Toggle -->
-			<div class="bg-sepia-light border-sepia-dark mb-6 flex items-center justify-between border p-3">
-				<div class="flex items-center gap-2">
-					<QrCode class="text-sepia-brown h-5 w-5" />
-					<Label class="font-atkinson text-sm font-semibold">
-						{isQRMode ? 'QR Scanner Mode' : 'Manual Entry Mode'}
-					</Label>
-				</div>
-				<Switch checked={isQRMode} onCheckedChange={toggleQRMode} />
-			</div>
+		<div class="p-3 sm:p-6">
+			<!-- Tabs for switching between modes -->
+			<Tabs.Root value={activeTab} onValueChange={handleTabChange} class="w-full">
+				<Tabs.List class="mb-4 grid w-full grid-cols-2">
+					<Tabs.Trigger value="qr" class="font-atkinson data-[state=active]:bg-sepia-brown data-[state=active]:text-sepia-light">
+						<QrCode class="mr-2 h-4 w-4" />
+						Scan QR Code
+					</Tabs.Trigger>
+					<Tabs.Trigger value="manual" class="font-atkinson data-[state=active]:bg-sepia-brown data-[state=active]:text-sepia-light">
+						<Upload class="mr-2 h-4 w-4" />
+						Enter URL
+					</Tabs.Trigger>
+				</Tabs.List>
 
-			<!-- Mobile: QR Scanner First (appears at top on mobile) -->
-			<!-- Desktop: Manual Form First (appears at top on desktop) -->
-			<div class="space-y-6">
-				<!-- Manual Entry Form (shown first on desktop, second on mobile) -->
-				<div class:order-2={isQRMode} class:order-1={!isQRMode} class="md:order-1">
-					{#if !isQRMode}
-						<form method="POST" use:enhance class="space-y-6" enctype="multipart/form-data" transition:slide>
-							<!-- URL with Form validation -->
-							<Form.Field {form} name="url" class="space-y-3">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
-											>QR Code URL *</Form.Label
-										>
-										<Input
-											{...props}
-											bind:value={$formData.url}
-											type="url"
-											placeholder="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i=..."
-											class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
-										/>
-									{/snippet}
-								</Form.Control>
-								<Form.Description class="font-atkinson text-sm text-gray-600">
-									Scan the QR code on the certificate and paste the ecinepramaan.gov.in URL here
-								</Form.Description>
-								<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
-							</Form.Field>
+				<!-- QR Scanner Tab Content -->
+				<Tabs.Content value="qr" class="mt-0 space-y-4">
+					<!-- Scanner Container -->
+					<div class="qr-scanner-container border-sepia-dark bg-sepia-dark relative overflow-hidden border">
+						<div id="qr-reader" bind:this={scannerReaderElement} class="aspect-square w-full"></div>
 
-							<!-- Contributor Name with Form validation -->
-							<Form.Field {form} name="contributorName" class="space-y-3">
-								<Form.Control>
-									{#snippet children({ props })}
-										<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base"
-											>Your Name (Optional)</Form.Label
-										>
-										<Input
-											{...props}
-											bind:value={$formData.contributorName}
-											placeholder="Enter your name for attribution"
-											class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
-										/>
-									{/snippet}
-								</Form.Control>
-								<Form.Description class="font-atkinson text-sm text-gray-600">
-									We'll credit you for your contribution if you provide your name
-								</Form.Description>
-								<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
-							</Form.Field>
-
-							<!-- Submit Button -->
-							<div class="pt-2">
-								<Form.Button
-									type="submit"
-									variant={buttonVariant()}
-									disabled={isSubmitting || isSuccess}
-									class="font-atkinson h-12 sm:h-14 w-full text-base sm:text-lg font-semibold tracking-wide transition-all duration-300 ease-out"
-								>
-									{#if isSuccess}
-										<div in:scale={{ duration: 200, start: 0.8 }} class="flex items-center">
-											<CheckCircle class="mr-3 h-4 sm:h-5 w-4 sm:w-5" />
-											Success!
-										</div>
-									{:else if isSubmitting}
-										<div in:fly={{ y: -10, duration: 200 }} class="flex items-center">
-											<div
-												class="mr-3 h-4 sm:h-5 w-4 sm:w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
-											></div>
-											Submitting...
-										</div>
-									{:else}
-										<div class="flex items-center">
-											<Upload class="mr-3 h-4 sm:h-5 w-4 sm:w-5" />
-											Submit Contribution
-										</div>
-									{/if}
-								</Form.Button>
+						{#if !isScanning}
+							<div class="bg-sepia-dark absolute inset-0 flex items-center justify-center p-4">
+								<div class="text-center">
+									<div class="relative mx-auto mb-3 h-12 w-12">
+										<Camera class="text-sepia-light absolute inset-0 h-12 w-12 animate-pulse" />
+									</div>
+									<p class="font-atkinson text-sepia-light text-sm font-medium">Initializing camera...</p>
+								</div>
 							</div>
-						</form>
-					{/if}
-				</div>
+						{/if}
+					</div>
 
-				<!-- OR Divider -->
-				{#if !isQRMode}
-					<div class="relative md:order-2">
-						<div class="absolute inset-0 flex items-center">
-							<div class="border-sepia-dark w-full border-t"></div>
-						</div>
-						<div class="relative flex justify-center text-xs uppercase">
-							<span class="bg-white px-2 text-gray-500">Or use QR scanner</span>
+					<!-- Scanner Status & Controls - Ultra compact -->
+					<div class="bg-sepia-light border-sepia-dark flex items-center border p-2 sm:p-3">
+						<div class="flex flex-1 items-center justify-between">
+							{#if isScanning}
+								<div class="border-sepia-brown flex h-6 items-center gap-1.5 rounded-full border px-2.5">
+									<div class="bg-sepia-brown h-2 w-2 animate-pulse rounded-full"></div>
+									<span class="font-atkinson text-[10px] font-medium text-gray-700">Active</span>
+								</div>
+							{:else}
+								<div></div>
+							{/if}
+
+							{#if scannedUrls.length > 0}
+								<Button
+									variant="outline"
+									size="sm"
+									onclick={() => (isUrlListExpanded = !isUrlListExpanded)}
+									class="border-sepia-brown bg-sepia-brown text-sepia-light hover:bg-sepia-dark h-7 gap-2 px-3 text-xs font-semibold"
+								>
+									<span>{scannedUrls.length} Scanned</span>
+									{#if isUrlListExpanded}
+										<ChevronUp class="h-3 w-3" />
+									{:else}
+										<ChevronDown class="h-3 w-3" />
+									{/if}
+								</Button>
+							{:else}
+								<div class="flex items-center gap-1.5">
+									<span class="font-atkinson text-xs font-semibold text-gray-700">Scanned:</span>
+									<Badge variant="outline" class="border-sepia-brown text-sepia-brown h-6 px-2 text-xs font-bold">
+										0
+									</Badge>
+								</div>
+							{/if}
 						</div>
 					</div>
-				{/if}
 
-				<!-- QR Scanner Section (shown first on mobile when active, last on desktop) -->
-				<div class:order-1={isQRMode} class:order-3={!isQRMode} class="md:order-3">
-					{#if isQRMode}
-						<div class="space-y-4" transition:slide>
-							<!-- Scanner Container -->
-							<div class="border-sepia-dark relative border bg-black">
-								<div id="qr-reader" bind:this={scannerReaderElement} class="aspect-square w-full"></div>
+					<!-- Expandable URL List -->
+					{#if isUrlListExpanded && scannedUrls.length > 0}
+						<div class="border-sepia-dark border" transition:slide>
+							<div class="max-h-[400px] overflow-y-auto">
+								<div class="space-y-2 p-3">
+									{#each scannedUrls as url, index}
+										<div
+											class="bg-sepia-light border-sepia-dark group flex items-center gap-2 border p-2 text-xs"
+											class:opacity-50={submissionStates[url] === 'submitting' ||
+												submissionStates[url] === 'success'}
+										>
+											<!-- Number Badge -->
+											<div
+												class="bg-sepia-brown text-sepia-light flex h-5 w-5 flex-shrink-0 items-center justify-center text-[10px] font-bold"
+											>
+												{index + 1}
+											</div>
 
-								{#if !isScanning}
-									<div class="absolute inset-0 flex items-center justify-center bg-black/80 p-4">
-										<div class="text-center text-white">
-											<Camera class="mx-auto mb-2 h-10 w-10 opacity-60" />
-											<p class="font-atkinson text-sm">Initializing camera...</p>
+											<!-- URL -->
+											<div class="min-w-0 flex-1">
+												<p class="font-atkinson truncate text-xs text-gray-700">
+													{url.substring(0, 60)}{url.length > 60 ? '...' : ''}
+												</p>
+											</div>
+
+											<!-- Status/Action -->
+											<div class="flex-shrink-0">
+												{#if submissionStates[url] === 'submitting'}
+													<div class="h-3.5 w-3.5 animate-spin">
+														<div class="border-sepia-brown h-full w-full rounded-full border-2 border-t-transparent"></div>
+													</div>
+												{:else if submissionStates[url] === 'success'}
+													<CheckCircle class="text-sepia-brown h-3.5 w-3.5" />
+												{:else if submissionStates[url] === 'error'}
+													<Badge variant="destructive" class="h-4 px-1.5 text-[9px]">Error</Badge>
+												{:else if !isBulkSubmitting}
+													<Button
+														variant="ghost"
+														size="icon"
+														onclick={() => removeUrl(url)}
+														class="text-sepia-brown hover:bg-sepia-light h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100"
+													>
+														<X class="h-3 w-3" />
+													</Button>
+												{/if}
+											</div>
 										</div>
-									</div>
-								{/if}
+									{/each}
+								</div>
 							</div>
 
-							<!-- Scanner Status & Controls -->
-							<div class="bg-sepia-light border-sepia-dark flex items-center justify-between border p-3">
-								<div class="flex items-center gap-3">
-									{#if isScanning}
-										<Badge variant="default" class="bg-green text-white">
-											<div class="mr-1.5 h-2 w-2 animate-pulse rounded-full bg-white"></div>
-											Active
-										</Badge>
-									{/if}
-									<div class="flex items-center gap-2">
-										<span class="font-atkinson text-sm font-semibold">Scanned:</span>
-										<Badge variant="outline" class="bg-sepia-brown text-sepia-light font-bold">
-											{scannedUrls.length}
-										</Badge>
-									</div>
-								</div>
-								{#if scannedUrls.length > 0}
+							{#if scannedUrls.length > 0 && !isBulkSubmitting}
+								<div class="bg-sepia-light border-sepia-dark flex justify-end border-t p-2">
 									<Button
 										variant="ghost"
 										size="sm"
-										onclick={() => (isUrlListExpanded = !isUrlListExpanded)}
-										class="h-8 px-2 text-xs"
+										onclick={clearAllUrls}
+										class="text-sepia-brown hover:bg-sepia-med h-7 px-2 text-xs"
 									>
-										{isUrlListExpanded ? 'Hide' : 'View'}
-										{#if isUrlListExpanded}
-											<ChevronUp class="ml-1 h-3 w-3" />
-										{:else}
-											<ChevronDown class="ml-1 h-3 w-3" />
-										{/if}
+										<Trash2 class="mr-1 h-3 w-3" />
+										Clear All
 									</Button>
-								{/if}
-							</div>
-
-							<!-- Expandable URL List -->
-							{#if isUrlListExpanded && scannedUrls.length > 0}
-								<div class="border-sepia-dark border" transition:slide>
-									<ScrollArea class="h-60">
-										<div class="space-y-2 p-3">
-											{#each scannedUrls as url, index}
-												<div
-													class="bg-sepia-light border-sepia-dark group flex items-center gap-2 border p-2 text-xs"
-													class:opacity-50={submissionStates[url] === 'submitting' ||
-														submissionStates[url] === 'success'}
-												>
-													<!-- Number Badge -->
-													<div
-														class="bg-sepia-brown text-sepia-light flex h-5 w-5 flex-shrink-0 items-center justify-center text-[10px] font-bold"
-													>
-														{index + 1}
-													</div>
-
-													<!-- URL -->
-													<div class="min-w-0 flex-1">
-														<p class="font-atkinson truncate text-xs text-gray-700">
-															{url.substring(0, 60)}{url.length > 60 ? '...' : ''}
-														</p>
-													</div>
-
-													<!-- Status/Action -->
-													<div class="flex-shrink-0">
-														{#if submissionStates[url] === 'submitting'}
-															<Loader2 class="text-sepia-brown h-3.5 w-3.5 animate-spin" />
-														{:else if submissionStates[url] === 'success'}
-															<CheckCircle class="h-3.5 w-3.5 text-green-600" />
-														{:else if submissionStates[url] === 'error'}
-															<Badge variant="destructive" class="h-4 px-1.5 text-[9px]">Error</Badge>
-														{:else if !isBulkSubmitting}
-															<Button
-																variant="ghost"
-																size="icon"
-																onclick={() => removeUrl(url)}
-																class="h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100"
-															>
-																<X class="h-3 w-3" />
-															</Button>
-														{/if}
-													</div>
-												</div>
-											{/each}
-										</div>
-									</ScrollArea>
-
-									{#if scannedUrls.length > 0 && !isBulkSubmitting}
-										<div class="bg-sepia-light border-sepia-dark flex justify-end border-t p-2">
-											<Button
-												variant="ghost"
-												size="sm"
-												onclick={clearAllUrls}
-												class="h-7 px-2 text-xs text-red hover:text-red"
-											>
-												<Trash2 class="mr-1 h-3 w-3" />
-												Clear All
-											</Button>
-										</div>
-									{/if}
 								</div>
 							{/if}
-
-							<!-- Submit Button (Always Visible) -->
-							<Button
-								variant="default"
-								onclick={submitBulkUrls}
-								disabled={scannedUrls.length === 0 || isBulkSubmitting}
-								class="font-atkinson h-12 sm:h-14 w-full text-base sm:text-lg font-semibold"
-							>
-								{#if isBulkSubmitting}
-									<Loader2 class="mr-2 h-4 sm:h-5 w-4 sm:w-5 animate-spin" />
-									Submitting...
-								{:else if scannedUrls.length === 0}
-									<Upload class="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
-									Submit Scanned Certificates
-								{:else}
-									<Upload class="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
-									Submit {scannedUrls.length} Certificate{scannedUrls.length !== 1 ? 's' : ''}
-								{/if}
-							</Button>
-
-							<!-- Scanner Tip -->
-							<div class="bg-sepia-light p-3">
-								<p class="font-atkinson text-xs leading-relaxed text-gray-700">
-									<strong>Tip:</strong> Point your camera at each QR code. The scanner runs continuously
-									and will automatically add valid certificates.
-								</p>
-							</div>
 						</div>
 					{/if}
-				</div>
-			</div>
+
+					<!-- Submit Button (Always Visible) -->
+					<Button
+						variant="default"
+						onclick={submitBulkUrls}
+						disabled={scannedUrls.length === 0 || isBulkSubmitting}
+						class="font-atkinson h-12 w-full text-base font-semibold sm:h-14 sm:text-lg"
+					>
+						{#if isBulkSubmitting}
+							<div class="mr-2 h-4 w-4 animate-spin sm:h-5 sm:w-5">
+								<div class="h-full w-full rounded-full border-2 border-white border-t-transparent"></div>
+							</div>
+							Submitting...
+						{:else if scannedUrls.length === 0}
+							<Upload class="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+							Submit Scanned Certificates
+						{:else}
+							<Upload class="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+							Submit {scannedUrls.length} Certificate{scannedUrls.length !== 1 ? 's' : ''}
+						{/if}
+					</Button>
+
+					<!-- Scanner Tip - Hidden on mobile for speed -->
+					<div class="bg-sepia-light hidden p-3 sm:block">
+						<p class="font-atkinson text-xs leading-relaxed text-gray-700">
+							<strong>Tip:</strong> Point your camera at each QR code. The scanner runs continuously
+							and will automatically add valid certificates.
+						</p>
+					</div>
+				</Tabs.Content>
+
+				<!-- Manual Entry Tab Content -->
+				<Tabs.Content value="manual" class="mt-0">
+					<form method="POST" use:enhance class="space-y-4" enctype="multipart/form-data">
+						<!-- URL with Form validation -->
+						<Form.Field {form} name="url" class="space-y-3">
+							<Form.Control>
+								{#snippet children({ props })}
+									<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base">
+										Certificate URL *
+									</Form.Label>
+									<Input
+										{...props}
+										bind:value={$formData.url}
+										type="url"
+										placeholder="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i=..."
+										class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
+									/>
+								{/snippet}
+							</Form.Control>
+							<Form.Description class="font-atkinson text-sm text-gray-600">
+								Paste the URL from the QR code on the certificate
+							</Form.Description>
+							<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
+						</Form.Field>
+
+						<!-- Contributor Name with Form validation -->
+						<Form.Field {form} name="contributorName" class="space-y-3">
+							<Form.Control>
+								{#snippet children({ props })}
+									<Form.Label class="font-atkinson text-sm font-semibold text-gray-900 md:text-base">
+										Your Name (Optional)
+									</Form.Label>
+									<Input
+										{...props}
+										bind:value={$formData.contributorName}
+										placeholder="Enter your name for attribution"
+										class="font-atkinson focus:border-sepia-brown focus:ring-sepia-brown focus:ring-opacity-20 h-12 border-gray-300 bg-white text-sm placeholder:text-gray-400 focus:ring-2 md:text-base"
+									/>
+								{/snippet}
+							</Form.Control>
+							<Form.Description class="font-atkinson text-sm text-gray-600">
+								We'll credit you for your contribution
+							</Form.Description>
+							<Form.FieldErrors class="font-atkinson text-sm text-red-600" />
+						</Form.Field>
+
+						<!-- Submit Button -->
+						<div class="pt-2">
+							<Form.Button
+								type="submit"
+								variant={buttonVariant()}
+								disabled={isSubmitting || isSuccess}
+								class="font-atkinson h-12 sm:h-14 w-full text-base sm:text-lg font-semibold"
+							>
+								{#if isSuccess}
+									<div in:scale={{ duration: 200, start: 0.8 }} class="flex items-center">
+										<CheckCircle class="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+										Success!
+									</div>
+								{:else if isSubmitting}
+									<div in:fly={{ y: -10, duration: 200 }} class="flex items-center">
+										<div
+											class="mr-2 h-4 sm:h-5 w-4 sm:w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
+										></div>
+										Submitting...
+									</div>
+								{:else}
+									<div class="flex items-center">
+										<Upload class="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+										Submit Contribution
+									</div>
+								{/if}
+							</Form.Button>
+						</div>
+					</form>
+				</Tabs.Content>
+			</Tabs.Root>
 		</div>
 
-		<div class="border-t border-gray-200 bg-gray-50 p-3 sm:p-4">
-			<p class="font-atkinson text-center text-xs sm:text-sm text-gray-600">
-				By submitting, you agree to let us process and archive your contribution for public research
-				access.
+		<!-- Minimal footer -->
+		<div class="border-t border-gray-200 bg-gray-50 p-2 sm:p-3">
+			<p class="font-atkinson text-center text-[10px] text-gray-600 sm:text-xs">
+				By submitting, you agree to let us process and archive your contribution.
 			</p>
 		</div>
 	</section>
 
-	<!-- Process Steps -->
-	<section id="how-to-contribute" class="mt-12 mb-8">
-		<h2 class="font-gothic mb-4 text-center text-4xl font-medium tracking-tight text-black">
-			How to Contribute
-		</h2>
-
-		<div class="grid grid-cols-1 gap-4">
-			{#each steps as step}
-				{@render stepCard(step)}
-			{/each}
+	<!-- Visual Example - What to look for -->
+	<section class="border-sepia-dark mt-6 border bg-white shadow-sm sm:mt-8">
+		<div class="bg-sepia-light border-sepia-dark border-b p-3 sm:p-4">
+			<h2 class="font-atkinson text-sm font-semibold text-gray-900 sm:text-base">
+				What to Look For at Cinemas
+			</h2>
 		</div>
+		<div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2">
+			<!-- Certificate example -->
+			<div class="border-sepia-dark overflow-hidden border">
+				<img
+					src={Certificates}
+					alt="Example CBFC certificate displayed at cinema"
+					class="aspect-video w-full object-cover"
+				/>
+				<div class="bg-sepia-light p-2.5">
+					<p class="font-atkinson text-xs leading-relaxed text-gray-700">
+						<strong>The Certificate:</strong> Usually near ticket counters or entrance areas
+					</p>
+				</div>
+			</div>
+			<!-- QR code close-up -->
+			<div class="border-sepia-dark overflow-hidden border">
+				<img
+					src={ClearPicture}
+					alt="Close-up of QR code on certificate"
+					class="aspect-video w-full object-cover object-right"
+				/>
+				<div class="bg-sepia-light p-2.5">
+					<p class="font-atkinson text-xs leading-relaxed text-gray-700">
+						<strong>The QR Code:</strong> Scan this with the camera above or your phone's camera
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Context Section - Collapsible on mobile, always visible on desktop -->
+	<section id="context" class="mt-6 mb-4 sm:mt-8">
+		<!-- Mobile: Collapsible -->
+		<details class="border-sepia-dark border bg-white shadow-sm sm:hidden">
+			<summary class="font-gothic text-sepia-brown cursor-pointer p-4 text-lg font-medium">
+				Why We Need Your Help
+			</summary>
+			<div class="space-y-3 p-4 pt-0">
+				<p class="font-atkinson text-sm leading-relaxed text-gray-700">
+					As of June 2025, our automated data collection from the CBFC has been disrupted. We're now
+					relying on crowdsourced contributions.
+				</p>
+				<p class="font-atkinson text-sm leading-relaxed text-gray-700">
+					<strong>That's where you come in!</strong> The next time you go to the movies, scan the QR
+					code on film certificates to help us preserve this data for open access.
+				</p>
+			</div>
+		</details>
+
+		<!-- Desktop: Always visible -->
+		<div class="border-sepia-dark hidden border bg-white shadow-sm sm:block">
+			<div class="bg-sepia-light border-sepia-dark border-b p-4">
+				<h2 class="font-gothic text-sepia-brown text-2xl font-medium">
+					Why We Need Your Help
+				</h2>
+			</div>
+			<div class="space-y-4 p-4">
+				<p class="font-atkinson text-base leading-relaxed text-gray-700">
+					As of June 2025, our methodology for collecting data from the Central Board of Film
+					Certification (CBFC) has been disrupted. Due to a significant overhaul of the CBFC's
+					public-facing systems, our automated data retrieval processes are no longer functional.
+				</p>
+				<p class="font-atkinson text-base leading-relaxed text-gray-700">
+					While we work on engineering a new solution, we're pivoting to a crowdsourced methodology.
+					The good news is the raw data still exists in the wild—it's printed on the CBFC
+					certificates that theaters are required to display for every film.
+				</p>
+				<p class="font-atkinson text-base leading-relaxed text-gray-700">
+					<strong>That's where you come in!</strong> The next time you go to the movies, you can be a
+					data contributor. By scanning the QR code on film certificates, you help us preserve this
+					important data for open access.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- How to Contribute - Collapsible on mobile -->
+	<section id="how-to-contribute" class="mb-8">
+		<details class="border-sepia-dark border bg-white shadow-sm">
+			<summary class="font-gothic text-sepia-brown cursor-pointer p-4 text-lg font-medium sm:text-2xl">
+				Step-by-Step Guide
+			</summary>
+			<div class="grid grid-cols-1 gap-3 p-4 pt-0 sm:gap-4">
+				{#each steps as step}
+					{@render stepCard(step)}
+				{/each}
+			</div>
+		</details>
 	</section>
 </div>
 
+<style>
+	/* Ensure QR scanner video fills the container properly */
+	:global(#qr-reader video) {
+		width: 100% !important;
+		height: 100% !important;
+		object-fit: cover !important;
+		display: block;
+	}
+
+	:global(#qr-reader__dashboard_section) {
+		display: none !important;
+	}
+
+	:global(#qr-reader__header_message) {
+		display: none !important;
+	}
+
+	/* Hide the default scanning box animation */
+	:global(#qr-reader__scan_region) {
+		border: none !important;
+	}
+</style>
