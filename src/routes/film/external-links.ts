@@ -12,7 +12,13 @@ export function generateExternalLinks(film: Film) {
 	};
 
 	const getECinepramaan = (certId: string) => {
-		return 'https://archive.org/details/cbfc-ecinepramaan-' + certId;
+		// If certId is all digits, use the archive.org variant.
+		if (/^\d+$/.test(certId)) {
+			return 'https://archive.org/details/cbfc-ecinepramaan-' + certId;
+		} else {
+			// Otherwise, use the regular ecinepramaan.gov.in link
+			return `https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i=${encodeURIComponent(certId)}`;
+		}
 	};
 
 	return {
