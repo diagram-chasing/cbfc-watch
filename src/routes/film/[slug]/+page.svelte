@@ -384,7 +384,8 @@
 {/snippet}
 
 {#snippet IMDbButton(imdbId: string, rating: string, variant = 'desktop')}
-	{@const href = `https://www.imdb.com/title/tt${imdbId.padStart(7, '0')}/`}
+	{@const imdbIdString = imdbId.toString().split('.')[0]}
+	{@const href = `https://www.imdb.com/title/tt${imdbIdString.padStart(7, '0')}/`}
 	{@const baseClass =
 		'flex items-center gap-1 border-[#d4a017] bg-[#F5C518] text-black font-bold shadow-sm hover:bg-[#e6b800]'}
 	{@const variantClass = {
