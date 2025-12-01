@@ -182,6 +182,12 @@
 
 		console.log('[Scanner] URL added successfully. Total:', scannedUrls.length);
 
+		// Vibrate to indicate successful scan (if supported)
+		if ('vibrate' in navigator) {
+			// Short double-pulse vibration pattern: vibrate 100ms, pause 50ms, vibrate 100ms
+			navigator.vibrate([100, 50, 100]);
+		}
+
 		// Show success toast with URL count
 		toast.success(`Certificate ${scannedUrls.length} added`, {
 			description: 'Point camera at next QR code',
