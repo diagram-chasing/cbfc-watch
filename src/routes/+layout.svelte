@@ -71,6 +71,15 @@
 	});
 </script>
 
+<svelte:head>
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		title="CBFC Watch - Recent Certifications"
+		href="/rss.xml"
+	/>
+</svelte:head>
+
 <div class="relative flex min-h-screen flex-col">
 	<Navigation />
 
