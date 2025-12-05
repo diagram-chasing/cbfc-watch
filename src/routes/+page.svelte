@@ -44,8 +44,12 @@
 	let newAdditionsTotalPages = $derived(Math.ceil(newAdditionsRemaining.length / itemsPerPage));
 
 	let newAdditionsStartIndex = $derived((newAdditionsPage - 1) * itemsPerPage);
-	let newAdditionsEndIndex = $derived(Math.min(newAdditionsStartIndex + itemsPerPage, newAdditionsRemaining.length));
-	let newAdditionsPaginated = $derived(newAdditionsRemaining.slice(newAdditionsStartIndex, newAdditionsEndIndex));
+	let newAdditionsEndIndex = $derived(
+		Math.min(newAdditionsStartIndex + itemsPerPage, newAdditionsRemaining.length)
+	);
+	let newAdditionsPaginated = $derived(
+		newAdditionsRemaining.slice(newAdditionsStartIndex, newAdditionsEndIndex)
+	);
 
 	onMount(async () => {
 		try {
@@ -55,7 +59,11 @@
 				newAdditions = rawData.map((m) => ({
 					...m,
 					name: m.movie_name,
-					year: m.imdb_year ? parseInt(m.imdb_year) : (m.cert_date ? new Date(m.cert_date).getFullYear() : ''),
+					year: m.imdb_year
+						? parseInt(m.imdb_year)
+						: m.cert_date
+							? new Date(m.cert_date).getFullYear()
+							: '',
 					posterUrl: m.imdb_poster_url,
 					languages: m.language ? [m.language] : []
 				}));
@@ -207,13 +215,16 @@
 		</div>
 
 		{#if newAdditions.length > 0}
-			<section class="relative py-2 mb-8" aria-label="New Additions">
-				<div class="flex items-center justify-start gap-2 mb-4">
-					<h2 class="font-gothic text-left text-4xl font-medium tracking-tight text-black">
-						Newly Added
-					</h2>
-					{#if data.lastCommitDate}
-						<div class="font-atkinson flex items-center gap-2 text-gray-600 mt-2">
+			<section class="relative mb-8 py-2" aria-label="New Additions">
+				<div
+					class="mb-4 flex flex-col items-start justify-start gap-2 md:flex-row md:items-center md:justify-between"
+				>
+					<div class="flex items-center gap-2">
+						<h2 class="font-gothic text-left text-4xl font-medium tracking-tight text-black">
+							Newly Added
+						</h2>
+						{#if data.lastCommitDate}
+							<div class="font-atkinson mt-2 flex items-center gap-2 text-gray-600 md:mt-0">
 								<DateStamp
 									date={data.lastCommitDate}
 									colorScheme="custom"
@@ -222,8 +233,10 @@
 									seed={12345}
 									colors={['#4B5563', '#4B5563', '#1F2937']}
 								/>
-						</div>
-					{/if}
+							</div>
+						{/if}
+					</div>
+					<Button variant="default" size="sm" class="md:ml-2" href="/contribute">Contribute</Button>
 				</div>
 
 				{#if newAdditionsGrid.length > 0}
