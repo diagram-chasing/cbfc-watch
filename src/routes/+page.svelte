@@ -28,10 +28,42 @@
 	let { data } = $props();
 	import cutsByOfficeData from '$lib/data/charts/cuts_by_office.json';
 	import CensoredFilms from '$lib/components/charts/CensoredFilms.svelte';
+	import DateStamp from '$lib/components/DateStamp.svelte';
+	import { onMount } from 'svelte';
+
 	let currentPage = $state(1);
 	let isMobile = new MediaQuery('(max-width: 768px)');
 	let itemsPerPage = $derived(isMobile.current ? 5 : 9);
 	let siblingCount = $derived(isMobile.current ? 0 : 1);
+
+	let newAdditions = $state([]);
+	let newAdditionsPage = $state(1);
+
+	let newAdditionsGrid = $derived(newAdditions.slice(0, isMobile.current ? 9 : 12));
+	let newAdditionsRemaining = $derived(newAdditions.slice(isMobile.current ? 9 : 12));
+	let newAdditionsTotalPages = $derived(Math.ceil(newAdditionsRemaining.length / itemsPerPage));
+
+	let newAdditionsStartIndex = $derived((newAdditionsPage - 1) * itemsPerPage);
+	let newAdditionsEndIndex = $derived(Math.min(newAdditionsStartIndex + itemsPerPage, newAdditionsRemaining.length));
+	let newAdditionsPaginated = $derived(newAdditionsRemaining.slice(newAdditionsStartIndex, newAdditionsEndIndex));
+
+	onMount(async () => {
+		try {
+			const response = await fetch('/recent_updates.json');
+			if (response.ok) {
+				const rawData = await response.json();
+				newAdditions = rawData.map((m) => ({
+					...m,
+					name: m.movie_name,
+					year: m.imdb_year ? parseInt(m.imdb_year) : (m.cert_date ? new Date(m.cert_date).getFullYear() : ''),
+					posterUrl: m.imdb_poster_url,
+					languages: m.language ? [m.language] : []
+				}));
+			}
+		} catch (e) {
+			console.error('Failed to load recent updates', e);
+		}
+	});
 
 	const allCounts = data.allCounts || { all: 0, modifications: 0 };
 
@@ -173,6 +205,115 @@
 				</p>
 			</div>
 		</div>
+
+		{#if newAdditions.length > 0}
+			<section class="relative py-2 mb-8" aria-label="New Additions">
+				<div class="flex items-center justify-start gap-2 mb-4">
+					<h2 class="font-gothic text-left text-4xl font-medium tracking-tight text-black">
+						Newly Added
+					</h2>
+					{#if data.lastCommitDate}
+						<div class="font-atkinson flex items-center gap-2 text-gray-600 mt-2">
+								<DateStamp
+									date={data.lastCommitDate}
+									colorScheme="custom"
+									minAngle={1}
+									classNames="text-md"
+									seed={12345}
+									colors={['#4B5563', '#4B5563', '#1F2937']}
+								/>
+						</div>
+					{/if}
+				</div>
+
+				{#if newAdditionsGrid.length > 0}
+					<div
+						class="mb-3 grid grid-cols-3 gap-2 sm:grid-cols-3 md:grid-cols-6 md:gap-3"
+						role="list"
+						aria-label="New additions grid"
+					>
+						{#each newAdditionsGrid as movie (movie.id || movie.movie_name)}
+							{#if movie?.movie_name}
+								<Card
+									film={movie}
+									languages={movie.language}
+									href={`/film/${movie.slug}`}
+									variant="compact"
+									onclick={(e) => {
+										e.preventDefault();
+										goto(`/film/${movie.slug}`);
+									}}
+								/>
+							{/if}
+						{/each}
+					</div>
+				{/if}
+
+				<!-- Remaining movies as line items with pagination -->
+				{#if newAdditionsRemaining.length > 0}
+					<div class="overflow-hidden" aria-label="Additional new movies with pagination">
+						<div class="grid grid-cols-1 gap-2 md:grid-cols-3" role="list">
+							{#each newAdditionsPaginated as movie (movie.id || movie.movie_name)}
+								{#if movie?.movie_name}
+									<Card
+										film={movie}
+										variant="list"
+										onclick={(e) => {
+											e.preventDefault();
+											goto(`/film/${movie.slug}`);
+										}}
+										href={`/film/${movie.slug}`}
+									/>
+								{/if}
+							{/each}
+						</div>
+
+						<footer class="flex items-center justify-between">
+							{#if newAdditionsTotalPages > 1}
+								<nav class="border-t border-gray-100 py-3">
+									<Pagination
+										count={newAdditionsRemaining.length}
+										perPage={itemsPerPage}
+										{siblingCount}
+										bind:page={newAdditionsPage}
+									>
+										{#snippet children({ pages, currentPage: paginationCurrentPage })}
+											<PaginationContent>
+												<PaginationItem>
+													<PaginationPrevious size="compact" variant="secondary" />
+												</PaginationItem>
+
+												{#each pages as page (page.key)}
+													{#if page.type === 'ellipsis'}
+														<PaginationItem>
+															<PaginationEllipsis />
+														</PaginationItem>
+													{:else}
+														<PaginationItem>
+															<PaginationLink
+																{page}
+																size="compact"
+																isActive={paginationCurrentPage === page.value}
+															>
+																{page.value}
+															</PaginationLink>
+														</PaginationItem>
+													{/if}
+												{/each}
+
+												<PaginationItem>
+													<PaginationNext size="compact" variant="secondary" />
+												</PaginationItem>
+											</PaginationContent>
+										{/snippet}
+									</Pagination>
+								</nav>
+							{/if}
+						</footer>
+					</div>
+				{/if}
+			</section>
+		{/if}
 
 		{#if currentMovies.length > 0}
 			<section class="relative py-2" aria-label="Popular films">

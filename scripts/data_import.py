@@ -290,6 +290,11 @@ def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.js
                 if film_id and film_id not in seen_ids:
                     # Clean name
                     film_data['movie_name'] = clean_name(film_data.get('movie_name', ''))
+                    # Extract year
+                    year = extract_year(film_data.get('cert_date'), film_data.get('cert_no'))
+                    film_data['year'] = year
+                    # Generate slug
+                    film_data['slug'] = make_slug(film_data['movie_name'], year)
                     new_films.append(film_data)
                     seen_ids.add(film_id)
 
