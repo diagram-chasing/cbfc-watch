@@ -13,7 +13,12 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from film_utils import *
 from film_analysis import run_analysis
+from film_analysis import run_analysis
 import pandas as pd
+import json
+import csv
+import io
+import subprocess
 
 def generate_sql_batches(csv_path, output_dir, batch_size=DEFAULT_BATCH_SIZE):
     """Generate SQL batch files from CSV data."""
@@ -44,19 +49,19 @@ def generate_sql_batches(csv_path, output_dir, batch_size=DEFAULT_BATCH_SIZE):
 
         # Generate unique slug
         base_slug = make_slug(best_row.get('movie_name', ''), year)
-        
-        # If this is a film with multiple versions (different film IDs), 
+
+        # If this is a film with multiple versions (different film IDs),
         # append the last 3 digits of film ID to make it unique
         if len(group_key) == 3 and film_id:
             # Check if there are other films with same name/year but different IDs
             name_year_key = (group_key[0], group_key[1])  # (name, year)
             similar_films = [k for k in groups.keys() if len(k) == 3 and (k[0], k[1]) == name_year_key]
-            
+
             if len(similar_films) > 1:
                 # Multiple films with same name/year - append film ID suffix
                 id_suffix = film_id[-3:] if len(film_id) >= 3 else film_id
                 base_slug = f"{base_slug}-{id_suffix}"
-        
+
         slug = base_slug
         counter = 1
         while slug in used_slugs:
@@ -140,10 +145,10 @@ def generate_analysis_sql(analysis_csv_path, output_dir):
     if not os.path.exists(analysis_csv_path):
         print(f"Analysis CSV not found: {analysis_csv_path}")
         return None
-    
+
     df = pd.read_csv(analysis_csv_path)
     analysis_file = os.path.join(output_dir, "tmp_analysis_import.sql")
-    
+
     with open(analysis_file, 'w', encoding='utf-8') as f:
         for _, row in df.iterrows():
             film_id = sql_value(row['id'])
@@ -157,11 +162,11 @@ def generate_analysis_sql(analysis_csv_path, output_dir):
             pol_rel_median = sql_value(row['median_score_political_religious_modifications'], True)
             disclaimers = sql_value(row['score_value_disclaimers_added'], True)
             disclaimers_median = sql_value(row['median_score_disclaimers_added'], True)
-            
+
             f.write(f"""INSERT OR REPLACE INTO analysis_results (film_id, language, model_type, violence_modifications, violence_peer_median, sensitive_content_modifications, sensitive_content_peer_median, political_religious_modifications, political_religious_peer_median, disclaimers_added, disclaimers_peer_median)
 VALUES ({film_id}, {language}, {model_type}, {violence_mods}, {violence_median}, {sensitive_mods}, {sensitive_median}, {pol_rel_mods}, {pol_rel_median}, {disclaimers}, {disclaimers_median});
 """)
-    
+
     return analysis_file
 
 def import_to_d1(batch_files, db_mode='local', db_name=None):
@@ -235,20 +240,109 @@ def import_to_d1(batch_files, db_mode='local', db_name=None):
 
     return True
 
-def fetch_remote_data(output_path="src/lib/data/data.csv"):
-    """Fetch latest data from remote source."""
+def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.json", limit=20):
+    """Generate recent updates JSON from git diff."""
+    print("Generating recent updates from git diff...")
+
+    try:
+        # Get the diff of the last commit for data/data.csv
+        result = subprocess.run(
+            ['git', 'log', '-1', '-p', '--', 'data/data.csv'],
+            cwd=repo_dir,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        diff_output = result.stdout
+
+        new_lines = []
+        for line in diff_output.splitlines():
+            if line.startswith('+') and not line.startswith('+++'):
+                content = line[1:]
+                if content.startswith('id,certificate_id') or content.startswith('id,movie_name'):
+                    continue
+                if content.strip():
+                    new_lines.append(content)
+
+        if not new_lines:
+            print("No new lines found in the last commit.")
+            return
+
+        print(f"Found {len(new_lines)} new lines.")
+
+        # Parse CSV lines
+        data_csv_path = os.path.join(repo_dir, 'data', 'data.csv')
+        with open(data_csv_path, 'r') as f:
+            header_line = f.readline().strip()
+
+        header = header_line.split(',')
+
+        csv_io = io.StringIO("\n".join(new_lines))
+        reader = csv.reader(csv_io)
+
+        new_films = []
+        seen_ids = set()
+        for row in reader:
+            if len(row) == len(header):
+                film_data = dict(zip(header, row))
+                film_id = film_data.get('id')
+
+                if film_id and film_id not in seen_ids:
+                    # Clean name
+                    film_data['movie_name'] = clean_name(film_data.get('movie_name', ''))
+                    new_films.append(film_data)
+                    seen_ids.add(film_id)
+
+        # Sort by cert_date descending
+
+        def get_date(x):
+            try:
+                return x.get('cert_date', '')
+            except:
+                return ''
+
+        new_films.sort(key=get_date, reverse=True)
+
+        recent_updates = new_films[:limit]
+
+        os.makedirs(os.path.dirname(output_json_path), exist_ok=True)
+        with open(output_json_path, 'w') as f:
+            json.dump(recent_updates, f, indent=2)
+
+        print(f"Saved {len(recent_updates)} recent updates to {output_json_path}")
+
+    except Exception as e:
+        print(f"Error generating recent updates: {e}")
+
+def fetch_remote_data(output_path="src/lib/data/data.csv", limit=20):
+    """Fetch latest data from remote source by cloning the repo."""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    url = "https://github.com/diagram-chasing/censor-board-cuts/raw/refs/heads/master/data/data.csv"
-    print(f"Downloading data from {url}")
+    repo_url = "https://github.com/diagram-chasing/censor-board-cuts.git"
 
-    success, _, stderr = run_command(['curl', '-L', url, '-o', output_path])
-    if success and os.path.exists(output_path):
-        print(f"Data downloaded to {output_path}")
-        return output_path
-    else:
-        print(f"Download failed: {stderr}")
-        return None
+    with tempfile.TemporaryDirectory() as temp_dir:
+        print(f"Cloning {repo_url}...")
+        try:
+            # Clone with depth 2 to ensure we have at least one parent for diff if needed,
+            subprocess.run(['git', 'clone', '--depth', '2', repo_url, temp_dir], check=True)
+
+            # Copy data.csv
+            source_csv = os.path.join(temp_dir, 'data', 'data.csv')
+            if os.path.exists(source_csv):
+                shutil.copy2(source_csv, output_path)
+                print(f"Data copied to {output_path}")
+
+                # Generate recent updates
+                generate_recent_updates(temp_dir, limit=limit)
+
+                return output_path
+            else:
+                print(f"data/data.csv not found in cloned repo")
+                return None
+
+        except subprocess.CalledProcessError as e:
+            print(f"Git clone failed: {e}")
+            return None
 
 def main():
     """Main import pipeline."""
@@ -259,12 +353,13 @@ def main():
     parser.add_argument('--batch-size', type=int, default=DEFAULT_BATCH_SIZE, help='Batch size')
     parser.add_argument('--db-mode', choices=['local', 'remote'], default='local', help='Database mode')
     parser.add_argument('--fetch', action='store_true', help='Fetch data from remote source')
+    parser.add_argument('--limit', type=int, default=20, help='Number of recent updates to track')
 
     args = parser.parse_args()
 
     # Handle data source
     if args.fetch or not args.csv_file:
-        csv_path = fetch_remote_data()
+        csv_path = fetch_remote_data(limit=args.limit)
         if not csv_path:
             sys.exit(1)
     else:
@@ -286,7 +381,7 @@ def main():
         print("Running statistical analysis...")
         analysis_csv = os.path.join(temp_dir, "analysis_results.csv")
         run_analysis(csv_path, analysis_csv)
-        
+
         analysis_sql = generate_analysis_sql(analysis_csv, temp_dir)
         if analysis_sql:
             batch_files.append(analysis_sql)
