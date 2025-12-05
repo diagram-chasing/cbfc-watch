@@ -1,0 +1,92 @@
+name: Update All Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1' # Run weekly on Monday at 00:00 UTC
+
+concurrency:
+  group: 'data-update'
+  cancel-in-progress: false
+
+jobs:
+  update-all:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for git diff
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install wrangler
+        run: pnpm i -D wrangler@latest
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          cd scripts
+          pip install -r requirements.txt
+          pip install requests
+
+      - name: Fetch data, Update D1, and Generate Recent Updates
+        run: |
+          # This script handles fetching data, generating recent_updates.json, and updating D1
+          pnpm run update-data-remote
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Update Typesense Index
+        env:
+          TYPESENSE_API_KEY: ${{ secrets.PRIVATE_TYPESENSE_API_KEY }}
+          TYPESENSE_HOST: ${{ secrets.TYPESENSE_HOST }}
+          TYPESENSE_PROTOCOL: ${{ secrets.TYPESENSE_PROTOCOL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "🚀 Starting Typesense update..."
+          # Ensure data.csv is in the expected location (src/lib/data/data.csv)
+          # data_import.py puts it there by default or we can check
+          if [ -f "src/lib/data/data.csv" ]; then
+            python3 scripts/search_sync.py src/lib/data/data.csv "$TYPESENSE_PROTOCOL" "$TYPESENSE_HOST" "$TYPESENSE_API_KEY"
+            echo "✅ Typesense update completed"
+          else
+            echo "❌ src/lib/data/data.csv not found!"
+            exit 1
+          fi
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Add specific files
+          git add src/lib/data/data.csv static/recent_updates.json
+
+          # Check if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update data and recent updates [skip ci]"
+            git push
+          fi
