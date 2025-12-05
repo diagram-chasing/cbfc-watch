@@ -24,7 +24,7 @@
 	import Substance from '$lib/assets/substance.webp';
 	import ViolencePhoto from '$lib/assets/violence.webp';
 	import { MediaQuery } from 'svelte/reactivity';
-	import { ExternalLink, Shuffle } from 'lucide-svelte';
+	import { ExternalLink, Shuffle, Rss } from 'lucide-svelte';
 	let { data } = $props();
 	import cutsByOfficeData from '$lib/data/charts/cuts_by_office.json';
 	import CensoredFilms from '$lib/components/charts/CensoredFilms.svelte';
@@ -215,7 +215,7 @@
 		</div>
 
 		{#if newAdditions.length > 0}
-			<section class="relative mb-8 py-2" aria-label="New Additions">
+			<section class="relative py-2" aria-label="New Additions">
 				<div
 					class="mb-4 flex flex-col items-start justify-start gap-2 md:flex-row md:items-center md:justify-between"
 				>
@@ -236,7 +236,9 @@
 							</div>
 						{/if}
 					</div>
-					<Button variant="default" size="sm" class="md:ml-2" href="/contribute">Contribute</Button>
+					<Button variant="default" size="sm" class="md:ml-2" href="/contribute"
+						>Contribute Data</Button
+					>
 				</div>
 
 				{#if newAdditionsGrid.length > 0}
@@ -327,7 +329,31 @@
 				{/if}
 			</section>
 		{/if}
-
+		<section
+			class="my-4 grid grid-cols-1 gap-4 rounded-xs md:grid-cols-12 md:items-center"
+			aria-label="RSS Subscription"
+		>
+			<div class="flex items-center gap-4 md:col-span-8 lg:col-span-9">
+				<div class="space-y-1">
+					<p class="font-atkinson text-md leading-relaxed">
+						Get notified about new film certifications and censorship data directly in your RSS
+						reader.
+					</p>
+				</div>
+			</div>
+			<div class="md:col-span-4 lg:col-span-3 lg:text-right">
+				<Button
+					href="/rss.xml"
+					target="_blank"
+					variant="outline"
+					size="sm"
+					class="w-full bg-[#e29350] text-white hover:bg-[#e29350]/80 md:w-auto"
+				>
+					<Rss class="mr-2 h-4 w-4" />
+					Subscribe via RSS
+				</Button>
+			</div>
+		</section>
 		{#if currentMovies.length > 0}
 			<section class="relative py-2" aria-label="Popular films">
 				<div class="flex items-center justify-start gap-2">
@@ -572,5 +598,7 @@
 				>
 			</div>
 		</section>
+
+		<!-- RSS Subscription CTA -->
 	</div>
 </main>

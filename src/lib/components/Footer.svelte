@@ -2,6 +2,7 @@
 	import Seal from '$lib/assets/dc.webp';
 	import Button from './ui/button/button.svelte';
 	import DateStamp from './DateStamp.svelte';
+	import { Rss } from 'lucide-svelte';
 	let { lastCommitDate = 'Recently' } = $props();
 </script>
 
@@ -32,6 +33,10 @@
 						rel="noopener noreferrer"
 					>
 						Support our work
+					</Button>
+					<Button variant="outline" href="/rss.xml" size="sm" target="_blank" class="gap-2">
+						<Rss class="h-3 w-3" />
+						RSS Feed
 					</Button>
 				</div>
 			</div>
