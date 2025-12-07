@@ -392,7 +392,7 @@ def generate_rss_feed(films, output_path="static/rss.xml"):
 
     for film in films:
         title = escape(f"CBFC Watch: {film.get('movie_name', 'Unknown')} ({film.get('year', '')}) - {film.get('language', '')}")
-        link = f"https://www.cbmcwatch.com/film/{film.get('slug', '')}"
+        link = f"https://cbfc.watch/film/{film.get('slug', '')}"
 
         try:
             date_obj = datetime.strptime(film.get('cert_date', ''), '%Y-%m-%d')
@@ -474,11 +474,11 @@ def generate_rss_feed(films, output_path="static/rss.xml"):
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>CBFC Watch - Recent Certifications</title>
-    <link>https://www.cbmcwatch.com</link>
+    <link>https://cbfc.watch</link>
     <description>Latest film certifications and censorship records from the Central Board of Film Certification, India.</description>
     <language>en</language>
     <lastBuildDate>{datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")}</lastBuildDate>
-    <atom:link href="https://www.cbmcwatch.com/rss.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://cbfc.watch/rss.xml" rel="self" type="application/rss+xml" />
 """
     rss_xml += "\n".join(rss_items)
     rss_xml += """
