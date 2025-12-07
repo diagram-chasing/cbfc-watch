@@ -22,19 +22,28 @@
 			</div>
 
 			<!-- Action buttons -->
-			<div class="col-span-full md:col-span-2">
-				<div class="flex gap-2 md:flex-col">
-					<Button variant="stamp" href="/contribute" size="sm">Contribute to archive</Button>
+			<div class="col-span-full md:col-span-3">
+				<div class="flex flex-wrap gap-2 md:flex-col md:flex-nowrap">
+					<Button variant="stamp" href="/contribute" size="sm" class="flex-1 md:w-full md:flex-none"
+						>Contribute to archive</Button
+					>
 					<Button
 						variant="blue"
 						href="https://diagramchasing.fun/support"
 						size="sm"
 						target="_blank"
 						rel="noopener noreferrer"
+						class="flex-1 md:w-full md:flex-none"
 					>
 						Support our work
 					</Button>
-					<Button variant="outline" href="/rss.xml" size="sm" target="_blank" class="gap-2">
+					<Button
+						variant="outline"
+						href="/rss.xml"
+						size="sm"
+						target="_blank"
+						class="flex-1 gap-2 md:w-full md:flex-none"
+					>
 						<Rss class="h-3 w-3" />
 						RSS Feed
 					</Button>
@@ -42,30 +51,28 @@
 			</div>
 
 			<!-- Navigation links -->
-			<div class="col-span-3 md:col-span-2">
+			<div class="col-span-4 md:col-span-1">
 				<nav>
-					<ul class="font-atkinson flex gap-2 text-sm text-gray-800 md:flex-col">
+					<ul
+						class="font-atkinson flex flex-wrap gap-x-3 gap-y-1 text-sm text-gray-800 md:flex-col md:gap-0"
+					>
 						<li>
-							<a href="/" class="underline underline-offset-2 transition-colors hover:text-black"
-								>About</a
+							<a
+								href="/about"
+								class="underline underline-offset-2 transition-colors hover:text-black">About</a
 							>
 						</li>
-						<li>
-							<a href="/faq" class="underline underline-offset-2 transition-colors hover:text-black"
-								>FAQ</a
-							>
-						</li>
+
 						<li>
 							<a
 								href="/changelog"
-								class="underline underline-offset-2 transition-colors hover:text-black"
-								>Change Log</a
+								class="underline underline-offset-2 transition-colors hover:text-black">Changelog</a
 							>
 						</li>
 						<li>
 							<a
 								href="/rss.xml"
-								class="underline underline-offset-2 transition-colors hover:text-black">RSS Feed</a
+								class="underline underline-offset-2 transition-colors hover:text-black">RSS</a
 							>
 						</li>
 						<li>

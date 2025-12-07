@@ -11,8 +11,18 @@ export const GET: RequestHandler = async ({ platform, url }) => {
     const db = platform?.env?.DB;
 
     if (!db) {
-      return json({ films: [], hasNext: false }, { status: 404 });
+      return json({ films: [], hasNext: false, totalCount: 0, pagination: null }, { status: 404 });
     }
+
+    // Get total count
+    const countResult = await db.prepare(`
+      SELECT COUNT(*) as count
+      FROM films
+      WHERE cert_date IS NOT NULL
+    `).first();
+
+    const totalCount = countResult?.count || 0;
+    const totalPages = Math.ceil(totalCount / limit);
 
     // Fetch films sorted by cert_date DESC
     const results = await db.prepare(`
@@ -39,7 +49,14 @@ export const GET: RequestHandler = async ({ platform, url }) => {
     return json({
       films,
       page,
-      hasNext
+      hasNext,
+      totalCount,
+      pagination: {
+        currentPage: page,
+        perPage: limit,
+        totalPages,
+        totalCount
+      }
     });
 
   } catch (e) {

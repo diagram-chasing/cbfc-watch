@@ -18,6 +18,8 @@ export const load: PageLoad = async ({ fetch, url }) => {
       films: data.films,
       page: data.page,
       hasNext: data.hasNext,
+      totalCount: data.totalCount,
+      pagination: data.pagination,
       error: data.error
     };
   } catch (e) {
@@ -26,6 +28,8 @@ export const load: PageLoad = async ({ fetch, url }) => {
       films: [],
       page,
       hasNext: false,
+      totalCount: 0,
+      pagination: null,
       error: "Failed to load data"
     };
   }

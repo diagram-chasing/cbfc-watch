@@ -1,15 +1,7 @@
 <script lang="ts">
-	import { Calendar, ChevronRight } from 'lucide-svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import {
-		Pagination,
-		PaginationContent,
-		PaginationItem,
-		PaginationLink,
-		PaginationNextButton as PaginationNext,
-		PaginationPrevButton as PaginationPrevious,
-		PaginationEllipsis
-	} from '$lib/components/ui/pagination';
+	import * as Pagination from '$lib/components/ui/pagination';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	let { data } = $props();
 
@@ -34,22 +26,21 @@
 			return new Date(b).getTime() - new Date(a).getTime();
 		})
 	);
+
+	function handlePageChange(newPage: number) {
+		const url = new URL($page.url);
+		url.searchParams.set('page', newPage.toString());
+		goto(url.toString());
+	}
 </script>
 
 <div class="mx-auto w-full max-w-4xl">
 	<!-- Header Section -->
-	<div class="grain-effect mb-6">
-		<div class="space-y-3 py-6">
-			<h1
-				class="font-gothic flex items-center gap-3 text-4xl font-bold tracking-tight text-black md:text-5xl"
-			>
-				<Calendar class="h-8 w-8 md:h-10 md:w-10" />
-				Certification Log
-			</h1>
-			<p class="font-atkinson text-base leading-relaxed text-gray-700 md:text-lg">
-				Complete chronological history of CBFC certifications
-			</p>
-		</div>
+	<div class="mb-6">
+		<h1 class="font-gothic text-sepia-brown mb-3 text-6xl font-bold tracking-tight">
+			Archival Log
+		</h1>
+		<p class="text-sepia-brown/70 text-lg font-medium">Changelog of movies added to the database</p>
 	</div>
 
 	{#if data.error}
@@ -61,31 +52,47 @@
 			<p class="font-atkinson text-sepia-brown">No records found.</p>
 		</div>
 	{:else}
-		<div class="space-y-8">
+		<div class="space-y-10">
 			{#each sortedGroupKeys as month}
 				<section>
-					<!-- Simple month heading -->
-					<h2 class="font-gothic mb-3 text-2xl font-medium tracking-tight text-black">
+					<!-- Month heading with better visual hierarchy -->
+					<h2
+						class="font-gothic border-sepia-dark/80 text-sepia-brown mb-4 border-b pb-2 text-4xl font-semibold tracking-tight"
+					>
 						{month}
 					</h2>
 
-					<!-- Simple list of films -->
-					<ul class="space-y-2 pl-4">
+					<!-- Film list with improved spacing and hierarchy -->
+					<ul class="space-y-5">
 						{#each groupedFilms[month] as film}
-							<li class="font-atkinson text-sm leading-relaxed">
-								<a
-									href="/film/{film.slug}"
-									class="text-sepia-brown inline transition-colors hover:text-black"
-								>
-									<span class="font-medium">{film.name}</span>
-									<span class="text-gray-500"> ({film.year})</span>
+							<li class="transition-colors">
+								<a href="/film/{film.slug}" class="group block transition-colors">
+									<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+										<span
+											class="font-atkinson text-sepia-brown group-hover:text-sepia-dark text-base font-semibold transition-colors"
+										>
+											{film.name}
+										</span>
+										<span class="font-atkinson text-sm text-gray-500">({film.year})</span>
+									</div>
+									<div
+										class="font-atkinson mt-1 flex flex-wrap items-center gap-x-3 text-xs text-gray-600"
+									>
+										<span class="font-medium">{film.language}</span>
+										{#if film.cert_date}
+											<span class="flex items-center gap-1">
+												<span class="text-gray-400">• </span>
+												<span class="text-gray-500">
+													{new Date(film.cert_date).toLocaleDateString('en-US', {
+														month: 'short',
+														day: 'numeric',
+														year: 'numeric'
+													})}
+												</span>
+											</span>
+										{/if}
+									</div>
 								</a>
-								<span class="text-gray-500"> · </span>
-								<span class="text-gray-600">{film.language}</span>
-								{#if film.rating}
-									<span class="text-gray-500"> · </span>
-									<span class="text-gray-600">{film.rating}</span>
-								{/if}
 							</li>
 						{/each}
 					</ul>
@@ -94,25 +101,42 @@
 		</div>
 
 		<!-- Pagination -->
-		{#if data.page > 1 || data.hasNext}
-			<div class="border-sepia-dark mt-8 flex items-center justify-between border-t pt-6">
-				{#if data.page > 1}
-					<Button href="/changelog?page={data.page - 1}" variant="secondary" size="sm">
-						← Previous
-					</Button>
-				{:else}
-					<div></div>
-				{/if}
+		{#if data.pagination && data.pagination.totalPages > 1}
+			<div class="mt-8 flex justify-center">
+				<Pagination.Root
+					count={data.totalCount}
+					perPage={data.pagination.perPage}
+					page={data.pagination.currentPage}
+					onPageChange={handlePageChange}
+				>
+					<Pagination.Content>
+						<Pagination.Item>
+							<Pagination.PrevButton size="compact" variant="secondary" />
+						</Pagination.Item>
 
-				<span class="font-atkinson text-sepia-brown text-sm font-medium">Page {data.page}</span>
+						{#each Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1) as pageNum}
+							{#if pageNum === 1 || pageNum === data.pagination.totalPages || (pageNum >= data.pagination.currentPage - 2 && pageNum <= data.pagination.currentPage + 2)}
+								<Pagination.Item>
+									<Pagination.Link
+										page={{ value: pageNum, type: 'page' }}
+										isActive={pageNum === data.pagination.currentPage}
+										inactiveVariant="secondary"
+									>
+										{pageNum}
+									</Pagination.Link>
+								</Pagination.Item>
+							{:else if (pageNum === data.pagination.currentPage - 3 && data.pagination.currentPage > 4) || (pageNum === data.pagination.currentPage + 3 && data.pagination.currentPage < data.pagination.totalPages - 3)}
+								<Pagination.Item>
+									<Pagination.Ellipsis />
+								</Pagination.Item>
+							{/if}
+						{/each}
 
-				{#if data.hasNext}
-					<Button href="/changelog?page={data.page + 1}" variant="secondary" size="sm">
-						Next →
-					</Button>
-				{:else}
-					<div></div>
-				{/if}
+						<Pagination.Item>
+							<Pagination.NextButton size="compact" variant="secondary" />
+						</Pagination.Item>
+					</Pagination.Content>
+				</Pagination.Root>
 			</div>
 		{/if}
 	{/if}
