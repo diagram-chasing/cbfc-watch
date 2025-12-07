@@ -300,6 +300,7 @@ def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.js
 
         # Sort by cert_date descending
 
+        # Sort initially by date to ensure we pick latest from each language
         def get_date(x):
             try:
                 return x.get('cert_date', '')
@@ -307,7 +308,66 @@ def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.js
                 return ''
 
         new_films.sort(key=get_date, reverse=True)
-        recent_updates = new_films[:limit]
+
+        # Deduplicate same movie across different languages (keep most recent version)
+        seen_movie_names = {}
+        deduplicated_films = []
+
+        for film in new_films:
+            movie_name = film.get('movie_name', '').strip().lower()
+            if not movie_name:
+                continue
+
+            if movie_name not in seen_movie_names:
+                seen_movie_names[movie_name] = film
+                deduplicated_films.append(film)
+
+        new_films = deduplicated_films
+
+        # Priority Diversity Selection
+        # User requested to prioritize: English, Hindi, Telugu, Kannada, Malayalam (and Tamil implicitly as major)
+        PRIORITY_LANGS = {'English', 'Hindi', 'Telugu', 'Kannada', 'Malayalam', 'Tamil'}
+
+        priority_groups = {lang: [] for lang in PRIORITY_LANGS}
+        other_films = []
+
+        for film in new_films:
+            # Simple normalization
+            lang_raw = film.get('language', '').strip()
+            # Handle cases like "Hindi (3D)" or leading/trailing spaces
+            lang_base = lang_raw.split('(')[0].strip()
+
+            if lang_base in PRIORITY_LANGS:
+                priority_groups[lang_base].append(film)
+            else:
+                other_films.append(film)
+
+        # Round-Robin Selection from Priority Groups
+        selected_films = []
+
+        # While we have space and priority films available
+        while len(selected_films) < limit:
+            added_in_round = False
+            for lang in sorted(PRIORITY_LANGS): # Deterministic order
+                if priority_groups[lang]:
+                    selected_films.append(priority_groups[lang].pop(0))
+                    added_in_round = True
+                    if len(selected_films) >= limit:
+                        break
+
+            if not added_in_round:
+                # Exhausted all priority films
+                break
+
+        # Fill remaining slots with Other films (sorted by date)
+        if len(selected_films) < limit:
+            remaining_slots = limit - len(selected_films)
+            # others are already sorted by date due to initial sort
+            selected_films.extend(other_films[:remaining_slots])
+
+        # Re-sort final diverse selection by date
+        selected_films.sort(key=get_date, reverse=True)
+        recent_updates = selected_films
 
         os.makedirs(os.path.dirname(output_json_path), exist_ok=True)
         with open(output_json_path, 'w') as f:
@@ -432,7 +492,7 @@ def generate_rss_feed(films, output_path="static/rss.xml"):
     except Exception as e:
         print(f"Error saving RSS feed: {e}")
 
-def fetch_remote_data(output_path="src/lib/data/data.csv", limit=20):
+def fetch_remote_data(output_path="src/lib/data/data.csv", limit=50):
     """Fetch latest data from remote source by cloning the repo."""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 

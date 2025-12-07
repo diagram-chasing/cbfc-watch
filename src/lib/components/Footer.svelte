@@ -50,7 +50,24 @@
 								>About</a
 							>
 						</li>
-
+						<li>
+							<a href="/faq" class="underline underline-offset-2 transition-colors hover:text-black"
+								>FAQ</a
+							>
+						</li>
+						<li>
+							<a
+								href="/changelog"
+								class="underline underline-offset-2 transition-colors hover:text-black"
+								>Change Log</a
+							>
+						</li>
+						<li>
+							<a
+								href="/rss.xml"
+								class="underline underline-offset-2 transition-colors hover:text-black">RSS Feed</a
+							>
+						</li>
 						<li>
 							<a
 								href="https://github.com/diagram-chasing/cbfc-watch"

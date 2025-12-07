@@ -159,7 +159,7 @@
 							class="from-sepia-med to-sepia-dark flex h-full w-full items-center justify-center bg-linear-to-br"
 						>
 							<div class="text-sepia-brown text-center">
-								<div class="text-xs font-medium">No Poster</div>
+								<div class="text-xs font-medium">{truncatedTitle}</div>
 							</div>
 						</div>
 					{/if}
@@ -367,7 +367,7 @@
 					>
 						<div class="text-sepia-brown text-center">
 							<div class="text-3xl opacity-60">🎬</div>
-							<div class="text-sm font-medium">No Poster</div>
+							<div class="text-sm font-medium">{truncatedTitle}</div>
 						</div>
 					</div>
 				{/if}

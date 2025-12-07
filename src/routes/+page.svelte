@@ -56,17 +56,28 @@
 			const response = await fetch('/recent_updates.json');
 			if (response.ok) {
 				const rawData = await response.json();
-				newAdditions = rawData.map((m) => ({
-					...m,
-					name: m.movie_name,
-					year: m.imdb_year
-						? parseInt(m.imdb_year)
-						: m.cert_date
-							? new Date(m.cert_date).getFullYear()
-							: '',
-					posterUrl: m.imdb_poster_url,
-					languages: m.language ? [m.language] : []
-				}));
+				newAdditions = rawData
+					.map((m) => ({
+						...m,
+						name: m.movie_name,
+						year: m.imdb_year
+							? parseInt(m.imdb_year)
+							: m.cert_date
+								? new Date(m.cert_date).getFullYear()
+								: '',
+						posterUrl: m.imdb_poster_url,
+						languages: m.language ? [m.language] : []
+					}))
+					.sort((a, b) => {
+						// Primary sort: movies with posters first
+						const aHasPoster = !!a.posterUrl?.trim();
+						const bHasPoster = !!b.posterUrl?.trim();
+						if (aHasPoster !== bHasPoster) {
+							return aHasPoster ? -1 : 1;
+						}
+						// Secondary sort: by date (most recent first)
+						return (b.cert_date || '').localeCompare(a.cert_date || '');
+					});
 			}
 		} catch (e) {
 			console.error('Failed to load recent updates', e);
