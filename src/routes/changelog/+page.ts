@@ -2,6 +2,8 @@
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
+export const prerender = false;
+
 export const load: PageLoad = async ({ fetch, url }) => {
   const page = Number(url.searchParams.get('page')) || 1;
 
