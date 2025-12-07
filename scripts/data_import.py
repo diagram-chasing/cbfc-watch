@@ -307,7 +307,6 @@ def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.js
                 return ''
 
         new_films.sort(key=get_date, reverse=True)
-
         recent_updates = new_films[:limit]
 
         os.makedirs(os.path.dirname(output_json_path), exist_ok=True)
@@ -316,8 +315,122 @@ def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.js
 
         print(f"Saved {len(recent_updates)} recent updates to {output_json_path}")
 
+        # GENERATE RSS
+        generate_rss_feed(recent_updates)
+
     except Exception as e:
         print(f"Error generating recent updates: {e}")
+
+def generate_rss_feed(films, output_path="static/rss.xml"):
+    """Generate RSS feed from recent films list."""
+    from html import escape
+    import base64
+
+    print("Generating static RSS feed...")
+
+    rss_items = []
+
+    for film in films:
+        title = escape(f"CBFC Watch: {film.get('movie_name', 'Unknown')} ({film.get('year', '')}) - {film.get('language', '')}")
+        link = f"https://www.cbmcwatch.com/film/{film.get('slug', '')}"
+
+        try:
+            date_obj = datetime.strptime(film.get('cert_date', ''), '%Y-%m-%d')
+            pub_date = date_obj.strftime("%a, %d %b %Y 00:00:00 GMT")
+        except:
+            pub_date = ""
+
+        # Description Construction
+        desc_html = ""
+
+        # Poster
+        if film.get('imdb_poster_url'):
+            desc_html += f'<img src="{escape(film.get("imdb_poster_url"))}" alt="{escape(film.get("movie_name", ""))}" style="width: 150px; height: 225px; object-fit: cover;" /><br/>'
+
+        # Rating & IMDb
+        if film.get('imdb_rating') or film.get('rating'):
+            meta_parts = []
+            if film.get('rating'): meta_parts.append(f"Certificate: {film.get('rating')}")
+            if film.get('imdb_rating'): meta_parts.append(f"IMDb: {film.get('imdb_rating')}/10")
+            desc_html += f'<p><strong>Rating:</strong> {escape(" | ".join(meta_parts))}</p>'
+
+        # Overview
+        if film.get('imdb_overview'):
+            desc_html += f'<p>{escape(film.get("imdb_overview"))}</p>'
+
+        # Credits
+        credits = []
+        if film.get('imdb_directors'):
+            d = ", ".join(film.get('imdb_directors').split('|')[:3])
+            credits.append(f"<strong>Director:</strong> {escape(d)}")
+        if film.get('imdb_actors'):
+            a = ", ".join(film.get('imdb_actors').split('|')[:4])
+            credits.append(f"<strong>Cast:</strong> {escape(a)}")
+        if credits:
+            desc_html += f'<p>{" | ".join(credits)}</p>'
+
+        desc_html += "<hr/>"
+
+        # Modifications
+        mod_desc = film.get('ai_cleaned_description') or film.get('description') or 'No description'
+        cut_no = film.get('cut_no') or '1'
+
+        desc_html += "<h3><strong>Modifications</strong></h3><ul>"
+        desc_html += f"<li><strong>#{cut_no}:</strong> {escape(mod_desc)}</li>"
+        desc_html += "</ul>"
+
+        # Footer Links
+        links = []
+        links.append(f'<a href="{link}">View on CBFC Watch</a>')
+        if film.get('imdb_id'):
+            imdb_clean = film.get('imdb_id', '').split('.')[0].zfill(7)
+            links.append(f'<a href="https://www.imdb.com/title/tt{imdb_clean}/">IMDb</a>')
+
+        if film.get('id'):
+             links.append(f'<a href="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i={escape(film.get("id"))}">E-Cinepramaan</a>')
+
+        if film.get('cbfc_file_no'):
+             try:
+                encoded = base64.b64encode(film.get('cbfc_file_no').encode('utf-8')).decode('utf-8')
+                links.append(f'<a href="https://www.cbfcindia.gov.in/cbfcAdmin/search-result.php?recid={encoded}">CBFC Listing</a>')
+             except:
+                pass
+
+        desc_html += f'<p>{" | ".join(links)}</p>'
+
+        if film.get('id'):
+             desc_html += f'<p><em>For original modifications, refer to <a href="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i={escape(film.get("id"))}">E-Cinepramaan</a></em></p>'
+
+        rss_items.append(f"""    <item>
+      <title>{title}</title>
+      <link>{link}</link>
+      <pubDate>{pub_date}</pubDate>
+      <guid isPermaLink="false">{film.get('slug', 'unknown')}</guid>
+      <description><![CDATA[{desc_html}]]></description>
+      <media:content url="{escape(film.get('imdb_poster_url', ''))}" medium="image" />
+    </item>""")
+
+    rss_xml = f"""<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>CBFC Watch - Recent Certifications</title>
+    <link>https://www.cbmcwatch.com</link>
+    <description>Latest film certifications and censorship records from the Central Board of Film Certification, India.</description>
+    <language>en</language>
+    <lastBuildDate>{datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")}</lastBuildDate>
+    <atom:link href="https://www.cbmcwatch.com/rss.xml" rel="self" type="application/rss+xml" />
+"""
+    rss_xml += "\n".join(rss_items)
+    rss_xml += """
+  </channel>
+</rss>"""
+
+    try:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(rss_xml)
+        print(f"Saved static RSS feed to {output_path}")
+    except Exception as e:
+        print(f"Error saving RSS feed: {e}")
 
 def fetch_remote_data(output_path="src/lib/data/data.csv", limit=20):
     """Fetch latest data from remote source by cloning the repo."""

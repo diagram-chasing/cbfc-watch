@@ -81,7 +81,7 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
           # Add specific files
-          git add src/lib/data/data.csv static/recent_updates.json
+          git add src/lib/data/data.csv static/recent_updates.json static/rss.xml
 
           # Check if there are changes
           if git diff --staged --quiet; then
