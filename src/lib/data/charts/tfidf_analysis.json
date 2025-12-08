@@ -2,272 +2,264 @@
   {
     "ai_content_types": "religious",
     "word": "superstition",
-    "n": 122,
-    "tf": 0.0321,
+    "n": 123,
+    "tf": 0.0319,
     "idf": 1.3863,
-    "tf_idf": 0.0445
+    "tf_idf": 0.0442
   },
   {
     "ai_content_types": "violence",
     "word": "blood",
-    "n": 2689,
-    "tf": 0.1095,
+    "n": 2700,
+    "tf": 0.1093,
     "idf": 0.2877,
-    "tf_idf": 0.0315
+    "tf_idf": 0.0314
   },
   {
     "ai_content_types": "substance",
     "word": "tobacco",
-    "n": 462,
-    "tf": 0.029,
+    "n": 471,
+    "tf": 0.0292,
     "idf": 0.9808,
-    "tf_idf": 0.0285
+    "tf_idf": 0.0286
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "kissing scene",
-    "n": 334,
-    "tf": 0.0227,
+    "n": 335,
+    "tf": 0.0225,
     "idf": 0.9808,
-    "tf_idf": 0.0223
+    "tf_idf": 0.022
   },
   {
     "ai_content_types": "political",
     "word": "national flag",
     "n": 39,
-    "tf": 0.0094,
+    "tf": 0.0093,
     "idf": 2.0794,
-    "tf_idf": 0.0196
+    "tf_idf": 0.0194
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "cleavage",
     "n": 580,
-    "tf": 0.0394,
+    "tf": 0.0389,
     "idf": 0.47,
-    "tf_idf": 0.0185
+    "tf_idf": 0.0183
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "sexual_suggestive",
-    "n": 268,
-    "tf": 0.0182,
+    "n": 273,
+    "tf": 0.0183,
     "idf": 0.9808,
-    "tf_idf": 0.0179
+    "tf_idf": 0.018
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "kissing",
-    "n": 894,
-    "tf": 0.0608,
+    "n": 910,
+    "tf": 0.061,
     "idf": 0.2877,
-    "tf_idf": 0.0175
+    "tf_idf": 0.0176
   },
   {
     "ai_content_types": "substance",
     "word": "liquor label",
-    "n": 199,
-    "tf": 0.0125,
+    "n": 204,
+    "tf": 0.0126,
     "idf": 1.3863,
-    "tf_idf": 0.0173
+    "tf_idf": 0.0175
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "love making scene",
     "n": 180,
-    "tf": 0.0122,
+    "tf": 0.0121,
     "idf": 1.3863,
-    "tf_idf": 0.017
+    "tf_idf": 0.0167
   },
   {
     "ai_content_types": "substance",
     "word": "akshay kumar",
     "n": 180,
-    "tf": 0.0113,
+    "tf": 0.0112,
     "idf": 1.3863,
-    "tf_idf": 0.0157
+    "tf_idf": 0.0155
   },
   {
     "ai_content_types": "political",
     "word": "modi",
     "n": 64,
-    "tf": 0.0155,
+    "tf": 0.0153,
     "idf": 0.9808,
-    "tf_idf": 0.0152
+    "tf_idf": 0.015
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "naked woman",
+    "n": 59,
+    "tf": 0.0151,
+    "idf": 0.9808,
+    "tf_idf": 0.0149
   },
   {
     "ai_content_types": "religious",
     "word": "black magic",
-    "n": 57,
+    "n": 58,
     "tf": 0.015,
     "idf": 0.9808,
-    "tf_idf": 0.0147
+    "tf_idf": 0.0148
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "rape scene",
     "n": 81,
-    "tf": 0.021,
+    "tf": 0.0208,
     "idf": 0.6931,
-    "tf_idf": 0.0145
+    "tf_idf": 0.0144
   },
   {
     "ai_content_types": "substance",
     "word": "liquor labels",
     "n": 111,
-    "tf": 0.007,
+    "tf": 0.0069,
     "idf": 2.0794,
-    "tf_idf": 0.0145
+    "tf_idf": 0.0143
   },
   {
     "ai_content_types": "sexual_explicit",
-    "word": "naked woman",
-    "n": 57,
-    "tf": 0.0148,
-    "idf": 0.9808,
-    "tf_idf": 0.0145
+    "word": "nudity",
+    "n": 190,
+    "tf": 0.0488,
+    "idf": 0.2877,
+    "tf_idf": 0.014
   },
   {
     "ai_content_types": "religious",
     "word": "religion",
     "n": 55,
-    "tf": 0.0145,
+    "tf": 0.0143,
     "idf": 0.9808,
-    "tf_idf": 0.0142
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "nudity",
-    "n": 188,
-    "tf": 0.0487,
-    "idf": 0.2877,
     "tf_idf": 0.014
   },
   {
     "ai_content_types": "substance",
     "word": "rahul dravid",
     "n": 105,
-    "tf": 0.0066,
-    "idf": 2.0794,
-    "tf_idf": 0.0137
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "smoking and drinking",
-    "n": 103,
     "tf": 0.0065,
     "idf": 2.0794,
     "tf_idf": 0.0135
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "naked man",
-    "n": 52,
-    "tf": 0.0135,
-    "idf": 0.9808,
-    "tf_idf": 0.0132
+    "ai_content_types": "substance",
+    "word": "alcohol",
+    "n": 745,
+    "tf": 0.0462,
+    "idf": 0.2877,
+    "tf_idf": 0.0133
   },
   {
     "ai_content_types": "substance",
-    "word": "alcohol",
-    "n": 730,
-    "tf": 0.0459,
-    "idf": 0.2877,
-    "tf_idf": 0.0132
+    "word": "smoking and drinking",
+    "n": 103,
+    "tf": 0.0064,
+    "idf": 2.0794,
+    "tf_idf": 0.0133
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "naked man",
+    "n": 52,
+    "tf": 0.0133,
+    "idf": 0.9808,
+    "tf_idf": 0.0131
   },
   {
     "ai_content_types": "substance",
     "word": "sunita",
     "n": 97,
-    "tf": 0.0061,
+    "tf": 0.006,
     "idf": 2.0794,
-    "tf_idf": 0.0127
+    "tf_idf": 0.0125
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "nude man",
     "n": 35,
-    "tf": 0.0091,
+    "tf": 0.009,
     "idf": 1.3863,
-    "tf_idf": 0.0126
+    "tf_idf": 0.0125
   },
   {
     "ai_content_types": "religious",
     "word": "superstitions",
     "n": 34,
-    "tf": 0.0089,
+    "tf": 0.0088,
     "idf": 1.3863,
-    "tf_idf": 0.0124
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "liquor brand",
-    "n": 650,
-    "tf": 0.0408,
-    "idf": 0.2877,
-    "tf_idf": 0.0118
+    "tf_idf": 0.0122
   },
   {
     "ai_content_types": "religious",
     "word": "religious sentiments",
-    "n": 21,
-    "tf": 0.0055,
+    "n": 22,
+    "tf": 0.0057,
     "idf": 2.0794,
-    "tf_idf": 0.0115
+    "tf_idf": 0.0119
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "liquor brand",
+    "n": 654,
+    "tf": 0.0405,
+    "idf": 0.2877,
+    "tf_idf": 0.0117
   },
   {
     "ai_content_types": "substance",
     "word": "liquor brands",
     "n": 87,
-    "tf": 0.0055,
+    "tf": 0.0054,
     "idf": 2.0794,
-    "tf_idf": 0.0114
+    "tf_idf": 0.0112
   },
   {
     "ai_content_types": "identity_reference",
     "word": "kanjar",
     "n": 19,
-    "tf": 0.0079,
+    "tf": 0.0078,
     "idf": 1.3863,
-    "tf_idf": 0.011
+    "tf_idf": 0.0109
   },
   {
     "ai_content_types": "religious",
     "word": "devil",
     "n": 29,
-    "tf": 0.0076,
-    "idf": 1.3863,
-    "tf_idf": 0.0106
-  },
-  {
-    "ai_content_types": "identity_reference",
-    "word": "hijda",
-    "n": 18,
     "tf": 0.0075,
     "idf": 1.3863,
     "tf_idf": 0.0104
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "breasts",
-    "n": 56,
-    "tf": 0.0145,
-    "idf": 0.6931,
-    "tf_idf": 0.0101
+    "ai_content_types": "identity_reference",
+    "word": "hijda",
+    "n": 18,
+    "tf": 0.0074,
+    "idf": 1.3863,
+    "tf_idf": 0.0103
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "intimate scene",
-    "n": 106,
-    "tf": 0.0072,
+    "n": 110,
+    "tf": 0.0074,
     "idf": 1.3863,
-    "tf_idf": 0.01
+    "tf_idf": 0.0102
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "rape",
-    "n": 287,
-    "tf": 0.0743,
+    "n": 288,
+    "tf": 0.0739,
     "idf": 0.1335,
     "tf_idf": 0.0099
   },
@@ -277,23 +269,31 @@
     "n": 18,
     "tf": 0.0047,
     "idf": 2.0794,
-    "tf_idf": 0.0098
+    "tf_idf": 0.0097
   },
   {
     "ai_content_types": "substance",
     "word": "bidi",
     "n": 75,
-    "tf": 0.0047,
+    "tf": 0.0046,
     "idf": 2.0794,
-    "tf_idf": 0.0098
+    "tf_idf": 0.0097
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "romance",
     "n": 146,
-    "tf": 0.0099,
+    "tf": 0.0098,
     "idf": 0.9808,
-    "tf_idf": 0.0097
+    "tf_idf": 0.0096
+  },
+  {
+    "ai_content_types": "political",
+    "word": "indian flag",
+    "n": 19,
+    "tf": 0.0045,
+    "idf": 2.0794,
+    "tf_idf": 0.0094
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -304,26 +304,26 @@
     "tf_idf": 0.0093
   },
   {
+    "ai_content_types": "substance",
+    "word": "alcohol brand",
+    "n": 210,
+    "tf": 0.013,
+    "idf": 0.6931,
+    "tf_idf": 0.009
+  },
+  {
     "ai_content_types": "religious",
     "word": "national anthem",
     "n": 25,
-    "tf": 0.0066,
+    "tf": 0.0065,
     "idf": 1.3863,
-    "tf_idf": 0.0091
-  },
-  {
-    "ai_content_types": "political",
-    "word": "indian flag",
-    "n": 18,
-    "tf": 0.0043,
-    "idf": 2.0794,
     "tf_idf": 0.009
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "penis",
-    "n": 73,
-    "tf": 0.0189,
+    "n": 74,
+    "tf": 0.019,
     "idf": 0.47,
     "tf_idf": 0.0089
   },
@@ -331,9 +331,9 @@
     "ai_content_types": "sexual_explicit",
     "word": "breast",
     "n": 72,
-    "tf": 0.0186,
+    "tf": 0.0185,
     "idf": 0.47,
-    "tf_idf": 0.0088
+    "tf_idf": 0.0087
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -341,14 +341,14 @@
     "n": 16,
     "tf": 0.0041,
     "idf": 2.0794,
-    "tf_idf": 0.0086
+    "tf_idf": 0.0085
   },
   {
     "ai_content_types": "substance",
-    "word": "alcohol brand",
-    "n": 196,
-    "tf": 0.0123,
-    "idf": 0.6931,
+    "word": "narcotics",
+    "n": 66,
+    "tf": 0.0041,
+    "idf": 2.0794,
     "tf_idf": 0.0085
   },
   {
@@ -360,65 +360,41 @@
     "tf_idf": 0.0085
   },
   {
-    "ai_content_types": "substance",
-    "word": "narcotics",
-    "n": 62,
-    "tf": 0.0039,
-    "idf": 2.0794,
-    "tf_idf": 0.0081
-  },
-  {
     "ai_content_types": "sexual_explicit",
     "word": "porn",
     "n": 43,
-    "tf": 0.0111,
+    "tf": 0.011,
     "idf": 0.6931,
     "tf_idf": 0.0077
   },
   {
-    "ai_content_types": "religious",
-    "word": "superstitious beliefs",
-    "n": 14,
-    "tf": 0.0037,
-    "idf": 2.0794,
+    "ai_content_types": "sexual_explicit",
+    "word": "sexual act",
+    "n": 43,
+    "tf": 0.011,
+    "idf": 0.6931,
     "tf_idf": 0.0077
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "kiss",
-    "n": 114,
+    "n": 115,
     "tf": 0.0077,
     "idf": 0.9808,
     "tf_idf": 0.0076
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "sexual act",
-    "n": 42,
-    "tf": 0.0109,
-    "idf": 0.6931,
-    "tf_idf": 0.0075
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "liquor bottle label",
-    "n": 57,
+    "ai_content_types": "religious",
+    "word": "superstitious beliefs",
+    "n": 14,
     "tf": 0.0036,
     "idf": 2.0794,
-    "tf_idf": 0.0074
-  },
-  {
-    "ai_content_types": "identity_reference",
-    "word": "indian",
-    "n": 18,
-    "tf": 0.0075,
-    "idf": 0.9808,
-    "tf_idf": 0.0074
+    "tf_idf": 0.0076
   },
   {
     "ai_content_types": "substance",
     "word": "alcohol consumption",
-    "n": 56,
+    "n": 57,
     "tf": 0.0035,
     "idf": 2.0794,
     "tf_idf": 0.0073
@@ -426,18 +402,34 @@
   {
     "ai_content_types": "substance",
     "word": "health spot",
-    "n": 56,
+    "n": 57,
     "tf": 0.0035,
     "idf": 2.0794,
+    "tf_idf": 0.0073
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "liquor bottle label",
+    "n": 57,
+    "tf": 0.0035,
+    "idf": 2.0794,
+    "tf_idf": 0.0073
+  },
+  {
+    "ai_content_types": "identity_reference",
+    "word": "indian",
+    "n": 18,
+    "tf": 0.0074,
+    "idf": 0.9808,
     "tf_idf": 0.0073
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "naked women",
     "n": 40,
-    "tf": 0.0104,
+    "tf": 0.0103,
     "idf": 0.6931,
-    "tf_idf": 0.0072
+    "tf_idf": 0.0071
   },
   {
     "ai_content_types": "political",
@@ -445,7 +437,15 @@
     "n": 30,
     "tf": 0.0072,
     "idf": 0.9808,
-    "tf_idf": 0.0071
+    "tf_idf": 0.007
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "religious",
+    "n": 57,
+    "tf": 0.0148,
+    "idf": 0.47,
+    "tf_idf": 0.0069
   },
   {
     "ai_content_types": "substance",
@@ -453,23 +453,39 @@
     "n": 53,
     "tf": 0.0033,
     "idf": 2.0794,
-    "tf_idf": 0.0069
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "liquor bottle",
-    "n": 157,
-    "tf": 0.0099,
-    "idf": 0.6931,
     "tf_idf": 0.0068
   },
   {
     "ai_content_types": "substance",
     "word": "cigarette",
-    "n": 229,
+    "n": 234,
+    "tf": 0.0145,
+    "idf": 0.47,
+    "tf_idf": 0.0068
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "liquor bottle",
+    "n": 158,
+    "tf": 0.0098,
+    "idf": 0.6931,
+    "tf_idf": 0.0068
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "breasts",
+    "n": 56,
     "tf": 0.0144,
     "idf": 0.47,
     "tf_idf": 0.0068
+  },
+  {
+    "ai_content_types": "violence",
+    "word": "killing scene",
+    "n": 80,
+    "tf": 0.0032,
+    "idf": 2.0794,
+    "tf_idf": 0.0067
   },
   {
     "ai_content_types": "political",
@@ -477,15 +493,15 @@
     "n": 20,
     "tf": 0.0048,
     "idf": 1.3863,
-    "tf_idf": 0.0067
+    "tf_idf": 0.0066
   },
   {
     "ai_content_types": "violence",
-    "word": "killing scene",
-    "n": 79,
-    "tf": 0.0032,
-    "idf": 2.0794,
-    "tf_idf": 0.0067
+    "word": "dead bodies",
+    "n": 117,
+    "tf": 0.0047,
+    "idf": 1.3863,
+    "tf_idf": 0.0066
   },
   {
     "ai_content_types": "sexual_suggestive",
@@ -496,35 +512,19 @@
     "tf_idf": 0.0066
   },
   {
-    "ai_content_types": "religious",
-    "word": "witchcraft, exorcism or supernatural phenomena",
-    "n": 12,
-    "tf": 0.0032,
-    "idf": 2.0794,
-    "tf_idf": 0.0066
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "religious",
-    "n": 53,
-    "tf": 0.0139,
-    "idf": 0.47,
-    "tf_idf": 0.0066
-  },
-  {
-    "ai_content_types": "violence",
-    "word": "dead bodies",
-    "n": 116,
-    "tf": 0.0047,
-    "idf": 1.3863,
-    "tf_idf": 0.0065
-  },
-  {
     "ai_content_types": "identity_reference",
     "word": "sirukki",
     "n": 16,
-    "tf": 0.0067,
+    "tf": 0.0066,
     "idf": 0.9808,
+    "tf_idf": 0.0065
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "witchcraft, exorcism or supernatural phenomena",
+    "n": 12,
+    "tf": 0.0031,
+    "idf": 2.0794,
     "tf_idf": 0.0065
   },
   {
@@ -547,25 +547,33 @@
     "ai_content_types": "sexual_suggestive",
     "word": "seduction",
     "n": 96,
-    "tf": 0.0065,
+    "tf": 0.0064,
     "idf": 0.9808,
-    "tf_idf": 0.0064
-  },
-  {
-    "ai_content_types": "identity_reference",
-    "word": "caste",
-    "n": 22,
-    "tf": 0.0092,
-    "idf": 0.6931,
     "tf_idf": 0.0063
   },
   {
     "ai_content_types": "substance",
     "word": "health spots",
-    "n": 48,
+    "n": 49,
     "tf": 0.003,
     "idf": 2.0794,
     "tf_idf": 0.0063
+  },
+  {
+    "ai_content_types": "identity_reference",
+    "word": "caste",
+    "n": 22,
+    "tf": 0.0091,
+    "idf": 0.6931,
+    "tf_idf": 0.0063
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "drug abuse",
+    "n": 48,
+    "tf": 0.003,
+    "idf": 2.0794,
+    "tf_idf": 0.0062
   },
   {
     "ai_content_types": "substance",
@@ -573,7 +581,31 @@
     "n": 48,
     "tf": 0.003,
     "idf": 2.0794,
-    "tf_idf": 0.0063
+    "tf_idf": 0.0062
+  },
+  {
+    "ai_content_types": "identity_reference",
+    "word": "dalit",
+    "n": 15,
+    "tf": 0.0062,
+    "idf": 0.9808,
+    "tf_idf": 0.0061
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "frontal nudity",
+    "n": 17,
+    "tf": 0.0044,
+    "idf": 1.3863,
+    "tf_idf": 0.006
+  },
+  {
+    "ai_content_types": "political",
+    "word": "political",
+    "n": 18,
+    "tf": 0.0043,
+    "idf": 1.3863,
+    "tf_idf": 0.006
   },
   {
     "ai_content_types": "political",
@@ -595,15 +627,15 @@
     "ai_content_types": "substance",
     "word": "statutory warnings",
     "n": 46,
-    "tf": 0.0029,
+    "tf": 0.0028,
     "idf": 2.0794,
-    "tf_idf": 0.006
+    "tf_idf": 0.0059
   },
   {
     "ai_content_types": "violence",
     "word": "dead body",
     "n": 499,
-    "tf": 0.0203,
+    "tf": 0.0202,
     "idf": 0.2877,
     "tf_idf": 0.0058
   },
@@ -611,7 +643,7 @@
     "ai_content_types": "sexual_explicit",
     "word": "sexual_explicit",
     "n": 23,
-    "tf": 0.006,
+    "tf": 0.0059,
     "idf": 0.9808,
     "tf_idf": 0.0058
   },
@@ -619,15 +651,15 @@
     "ai_content_types": "sexual_suggestive",
     "word": "bikini",
     "n": 124,
-    "tf": 0.0084,
+    "tf": 0.0083,
     "idf": 0.6931,
     "tf_idf": 0.0058
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "love making",
-    "n": 123,
-    "tf": 0.0084,
+    "n": 124,
+    "tf": 0.0083,
     "idf": 0.6931,
     "tf_idf": 0.0058
   },
@@ -637,22 +669,6 @@
     "n": 16,
     "tf": 0.0041,
     "idf": 1.3863,
-    "tf_idf": 0.0057
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "frontal nudity",
-    "n": 16,
-    "tf": 0.0041,
-    "idf": 1.3863,
-    "tf_idf": 0.0057
-  },
-  {
-    "ai_content_types": "identity_reference",
-    "word": "dalit",
-    "n": 14,
-    "tf": 0.0058,
-    "idf": 0.9808,
     "tf_idf": 0.0057
   },
   {
@@ -669,53 +685,53 @@
     "n": 17,
     "tf": 0.0041,
     "idf": 1.3863,
-    "tf_idf": 0.0057
+    "tf_idf": 0.0056
   },
   {
-    "ai_content_types": "political",
-    "word": "political",
-    "n": 17,
-    "tf": 0.0041,
-    "idf": 1.3863,
-    "tf_idf": 0.0057
+    "ai_content_types": "sexual_explicit",
+    "word": "sex",
+    "n": 164,
+    "tf": 0.0421,
+    "idf": 0.1335,
+    "tf_idf": 0.0056
   },
   {
     "ai_content_types": "political",
     "word": "gst",
     "n": 24,
-    "tf": 0.0058,
+    "tf": 0.0057,
     "idf": 0.9808,
-    "tf_idf": 0.0057
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "sex",
-    "n": 159,
-    "tf": 0.0412,
-    "idf": 0.1335,
-    "tf_idf": 0.0055
+    "tf_idf": 0.0056
   },
   {
     "ai_content_types": "substance",
     "word": "cigarette brand",
-    "n": 42,
-    "tf": 0.0026,
+    "n": 43,
+    "tf": 0.0027,
     "idf": 2.0794,
     "tf_idf": 0.0055
   },
   {
     "ai_content_types": "substance",
-    "word": "drug abuse",
+    "word": "smoking causes cancer",
     "n": 42,
     "tf": 0.0026,
     "idf": 2.0794,
-    "tf_idf": 0.0055
+    "tf_idf": 0.0054
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "bhagwan",
+    "n": 10,
+    "tf": 0.0026,
+    "idf": 2.0794,
+    "tf_idf": 0.0054
   },
   {
     "ai_content_types": "political",
     "word": "narendra modi",
     "n": 23,
-    "tf": 0.0056,
+    "tf": 0.0055,
     "idf": 0.9808,
     "tf_idf": 0.0054
   },
@@ -725,20 +741,12 @@
     "n": 15,
     "tf": 0.0039,
     "idf": 1.3863,
-    "tf_idf": 0.0054
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "smoking causes cancer",
-    "n": 41,
-    "tf": 0.0026,
-    "idf": 2.0794,
-    "tf_idf": 0.0054
+    "tf_idf": 0.0053
   },
   {
     "ai_content_types": "profanity",
     "word": "munda",
-    "n": 198,
+    "n": 200,
     "tf": 0.0054,
     "idf": 0.9808,
     "tf_idf": 0.0053
@@ -749,7 +757,7 @@
     "n": 61,
     "tf": 0.0038,
     "idf": 1.3863,
-    "tf_idf": 0.0053
+    "tf_idf": 0.0052
   },
   {
     "ai_content_types": "political",
@@ -765,7 +773,7 @@
     "n": 9,
     "tf": 0.0037,
     "idf": 1.3863,
-    "tf_idf": 0.0052
+    "tf_idf": 0.0051
   },
   {
     "ai_content_types": "identity_reference",
@@ -773,7 +781,15 @@
     "n": 6,
     "tf": 0.0025,
     "idf": 2.0794,
-    "tf_idf": 0.0052
+    "tf_idf": 0.0051
+  },
+  {
+    "ai_content_types": "political",
+    "word": "adani",
+    "n": 10,
+    "tf": 0.0024,
+    "idf": 2.0794,
+    "tf_idf": 0.005
   },
   {
     "ai_content_types": "political",
@@ -787,39 +803,31 @@
     "ai_content_types": "political",
     "word": "pm",
     "n": 21,
-    "tf": 0.0051,
+    "tf": 0.005,
     "idf": 0.9808,
-    "tf_idf": 0.005
+    "tf_idf": 0.0049
   },
   {
     "ai_content_types": "substance",
     "word": "tobacco brand",
     "n": 114,
-    "tf": 0.0072,
+    "tf": 0.0071,
     "idf": 0.6931,
-    "tf_idf": 0.005
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "bhagavad gita",
-    "n": 9,
-    "tf": 0.0024,
-    "idf": 2.0794,
-    "tf_idf": 0.0049
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "bhagwan",
-    "n": 9,
-    "tf": 0.0024,
-    "idf": 2.0794,
     "tf_idf": 0.0049
   },
   {
     "ai_content_types": "violence",
     "word": "hanging",
     "n": 58,
-    "tf": 0.0024,
+    "tf": 0.0023,
+    "idf": 2.0794,
+    "tf_idf": 0.0049
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "bhagavad gita",
+    "n": 9,
+    "tf": 0.0023,
     "idf": 2.0794,
     "tf_idf": 0.0049
   },
@@ -827,14 +835,38 @@
     "ai_content_types": "violence",
     "word": "blood stains",
     "n": 122,
-    "tf": 0.005,
+    "tf": 0.0049,
     "idf": 0.9808,
-    "tf_idf": 0.0049
+    "tf_idf": 0.0048
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "buttock",
+    "n": 27,
+    "tf": 0.0069,
+    "idf": 0.6931,
+    "tf_idf": 0.0048
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "vagina",
+    "n": 27,
+    "tf": 0.0069,
+    "idf": 0.6931,
+    "tf_idf": 0.0048
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "nude posters",
     "n": 9,
+    "tf": 0.0023,
+    "idf": 2.0794,
+    "tf_idf": 0.0048
+  },
+  {
+    "ai_content_types": "violence",
+    "word": "zombies",
+    "n": 57,
     "tf": 0.0023,
     "idf": 2.0794,
     "tf_idf": 0.0048
@@ -848,44 +880,28 @@
     "tf_idf": 0.0048
   },
   {
-    "ai_content_types": "violence",
-    "word": "zombies",
-    "n": 57,
-    "tf": 0.0023,
-    "idf": 2.0794,
-    "tf_idf": 0.0048
-  },
-  {
     "ai_content_types": "sexual_suggestive",
     "word": "dancing",
     "n": 51,
-    "tf": 0.0035,
-    "idf": 1.3863,
-    "tf_idf": 0.0048
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "kingfisher",
-    "n": 54,
     "tf": 0.0034,
     "idf": 1.3863,
     "tf_idf": 0.0047
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "buttock",
-    "n": 26,
-    "tf": 0.0067,
-    "idf": 0.6931,
-    "tf_idf": 0.0047
+    "ai_content_types": "sexual_suggestive",
+    "word": "lip lock",
+    "n": 50,
+    "tf": 0.0034,
+    "idf": 1.3863,
+    "tf_idf": 0.0046
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "vagina",
-    "n": 26,
-    "tf": 0.0067,
-    "idf": 0.6931,
-    "tf_idf": 0.0047
+    "ai_content_types": "substance",
+    "word": "kingfisher",
+    "n": 54,
+    "tf": 0.0033,
+    "idf": 1.3863,
+    "tf_idf": 0.0046
   },
   {
     "ai_content_types": "religious",
@@ -896,18 +912,18 @@
     "tf_idf": 0.0046
   },
   {
-    "ai_content_types": "sexual_suggestive",
-    "word": "lip lock",
-    "n": 48,
+    "ai_content_types": "identity_reference",
+    "word": "black",
+    "n": 8,
     "tf": 0.0033,
     "idf": 1.3863,
-    "tf_idf": 0.0045
+    "tf_idf": 0.0046
   },
   {
     "ai_content_types": "political",
-    "word": "adani",
+    "word": "bhagat singh",
     "n": 9,
-    "tf": 0.0022,
+    "tf": 0.0021,
     "idf": 2.0794,
     "tf_idf": 0.0045
   },
@@ -915,25 +931,25 @@
     "ai_content_types": "political",
     "word": "demonetization",
     "n": 9,
-    "tf": 0.0022,
+    "tf": 0.0021,
     "idf": 2.0794,
+    "tf_idf": 0.0045
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "drug",
+    "n": 104,
+    "tf": 0.0064,
+    "idf": 0.6931,
     "tf_idf": 0.0045
   },
   {
     "ai_content_types": "identity_reference",
     "word": "transgender",
     "n": 23,
-    "tf": 0.0096,
+    "tf": 0.0095,
     "idf": 0.47,
     "tf_idf": 0.0045
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "drug",
-    "n": 102,
-    "tf": 0.0064,
-    "idf": 0.6931,
-    "tf_idf": 0.0044
   },
   {
     "ai_content_types": "violence",
@@ -947,9 +963,9 @@
     "ai_content_types": "religious",
     "word": "religious symbol",
     "n": 12,
-    "tf": 0.0032,
+    "tf": 0.0031,
     "idf": 1.3863,
-    "tf_idf": 0.0044
+    "tf_idf": 0.0043
   },
   {
     "ai_content_types": "religious",
@@ -957,15 +973,7 @@
     "n": 8,
     "tf": 0.0021,
     "idf": 2.0794,
-    "tf_idf": 0.0044
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "supernatural",
-    "n": 8,
-    "tf": 0.0021,
-    "idf": 2.0794,
-    "tf_idf": 0.0044
+    "tf_idf": 0.0043
   },
   {
     "ai_content_types": "political",
@@ -973,7 +981,7 @@
     "n": 13,
     "tf": 0.0031,
     "idf": 1.3863,
-    "tf_idf": 0.0044
+    "tf_idf": 0.0043
   },
   {
     "ai_content_types": "identity_reference",
@@ -1053,7 +1061,7 @@
     "n": 18,
     "tf": 0.0043,
     "idf": 0.9808,
-    "tf_idf": 0.0043
+    "tf_idf": 0.0042
   },
   {
     "ai_content_types": "religious",
@@ -1064,28 +1072,28 @@
     "tf_idf": 0.0041
   },
   {
-    "ai_content_types": "sexual_suggestive",
-    "word": "romance scene",
-    "n": 29,
-    "tf": 0.002,
-    "idf": 2.0794,
-    "tf_idf": 0.0041
-  },
-  {
     "ai_content_types": "identity_reference",
     "word": "child labor",
     "n": 10,
-    "tf": 0.0042,
+    "tf": 0.0041,
     "idf": 0.9808,
-    "tf_idf": 0.0041
+    "tf_idf": 0.004
+  },
+  {
+    "ai_content_types": "sexual_suggestive",
+    "word": "romance scene",
+    "n": 29,
+    "tf": 0.0019,
+    "idf": 2.0794,
+    "tf_idf": 0.004
   },
   {
     "ai_content_types": "identity_reference",
     "word": "item",
     "n": 34,
-    "tf": 0.0142,
+    "tf": 0.014,
     "idf": 0.2877,
-    "tf_idf": 0.0041
+    "tf_idf": 0.004
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -1093,14 +1101,14 @@
     "n": 16,
     "tf": 0.0041,
     "idf": 0.9808,
-    "tf_idf": 0.0041
+    "tf_idf": 0.004
   },
   {
-    "ai_content_types": "identity_reference",
-    "word": "black",
-    "n": 7,
-    "tf": 0.0029,
-    "idf": 1.3863,
+    "ai_content_types": "substance",
+    "word": "alcohol label",
+    "n": 31,
+    "tf": 0.0019,
+    "idf": 2.0794,
     "tf_idf": 0.004
   },
   {
@@ -1114,14 +1122,6 @@
   {
     "ai_content_types": "political",
     "word": "america",
-    "n": 8,
-    "tf": 0.0019,
-    "idf": 2.0794,
-    "tf_idf": 0.004
-  },
-  {
-    "ai_content_types": "political",
-    "word": "bhagat singh",
     "n": 8,
     "tf": 0.0019,
     "idf": 2.0794,
@@ -1179,14 +1179,30 @@
     "ai_content_types": "violence",
     "word": "gun firing",
     "n": 70,
-    "tf": 0.0029,
+    "tf": 0.0028,
     "idf": 1.3863,
-    "tf_idf": 0.004
+    "tf_idf": 0.0039
   },
   {
-    "ai_content_types": "substance",
-    "word": "alcohol label",
-    "n": 30,
+    "ai_content_types": "sexual_explicit",
+    "word": "tits",
+    "n": 22,
+    "tf": 0.0056,
+    "idf": 0.6931,
+    "tf_idf": 0.0039
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "nude scene",
+    "n": 11,
+    "tf": 0.0028,
+    "idf": 1.3863,
+    "tf_idf": 0.0039
+  },
+  {
+    "ai_content_types": "violence",
+    "word": "sword",
+    "n": 46,
     "tf": 0.0019,
     "idf": 2.0794,
     "tf_idf": 0.0039
@@ -1195,9 +1211,17 @@
     "ai_content_types": "sexual_explicit",
     "word": "nude",
     "n": 32,
-    "tf": 0.0083,
+    "tf": 0.0082,
     "idf": 0.47,
     "tf_idf": 0.0039
+  },
+  {
+    "ai_content_types": "sexual_suggestive",
+    "word": "breast",
+    "n": 122,
+    "tf": 0.0082,
+    "idf": 0.47,
+    "tf_idf": 0.0038
   },
   {
     "ai_content_types": "religious",
@@ -1205,45 +1229,29 @@
     "n": 15,
     "tf": 0.0039,
     "idf": 0.9808,
-    "tf_idf": 0.0039
+    "tf_idf": 0.0038
   },
   {
     "ai_content_types": "sexual_suggestive",
     "word": "navel",
     "n": 41,
-    "tf": 0.0028,
+    "tf": 0.0027,
     "idf": 1.3863,
-    "tf_idf": 0.0039
+    "tf_idf": 0.0038
   },
   {
     "ai_content_types": "substance",
     "word": "king fisher",
     "n": 44,
-    "tf": 0.0028,
+    "tf": 0.0027,
     "idf": 1.3863,
-    "tf_idf": 0.0038
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "hanuman",
-    "n": 7,
-    "tf": 0.0018,
-    "idf": 2.0794,
-    "tf_idf": 0.0038
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "kadavul",
-    "n": 7,
-    "tf": 0.0018,
-    "idf": 2.0794,
     "tf_idf": 0.0038
   },
   {
     "ai_content_types": "political",
     "word": "gandhi",
     "n": 55,
-    "tf": 0.0133,
+    "tf": 0.0131,
     "idf": 0.2877,
     "tf_idf": 0.0038
   },
@@ -1264,25 +1272,17 @@
     "tf_idf": 0.0038
   },
   {
-    "ai_content_types": "violence",
-    "word": "sword",
-    "n": 45,
+    "ai_content_types": "religious",
+    "word": "hanuman",
+    "n": 7,
     "tf": 0.0018,
     "idf": 2.0794,
     "tf_idf": 0.0038
   },
   {
-    "ai_content_types": "sexual_suggestive",
-    "word": "breast",
-    "n": 119,
-    "tf": 0.0081,
-    "idf": 0.47,
-    "tf_idf": 0.0038
-  },
-  {
-    "ai_content_types": "profanity",
-    "word": "bhenchod",
-    "n": 66,
+    "ai_content_types": "religious",
+    "word": "kadavul",
+    "n": 7,
     "tf": 0.0018,
     "idf": 2.0794,
     "tf_idf": 0.0038
@@ -1293,7 +1293,23 @@
     "n": 7,
     "tf": 0.0018,
     "idf": 2.0794,
-    "tf_idf": 0.0038
+    "tf_idf": 0.0037
+  },
+  {
+    "ai_content_types": "profanity",
+    "word": "bhenchod",
+    "n": 66,
+    "tf": 0.0018,
+    "idf": 2.0794,
+    "tf_idf": 0.0037
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "drug consumption",
+    "n": 43,
+    "tf": 0.0027,
+    "idf": 1.3863,
+    "tf_idf": 0.0037
   },
   {
     "ai_content_types": "substance",
@@ -1304,36 +1320,12 @@
     "tf_idf": 0.0037
   },
   {
-    "ai_content_types": "political",
-    "word": "govt.",
-    "n": 11,
-    "tf": 0.0027,
-    "idf": 1.3863,
-    "tf_idf": 0.0037
-  },
-  {
-    "ai_content_types": "political",
-    "word": "political leader",
-    "n": 11,
-    "tf": 0.0027,
-    "idf": 1.3863,
-    "tf_idf": 0.0037
-  },
-  {
-    "ai_content_types": "political",
-    "word": "trump",
-    "n": 11,
-    "tf": 0.0027,
-    "idf": 1.3863,
-    "tf_idf": 0.0037
-  },
-  {
     "ai_content_types": "identity_reference",
     "word": "brahmin",
     "n": 9,
     "tf": 0.0037,
     "idf": 0.9808,
-    "tf_idf": 0.0037
+    "tf_idf": 0.0036
   },
   {
     "ai_content_types": "identity_reference",
@@ -1341,21 +1333,53 @@
     "n": 9,
     "tf": 0.0037,
     "idf": 0.9808,
-    "tf_idf": 0.0037
+    "tf_idf": 0.0036
   },
   {
-    "ai_content_types": "substance",
-    "word": "drug consumption",
-    "n": 42,
+    "ai_content_types": "political",
+    "word": "ambani",
+    "n": 11,
     "tf": 0.0026,
     "idf": 1.3863,
-    "tf_idf": 0.0037
+    "tf_idf": 0.0036
+  },
+  {
+    "ai_content_types": "political",
+    "word": "govt.",
+    "n": 11,
+    "tf": 0.0026,
+    "idf": 1.3863,
+    "tf_idf": 0.0036
+  },
+  {
+    "ai_content_types": "political",
+    "word": "political leader",
+    "n": 11,
+    "tf": 0.0026,
+    "idf": 1.3863,
+    "tf_idf": 0.0036
+  },
+  {
+    "ai_content_types": "political",
+    "word": "trump",
+    "n": 11,
+    "tf": 0.0026,
+    "idf": 1.3863,
+    "tf_idf": 0.0036
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "buttocks",
     "n": 20,
-    "tf": 0.0052,
+    "tf": 0.0051,
+    "idf": 0.6931,
+    "tf_idf": 0.0036
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "nipples",
+    "n": 20,
+    "tf": 0.0051,
     "idf": 0.6931,
     "tf_idf": 0.0036
   },
@@ -1363,16 +1387,8 @@
     "ai_content_types": "sexual_explicit",
     "word": "sexual assault",
     "n": 20,
-    "tf": 0.0052,
+    "tf": 0.0051,
     "idf": 0.6931,
-    "tf_idf": 0.0036
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "nude scene",
-    "n": 10,
-    "tf": 0.0026,
-    "idf": 1.3863,
     "tf_idf": 0.0036
   },
   {
@@ -1381,7 +1397,7 @@
     "n": 15,
     "tf": 0.0036,
     "idf": 0.9808,
-    "tf_idf": 0.0036
+    "tf_idf": 0.0035
   },
   {
     "ai_content_types": "substance",
@@ -1432,11 +1448,11 @@
     "tf_idf": 0.0035
   },
   {
-    "ai_content_types": "sexual_suggestive",
-    "word": "double meaning",
-    "n": 37,
-    "tf": 0.0025,
-    "idf": 1.3863,
+    "ai_content_types": "political",
+    "word": "state",
+    "n": 7,
+    "tf": 0.0017,
+    "idf": 2.0794,
     "tf_idf": 0.0035
   },
   {
@@ -1448,12 +1464,12 @@
     "tf_idf": 0.0035
   },
   {
-    "ai_content_types": "religious",
-    "word": "krishna",
-    "n": 19,
-    "tf": 0.005,
-    "idf": 0.6931,
-    "tf_idf": 0.0035
+    "ai_content_types": "sexual_suggestive",
+    "word": "double meaning",
+    "n": 37,
+    "tf": 0.0025,
+    "idf": 1.3863,
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1461,7 +1477,7 @@
     "n": 12,
     "tf": 0.005,
     "idf": 0.6931,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1469,7 +1485,7 @@
     "n": 6,
     "tf": 0.0025,
     "idf": 1.3863,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1477,7 +1493,7 @@
     "n": 6,
     "tf": 0.0025,
     "idf": 1.3863,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1485,7 +1501,7 @@
     "n": 6,
     "tf": 0.0025,
     "idf": 1.3863,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1493,7 +1509,7 @@
     "n": 6,
     "tf": 0.0025,
     "idf": 1.3863,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1501,7 +1517,7 @@
     "n": 4,
     "tf": 0.0017,
     "idf": 2.0794,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "identity_reference",
@@ -1509,7 +1525,15 @@
     "n": 4,
     "tf": 0.0017,
     "idf": 2.0794,
-    "tf_idf": 0.0035
+    "tf_idf": 0.0034
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "liquor",
+    "n": 414,
+    "tf": 0.0256,
+    "idf": 0.1335,
+    "tf_idf": 0.0034
   },
   {
     "ai_content_types": "violence",
@@ -1520,11 +1544,11 @@
     "tf_idf": 0.0034
   },
   {
-    "ai_content_types": "substance",
-    "word": "drinking",
-    "n": 408,
-    "tf": 0.0256,
-    "idf": 0.1335,
+    "ai_content_types": "religious",
+    "word": "krishna",
+    "n": 19,
+    "tf": 0.0049,
+    "idf": 0.6931,
     "tf_idf": 0.0034
   },
   {
@@ -1537,43 +1561,19 @@
   },
   {
     "ai_content_types": "sexual_explicit",
-    "word": "nipples",
-    "n": 19,
-    "tf": 0.0049,
-    "idf": 0.6931,
-    "tf_idf": 0.0034
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "tits",
-    "n": 19,
-    "tf": 0.0049,
-    "idf": 0.6931,
-    "tf_idf": 0.0034
-  },
-  {
-    "ai_content_types": "sexual_explicit",
     "word": "butt",
     "n": 28,
-    "tf": 0.0073,
+    "tf": 0.0072,
     "idf": 0.47,
     "tf_idf": 0.0034
   },
   {
     "ai_content_types": "substance",
-    "word": "liquor",
-    "n": 401,
-    "tf": 0.0252,
+    "word": "drinking",
+    "n": 408,
+    "tf": 0.0253,
     "idf": 0.1335,
     "tf_idf": 0.0034
-  },
-  {
-    "ai_content_types": "political",
-    "word": "ambani",
-    "n": 10,
-    "tf": 0.0024,
-    "idf": 1.3863,
-    "tf_idf": 0.0033
   },
   {
     "ai_content_types": "political",
@@ -1593,15 +1593,7 @@
   },
   {
     "ai_content_types": "religious",
-    "word": "hindu",
-    "n": 27,
-    "tf": 0.0071,
-    "idf": 0.47,
-    "tf_idf": 0.0033
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "genitals",
+    "word": "priest",
     "n": 13,
     "tf": 0.0034,
     "idf": 0.9808,
@@ -1609,43 +1601,35 @@
   },
   {
     "ai_content_types": "religious",
-    "word": "bible",
-    "n": 9,
-    "tf": 0.0024,
-    "idf": 1.3863,
+    "word": "hindu",
+    "n": 27,
+    "tf": 0.007,
+    "idf": 0.47,
     "tf_idf": 0.0033
   },
   {
-    "ai_content_types": "religious",
-    "word": "cross symbol",
-    "n": 6,
-    "tf": 0.0016,
-    "idf": 2.0794,
+    "ai_content_types": "substance",
+    "word": "ganja",
+    "n": 113,
+    "tf": 0.007,
+    "idf": 0.47,
     "tf_idf": 0.0033
   },
   {
-    "ai_content_types": "religious",
-    "word": "jesus christ",
-    "n": 6,
-    "tf": 0.0016,
-    "idf": 2.0794,
+    "ai_content_types": "sexual_explicit",
+    "word": "genitals",
+    "n": 13,
+    "tf": 0.0033,
+    "idf": 0.9808,
     "tf_idf": 0.0033
   },
   {
-    "ai_content_types": "religious",
-    "word": "ramayan",
-    "n": 6,
-    "tf": 0.0016,
-    "idf": 2.0794,
-    "tf_idf": 0.0033
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "superstitious content",
-    "n": 6,
-    "tf": 0.0016,
-    "idf": 2.0794,
-    "tf_idf": 0.0033
+    "ai_content_types": "profanity",
+    "word": "iththa",
+    "n": 172,
+    "tf": 0.0047,
+    "idf": 0.6931,
+    "tf_idf": 0.0032
   },
   {
     "ai_content_types": "identity_reference",
@@ -1653,21 +1637,69 @@
     "n": 8,
     "tf": 0.0033,
     "idf": 0.9808,
-    "tf_idf": 0.0033
+    "tf_idf": 0.0032
   },
   {
-    "ai_content_types": "substance",
-    "word": "ganja",
-    "n": 110,
-    "tf": 0.0069,
-    "idf": 0.47,
+    "ai_content_types": "religious",
+    "word": "bible",
+    "n": 9,
+    "tf": 0.0023,
+    "idf": 1.3863,
+    "tf_idf": 0.0032
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "supernatural",
+    "n": 9,
+    "tf": 0.0023,
+    "idf": 1.3863,
+    "tf_idf": 0.0032
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "cross symbol",
+    "n": 6,
+    "tf": 0.0016,
+    "idf": 2.0794,
+    "tf_idf": 0.0032
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "jesus christ",
+    "n": 6,
+    "tf": 0.0016,
+    "idf": 2.0794,
+    "tf_idf": 0.0032
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "ramayan",
+    "n": 6,
+    "tf": 0.0016,
+    "idf": 2.0794,
+    "tf_idf": 0.0032
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "superstitious content",
+    "n": 6,
+    "tf": 0.0016,
+    "idf": 2.0794,
+    "tf_idf": 0.0032
+  },
+  {
+    "ai_content_types": "profanity",
+    "word": "bhadkov",
+    "n": 57,
+    "tf": 0.0015,
+    "idf": 2.0794,
     "tf_idf": 0.0032
   },
   {
     "ai_content_types": "identity_reference",
     "word": "maal",
     "n": 27,
-    "tf": 0.0112,
+    "tf": 0.0111,
     "idf": 0.2877,
     "tf_idf": 0.0032
   },
@@ -1675,7 +1707,7 @@
     "ai_content_types": "sexual_explicit",
     "word": "blowjob",
     "n": 18,
-    "tf": 0.0047,
+    "tf": 0.0046,
     "idf": 0.6931,
     "tf_idf": 0.0032
   },
@@ -1691,7 +1723,7 @@
     "ai_content_types": "sexual_explicit",
     "word": "naked men",
     "n": 6,
-    "tf": 0.0016,
+    "tf": 0.0015,
     "idf": 2.0794,
     "tf_idf": 0.0032
   },
@@ -1699,22 +1731,6 @@
     "ai_content_types": "sexual_explicit",
     "word": "nude paintings",
     "n": 6,
-    "tf": 0.0016,
-    "idf": 2.0794,
-    "tf_idf": 0.0032
-  },
-  {
-    "ai_content_types": "profanity",
-    "word": "iththa",
-    "n": 168,
-    "tf": 0.0046,
-    "idf": 0.6931,
-    "tf_idf": 0.0032
-  },
-  {
-    "ai_content_types": "profanity",
-    "word": "bhadkov",
-    "n": 56,
     "tf": 0.0015,
     "idf": 2.0794,
     "tf_idf": 0.0032
@@ -1723,17 +1739,41 @@
     "ai_content_types": "identity_reference",
     "word": "bihari",
     "n": 11,
-    "tf": 0.0046,
+    "tf": 0.0045,
     "idf": 0.6931,
-    "tf_idf": 0.0032
+    "tf_idf": 0.0031
   },
   {
     "ai_content_types": "identity_reference",
     "word": "community",
     "n": 11,
-    "tf": 0.0046,
+    "tf": 0.0045,
     "idf": 0.6931,
-    "tf_idf": 0.0032
+    "tf_idf": 0.0031
+  },
+  {
+    "ai_content_types": "violence",
+    "word": "knife",
+    "n": 163,
+    "tf": 0.0066,
+    "idf": 0.47,
+    "tf_idf": 0.0031
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "e-cigarette",
+    "n": 24,
+    "tf": 0.0015,
+    "idf": 2.0794,
+    "tf_idf": 0.0031
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "smoking kills",
+    "n": 24,
+    "tf": 0.0015,
+    "idf": 2.0794,
+    "tf_idf": 0.0031
   },
   {
     "ai_content_types": "sexual_suggestive",
@@ -1744,28 +1784,36 @@
     "tf_idf": 0.0031
   },
   {
-    "ai_content_types": "violence",
-    "word": "knife",
-    "n": 162,
-    "tf": 0.0066,
-    "idf": 0.47,
+    "ai_content_types": "sexual_suggestive",
+    "word": "making out",
+    "n": 22,
+    "tf": 0.0015,
+    "idf": 2.0794,
     "tf_idf": 0.0031
   },
   {
     "ai_content_types": "religious",
     "word": "god",
     "n": 17,
-    "tf": 0.0045,
+    "tf": 0.0044,
     "idf": 0.6931,
     "tf_idf": 0.0031
   },
   {
     "ai_content_types": "religious",
-    "word": "priest",
-    "n": 12,
-    "tf": 0.0032,
-    "idf": 0.9808,
-    "tf_idf": 0.0031
+    "word": "jesus",
+    "n": 25,
+    "tf": 0.0065,
+    "idf": 0.47,
+    "tf_idf": 0.003
+  },
+  {
+    "ai_content_types": "violence",
+    "word": "fight",
+    "n": 158,
+    "tf": 0.0064,
+    "idf": 0.47,
+    "tf_idf": 0.003
   },
   {
     "ai_content_types": "political",
@@ -1792,14 +1840,6 @@
     "tf_idf": 0.003
   },
   {
-    "ai_content_types": "political",
-    "word": "state",
-    "n": 6,
-    "tf": 0.0014,
-    "idf": 2.0794,
-    "tf_idf": 0.003
-  },
-  {
     "ai_content_types": "substance",
     "word": "beer brand",
     "n": 23,
@@ -1808,48 +1848,64 @@
     "tf_idf": 0.003
   },
   {
-    "ai_content_types": "violence",
-    "word": "fight",
-    "n": 157,
-    "tf": 0.0064,
-    "idf": 0.47,
-    "tf_idf": 0.003
-  },
-  {
     "ai_content_types": "profanity",
     "word": "maal",
-    "n": 377,
-    "tf": 0.0104,
+    "n": 378,
+    "tf": 0.0103,
     "idf": 0.2877,
     "tf_idf": 0.003
   },
   {
     "ai_content_types": "sexual_suggestive",
-    "word": "making out",
+    "word": "sex",
+    "n": 329,
+    "tf": 0.0221,
+    "idf": 0.1335,
+    "tf_idf": 0.0029
+  },
+  {
+    "ai_content_types": "sexual_suggestive",
+    "word": "romantic scene",
     "n": 21,
     "tf": 0.0014,
     "idf": 2.0794,
-    "tf_idf": 0.003
+    "tf_idf": 0.0029
   },
   {
     "ai_content_types": "political",
     "word": "government",
     "n": 26,
-    "tf": 0.0063,
+    "tf": 0.0062,
     "idf": 0.47,
-    "tf_idf": 0.003
+    "tf_idf": 0.0029
   },
   {
     "ai_content_types": "political",
     "word": "india",
     "n": 26,
-    "tf": 0.0063,
+    "tf": 0.0062,
     "idf": 0.47,
-    "tf_idf": 0.003
+    "tf_idf": 0.0029
+  },
+  {
+    "ai_content_types": "profanity",
+    "word": "madarchod",
+    "n": 109,
+    "tf": 0.003,
+    "idf": 0.9808,
+    "tf_idf": 0.0029
   },
   {
     "ai_content_types": "religious",
     "word": "lord krishna",
+    "n": 8,
+    "tf": 0.0021,
+    "idf": 1.3863,
+    "tf_idf": 0.0029
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "religious chants",
     "n": 8,
     "tf": 0.0021,
     "idf": 1.3863,
@@ -1864,11 +1920,19 @@
     "tf_idf": 0.0029
   },
   {
-    "ai_content_types": "profanity",
-    "word": "madarchod",
-    "n": 108,
-    "tf": 0.003,
-    "idf": 0.9808,
+    "ai_content_types": "violence",
+    "word": "wound",
+    "n": 51,
+    "tf": 0.0021,
+    "idf": 1.3863,
+    "tf_idf": 0.0029
+  },
+  {
+    "ai_content_types": "identity_reference",
+    "word": "dowry",
+    "n": 10,
+    "tf": 0.0041,
+    "idf": 0.6931,
     "tf_idf": 0.0029
   },
   {
@@ -1896,36 +1960,12 @@
     "tf_idf": 0.0029
   },
   {
-    "ai_content_types": "violence",
-    "word": "wound",
-    "n": 51,
-    "tf": 0.0021,
-    "idf": 1.3863,
-    "tf_idf": 0.0029
-  },
-  {
-    "ai_content_types": "sexual_suggestive",
-    "word": "sex",
-    "n": 317,
-    "tf": 0.0215,
-    "idf": 0.1335,
-    "tf_idf": 0.0029
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "e-cigarette",
-    "n": 22,
-    "tf": 0.0014,
-    "idf": 2.0794,
-    "tf_idf": 0.0029
-  },
-  {
-    "ai_content_types": "substance",
-    "word": "health",
-    "n": 22,
-    "tf": 0.0014,
-    "idf": 2.0794,
-    "tf_idf": 0.0029
+    "ai_content_types": "sexual_explicit",
+    "word": "naked",
+    "n": 16,
+    "tf": 0.0041,
+    "idf": 0.6931,
+    "tf_idf": 0.0028
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -1933,7 +1973,7 @@
     "n": 8,
     "tf": 0.0021,
     "idf": 1.3863,
-    "tf_idf": 0.0029
+    "tf_idf": 0.0028
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -1941,7 +1981,7 @@
     "n": 8,
     "tf": 0.0021,
     "idf": 1.3863,
-    "tf_idf": 0.0029
+    "tf_idf": 0.0028
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -1949,7 +1989,15 @@
     "n": 8,
     "tf": 0.0021,
     "idf": 1.3863,
-    "tf_idf": 0.0029
+    "tf_idf": 0.0028
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "health",
+    "n": 22,
+    "tf": 0.0014,
+    "idf": 2.0794,
+    "tf_idf": 0.0028
   },
   {
     "ai_content_types": "identity_reference",
@@ -1957,36 +2005,20 @@
     "n": 7,
     "tf": 0.0029,
     "idf": 0.9808,
-    "tf_idf": 0.0029
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "jesus",
-    "n": 23,
-    "tf": 0.0061,
-    "idf": 0.47,
     "tf_idf": 0.0028
   },
   {
     "ai_content_types": "profanity",
     "word": "fucking",
-    "n": 354,
+    "n": 358,
     "tf": 0.0097,
     "idf": 0.2877,
     "tf_idf": 0.0028
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "cleavage",
-    "n": 23,
-    "tf": 0.006,
-    "idf": 0.47,
-    "tf_idf": 0.0028
-  },
-  {
-    "ai_content_types": "sexual_explicit",
-    "word": "rape attempt",
-    "n": 11,
+    "ai_content_types": "substance",
+    "word": "weed",
+    "n": 46,
     "tf": 0.0028,
     "idf": 0.9808,
     "tf_idf": 0.0028
@@ -2000,9 +2032,17 @@
     "tf_idf": 0.0028
   },
   {
-    "ai_content_types": "substance",
-    "word": "weed",
-    "n": 45,
+    "ai_content_types": "sexual_explicit",
+    "word": "cleavage",
+    "n": 23,
+    "tf": 0.0059,
+    "idf": 0.47,
+    "tf_idf": 0.0028
+  },
+  {
+    "ai_content_types": "sexual_explicit",
+    "word": "rape attempt",
+    "n": 11,
     "tf": 0.0028,
     "idf": 0.9808,
     "tf_idf": 0.0028
@@ -2026,6 +2066,14 @@
   {
     "ai_content_types": "religious",
     "word": "christianity",
+    "n": 5,
+    "tf": 0.0013,
+    "idf": 2.0794,
+    "tf_idf": 0.0027
+  },
+  {
+    "ai_content_types": "religious",
+    "word": "church",
     "n": 5,
     "tf": 0.0013,
     "idf": 2.0794,
@@ -2059,21 +2107,13 @@
     "ai_content_types": "substance",
     "word": "mansion house",
     "n": 44,
-    "tf": 0.0028,
+    "tf": 0.0027,
     "idf": 0.9808,
     "tf_idf": 0.0027
   },
   {
-    "ai_content_types": "substance",
-    "word": "drinks",
-    "n": 31,
-    "tf": 0.0019,
-    "idf": 1.3863,
-    "tf_idf": 0.0027
-  },
-  {
     "ai_content_types": "sexual_explicit",
-    "word": "naked",
+    "word": "molestation",
     "n": 15,
     "tf": 0.0039,
     "idf": 0.6931,
@@ -2104,12 +2144,28 @@
     "tf_idf": 0.0027
   },
   {
+    "ai_content_types": "sexual_explicit",
+    "word": "sexual intercourse",
+    "n": 5,
+    "tf": 0.0013,
+    "idf": 2.0794,
+    "tf_idf": 0.0027
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "drinks",
+    "n": 31,
+    "tf": 0.0019,
+    "idf": 1.3863,
+    "tf_idf": 0.0027
+  },
+  {
     "ai_content_types": "sexual_suggestive",
     "word": "hugging",
     "n": 19,
     "tf": 0.0013,
     "idf": 2.0794,
-    "tf_idf": 0.0027
+    "tf_idf": 0.0026
   },
   {
     "ai_content_types": "sexual_suggestive",
@@ -2117,31 +2173,31 @@
     "n": 19,
     "tf": 0.0013,
     "idf": 2.0794,
-    "tf_idf": 0.0027
-  },
-  {
-    "ai_content_types": "sexual_suggestive",
-    "word": "romantic scene",
-    "n": 19,
-    "tf": 0.0013,
-    "idf": 2.0794,
-    "tf_idf": 0.0027
+    "tf_idf": 0.0026
   },
   {
     "ai_content_types": "political",
     "word": "politician",
     "n": 16,
-    "tf": 0.0039,
+    "tf": 0.0038,
     "idf": 0.6931,
-    "tf_idf": 0.0027
+    "tf_idf": 0.0026
   },
   {
     "ai_content_types": "political",
     "word": "politicians",
     "n": 16,
-    "tf": 0.0039,
+    "tf": 0.0038,
     "idf": 0.6931,
-    "tf_idf": 0.0027
+    "tf_idf": 0.0026
+  },
+  {
+    "ai_content_types": "sexual_suggestive",
+    "word": "sexual activity",
+    "n": 40,
+    "tf": 0.0027,
+    "idf": 0.9808,
+    "tf_idf": 0.0026
   },
   {
     "ai_content_types": "sexual_suggestive",
@@ -2152,35 +2208,19 @@
     "tf_idf": 0.0026
   },
   {
-    "ai_content_types": "sexual_suggestive",
-    "word": "breasts",
-    "n": 56,
-    "tf": 0.0038,
-    "idf": 0.6931,
+    "ai_content_types": "violence",
+    "word": "firing",
+    "n": 46,
+    "tf": 0.0019,
+    "idf": 1.3863,
     "tf_idf": 0.0026
   },
   {
     "ai_content_types": "substance",
-    "word": "smoking kills",
+    "word": "chewing tobacco",
     "n": 20,
-    "tf": 0.0013,
+    "tf": 0.0012,
     "idf": 2.0794,
-    "tf_idf": 0.0026
-  },
-  {
-    "ai_content_types": "sexual_suggestive",
-    "word": "sexual activity",
-    "n": 39,
-    "tf": 0.0027,
-    "idf": 0.9808,
-    "tf_idf": 0.0026
-  },
-  {
-    "ai_content_types": "identity_reference",
-    "word": "dowry",
-    "n": 9,
-    "tf": 0.0037,
-    "idf": 0.6931,
     "tf_idf": 0.0026
   },
   {
@@ -2256,20 +2296,12 @@
     "tf_idf": 0.0026
   },
   {
-    "ai_content_types": "violence",
-    "word": "firing",
-    "n": 46,
-    "tf": 0.0019,
-    "idf": 1.3863,
-    "tf_idf": 0.0026
-  },
-  {
     "ai_content_types": "religious",
     "word": "fictional content",
     "n": 10,
     "tf": 0.0026,
     "idf": 0.9808,
-    "tf_idf": 0.0026
+    "tf_idf": 0.0025
   },
   {
     "ai_content_types": "sexual_explicit",
@@ -2277,23 +2309,7 @@
     "n": 21,
     "tf": 0.0054,
     "idf": 0.47,
-    "tf_idf": 0.0026
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "islam",
-    "n": 7,
-    "tf": 0.0018,
-    "idf": 1.3863,
-    "tf_idf": 0.0026
-  },
-  {
-    "ai_content_types": "religious",
-    "word": "religious chants",
-    "n": 7,
-    "tf": 0.0018,
-    "idf": 1.3863,
-    "tf_idf": 0.0026
+    "tf_idf": 0.0025
   },
   {
     "ai_content_types": "violence",
@@ -2304,25 +2320,49 @@
     "tf_idf": 0.0025
   },
   {
-    "ai_content_types": "substance",
-    "word": "budweiser",
-    "n": 29,
+    "ai_content_types": "religious",
+    "word": "buddha",
+    "n": 7,
     "tf": 0.0018,
     "idf": 1.3863,
     "tf_idf": 0.0025
   },
   {
-    "ai_content_types": "sexual_explicit",
-    "word": "molestation",
-    "n": 14,
-    "tf": 0.0036,
-    "idf": 0.6931,
+    "ai_content_types": "religious",
+    "word": "islam",
+    "n": 7,
+    "tf": 0.0018,
+    "idf": 1.3863,
+    "tf_idf": 0.0025
+  },
+  {
+    "ai_content_types": "sexual_suggestive",
+    "word": "couple making out",
+    "n": 18,
+    "tf": 0.0012,
+    "idf": 2.0794,
+    "tf_idf": 0.0025
+  },
+  {
+    "ai_content_types": "violence",
+    "word": "stabbing",
+    "n": 131,
+    "tf": 0.0053,
+    "idf": 0.47,
     "tf_idf": 0.0025
   },
   {
     "ai_content_types": "sexual_explicit",
     "word": "dildo",
     "n": 7,
+    "tf": 0.0018,
+    "idf": 1.3863,
+    "tf_idf": 0.0025
+  },
+  {
+    "ai_content_types": "substance",
+    "word": "budweiser",
+    "n": 29,
     "tf": 0.0018,
     "idf": 1.3863,
     "tf_idf": 0.0025
@@ -2357,46 +2397,6 @@
     "n": 5,
     "tf": 0.0012,
     "idf": 2.0794,
-    "tf_idf": 0.0025
-  },
-  {
-    "ai_content_types": "political",
-    "word": "modiji",
-    "n": 5,
-    "tf": 0.0012,
-    "idf": 2.0794,
-    "tf_idf": 0.0025
-  },
-  {
-    "ai_content_types": "political",
-    "word": "ntr",
-    "n": 5,
-    "tf": 0.0012,
-    "idf": 2.0794,
-    "tf_idf": 0.0025
-  },
-  {
-    "ai_content_types": "political",
-    "word": "pradhanmantri",
-    "n": 5,
-    "tf": 0.0012,
-    "idf": 2.0794,
-    "tf_idf": 0.0025
-  },
-  {
-    "ai_content_types": "political",
-    "word": "uttar pradesh",
-    "n": 5,
-    "tf": 0.0012,
-    "idf": 2.0794,
-    "tf_idf": 0.0025
-  },
-  {
-    "ai_content_types": "political",
-    "word": "flag",
-    "n": 22,
-    "tf": 0.0053,
-    "idf": 0.47,
     "tf_idf": 0.0025
   }
 ]

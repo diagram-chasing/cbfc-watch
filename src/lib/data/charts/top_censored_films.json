@@ -73,11 +73,11 @@
   },
   {
     "Office": "Bangalore",
-    "Language": "Kannada",
-    "Film Name": "TIGER GALLI",
-    "Time Removed": "19m 45s",
-    "Total Cuts": 188,
-    "Slug": "tiger-galli-2017"
+    "Language": "Hindi",
+    "Film Name": "GARUDA",
+    "Time Removed": "19m 52s",
+    "Total Cuts": 8,
+    "Slug": "garuda-2025"
   },
   {
     "Office": "Chennai",
@@ -337,6 +337,14 @@
   },
   {
     "Office": "Guwahati",
+    "Language": "Manipuri",
+    "Film Name": "NUNGSHITHOI EIGEE THOI",
+    "Time Removed": "2m 00s",
+    "Total Cuts": 2,
+    "Slug": "nungshithoi-eigee-thoi-2025"
+  },
+  {
+    "Office": "Guwahati",
     "Language": "Bodo",
     "Film Name": "BEKAR ROMEO",
     "Time Removed": "1m 38s",
@@ -362,10 +370,26 @@
   {
     "Office": "Guwahati",
     "Language": "Assamese",
+    "Film Name": "SWAHID PRANAMO TUMAK",
+    "Time Removed": "1m 00s",
+    "Total Cuts": 3,
+    "Slug": "swahid-pranamo-tumak-2025"
+  },
+  {
+    "Office": "Guwahati",
+    "Language": "Assamese",
     "Film Name": "BAD BOYS",
     "Time Removed": "0m 50s",
     "Total Cuts": 2,
     "Slug": "bad-boys-2018"
+  },
+  {
+    "Office": "Guwahati",
+    "Language": "Rongmei",
+    "Film Name": "DWAII",
+    "Time Removed": "0m 45s",
+    "Total Cuts": 2,
+    "Slug": "dwaii-2025"
   },
   {
     "Office": "Guwahati",
@@ -374,30 +398,6 @@
     "Time Removed": "0m 32s",
     "Total Cuts": 3,
     "Slug": "rongatapu-1982-2023"
-  },
-  {
-    "Office": "Guwahati",
-    "Language": "Khasi",
-    "Film Name": "KYNJAH",
-    "Time Removed": "0m 27s",
-    "Total Cuts": 7,
-    "Slug": "kynjah-2017"
-  },
-  {
-    "Office": "Guwahati",
-    "Language": "Hindi",
-    "Film Name": "KOOKI",
-    "Time Removed": "0m 24s",
-    "Total Cuts": 6,
-    "Slug": "kooki-2023"
-  },
-  {
-    "Office": "Guwahati",
-    "Language": "Assamese",
-    "Film Name": "MOI ETI NIXHASOR (KODUWA - THE NIGHTBIRD)",
-    "Time Removed": "0m 18s",
-    "Total Cuts": 1,
-    "Slug": "moi-eti-nixhasor-koduwa-the-nightbird-2024"
   },
   {
     "Office": "Hyderabad",

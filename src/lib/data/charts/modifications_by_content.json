@@ -1,42 +1,42 @@
 [
   {
     "ai_content_types": "profanity",
-    "n": 21789,
+    "n": 22129,
     "pretty_name": "Profanity"
   },
   {
     "ai_content_types": "violence",
-    "n": 21142,
+    "n": 21274,
     "pretty_name": "Violence"
   },
   {
     "ai_content_types": "substance",
-    "n": 13254,
+    "n": 13445,
     "pretty_name": "Substance"
   },
   {
     "ai_content_types": "sexual_suggestive",
-    "n": 11636,
+    "n": 11779,
     "pretty_name": "Sexual Suggestive"
   },
   {
     "ai_content_types": "sexual_explicit",
-    "n": 2975,
+    "n": 3004,
     "pretty_name": "Sexual Explicit"
   },
   {
     "ai_content_types": "political",
-    "n": 2621,
+    "n": 2649,
     "pretty_name": "Political"
   },
   {
     "ai_content_types": "religious",
-    "n": 2589,
+    "n": 2624,
     "pretty_name": "Religious"
   },
   {
     "ai_content_types": "identity_reference",
-    "n": 1500,
+    "n": 1514,
     "pretty_name": "Identity Reference"
   }
 ]

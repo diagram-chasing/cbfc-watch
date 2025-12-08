@@ -26,26 +26,26 @@
   {
     "rating": "U",
     "content_category": "Profanity",
-    "modification_count": 2627,
+    "modification_count": 2634,
     "percentage": 0.3752
   },
   {
     "rating": "A",
     "content_category": "Profanity",
-    "modification_count": 1909,
-    "percentage": 0.2696
+    "modification_count": 1953,
+    "percentage": 0.2703
   },
   {
     "rating": "A",
     "content_category": "Substance Use",
-    "modification_count": 1693,
+    "modification_count": 1727,
     "percentage": 0.2391
   },
   {
     "rating": "U",
     "content_category": "Substance Use",
-    "modification_count": 1648,
-    "percentage": 0.2354
+    "modification_count": 1655,
+    "percentage": 0.2357
   },
   {
     "rating": "UA",
@@ -62,14 +62,14 @@
   {
     "rating": "A",
     "content_category": "Sexual Content",
-    "modification_count": 1310,
-    "percentage": 0.185
+    "modification_count": 1329,
+    "percentage": 0.184
   },
   {
     "rating": "A",
     "content_category": "Violence",
-    "modification_count": 1186,
-    "percentage": 0.1675
+    "modification_count": 1218,
+    "percentage": 0.1686
   },
   {
     "rating": "UA",
@@ -81,48 +81,48 @@
     "rating": "U",
     "content_category": "Violence",
     "modification_count": 862,
-    "percentage": 0.1231
+    "percentage": 0.1228
   },
   {
     "rating": "U",
     "content_category": "Sexual Content",
-    "modification_count": 829,
-    "percentage": 0.1184
+    "modification_count": 830,
+    "percentage": 0.1182
   },
   {
     "rating": "U",
     "content_category": "Political Content",
     "modification_count": 513,
-    "percentage": 0.0733
+    "percentage": 0.0731
   },
   {
     "rating": "A",
     "content_category": "Religious Content",
-    "modification_count": 456,
-    "percentage": 0.0644
+    "modification_count": 468,
+    "percentage": 0.0648
   },
   {
     "rating": "A",
     "content_category": "Political Content",
-    "modification_count": 324,
-    "percentage": 0.0458
+    "modification_count": 326,
+    "percentage": 0.0451
   },
   {
     "rating": "U",
     "content_category": "Religious Content",
-    "modification_count": 279,
-    "percentage": 0.0398
+    "modification_count": 282,
+    "percentage": 0.0402
   },
   {
     "rating": "U",
     "content_category": "Other",
-    "modification_count": 244,
-    "percentage": 0.0348
+    "modification_count": 245,
+    "percentage": 0.0349
   },
   {
     "rating": "A",
     "content_category": "Other",
-    "modification_count": 202,
-    "percentage": 0.0285
+    "modification_count": 203,
+    "percentage": 0.0281
   }
 ]

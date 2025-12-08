@@ -6,7 +6,7 @@
     "median": 4,
     "q3": 12,
     "max": 6503,
-    "count": 759,
+    "count": 764,
     "pretty_name": "Audio Modification"
   },
   {
@@ -16,7 +16,7 @@
     "median": 8,
     "q3": 22,
     "max": 10012,
-    "count": 951,
+    "count": 957,
     "pretty_name": "Text Modification"
   },
   {
@@ -26,7 +26,7 @@
     "median": 10,
     "q3": 60,
     "max": 3382,
-    "count": 6199,
+    "count": 6290,
     "pretty_name": "Insertion"
   },
   {
@@ -36,7 +36,7 @@
     "median": 13,
     "q3": 48,
     "max": 7740,
-    "count": 41264,
+    "count": 41618,
     "pretty_name": "Deletion"
   },
   {
@@ -44,9 +44,9 @@
     "min": 1,
     "q1": 6,
     "median": 14,
-    "q3": 45,
+    "q3": 44,
     "max": 3724,
-    "count": 2451,
+    "count": 2494,
     "pretty_name": "Replacement"
   },
   {
@@ -56,7 +56,7 @@
     "median": 14,
     "q3": 30,
     "max": 1444,
-    "count": 3256,
+    "count": 3269,
     "pretty_name": "Visual Modification"
   },
   {
