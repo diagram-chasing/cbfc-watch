@@ -75,13 +75,26 @@ jobs:
             exit 1
           fi
 
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.0'
+
+      - name: Install R dependencies
+        run: |
+          cd analysis
+          R -e "install.packages(c('rmarkdown', 'tidyverse', 'jsonlite', 'here'), repos='https://cloud.r-project.org')"
+
+      - name: Build Notebook
+        run: pnpm run build-notebook
+
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
           # Add specific files
-          git add src/lib/data/data.csv static/recent_updates.json static/rss.xml
+          git add src/lib/data/data.csv static/recent_updates.json static/rss.xml static/notebook/index.html src/lib/data/charts/*.json
 
           # Check if there are changes
           if git diff --staged --quiet; then
