@@ -1,12 +1,10 @@
-name: Update All Data
-
+name: Update All Data (Optimized)
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 1' # Run weekly on Monday at 00:00 UTC
-
+    - cron: "0 0 * * 1"
 concurrency:
-  group: 'data-update'
+  group: "data-update"
   cancel-in-progress: false
 
 jobs:
@@ -14,12 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch full history for git diff
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -39,20 +36,19 @@ jobs:
         run: pnpm i -D wrangler@latest
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "scripts/requirements.txt"
 
       - name: Install Python dependencies
         run: |
           cd scripts
           pip install -r requirements.txt
-          pip install requests
 
       - name: Fetch data, Update D1, and Generate Recent Updates
-        run: |
-          # This script handles fetching data, generating recent_updates.json, and updating D1
-          pnpm run update-data-remote
+        run: pnpm run update-data-remote
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -65,8 +61,6 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           echo "🚀 Starting Typesense update..."
-          # Ensure data.csv is in the expected location (src/lib/data/data.csv)
-          # data_import.py puts it there by default or we can check
           if [ -f "src/lib/data/data.csv" ]; then
             python3 scripts/search_sync.py src/lib/data/data.csv "$TYPESENSE_PROTOCOL" "$TYPESENSE_HOST" "$TYPESENSE_API_KEY"
             echo "✅ Typesense update completed"
@@ -78,12 +72,25 @@ jobs:
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.3.0'
+          r-version: "4.3.0"
+          use-public-rspm: true
+
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-4.3.0-tidyverse-${{ hashFiles('analysis/**') }}
+          restore-keys: |
+            ${{ runner.os }}-r-4.3.0-tidyverse-
+            ${{ runner.os }}-r-4.3.0-
 
       - name: Install R dependencies
         run: |
           cd analysis
-          R -e "install.packages(c('rmarkdown', 'tidyverse', 'jsonlite', 'here'), repos='https://cloud.r-project.org')"
+          R -e "install.packages(c('rmarkdown', 'tidyverse', 'jsonlite', 'here'), repos='https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
 
       - name: Build Notebook
         run: pnpm run build-notebook
@@ -92,11 +99,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-          # Add specific files
           git add src/lib/data/data.csv static/recent_updates.json static/rss.xml static/notebook/index.html src/lib/data/charts/*.json
-
-          # Check if there are changes
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
