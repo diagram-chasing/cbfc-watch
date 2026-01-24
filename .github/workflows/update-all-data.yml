@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      # ===== Node.js Setup with Caching =====
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
@@ -35,6 +36,7 @@ jobs:
       - name: Install wrangler
         run: pnpm i -D wrangler@latest
 
+      # ===== Python Setup with Caching =====
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -46,7 +48,9 @@ jobs:
         run: |
           cd scripts
           pip install -r requirements.txt
+          pip install requests
 
+      # ===== Data Update Steps =====
       - name: Fetch data, Update D1, and Generate Recent Updates
         run: pnpm run update-data-remote
         env:
@@ -69,11 +73,12 @@ jobs:
             exit 1
           fi
 
+      # ===== R Setup with Caching and Pre-compiled Binaries =====
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: "4.3.0"
-          use-public-rspm: true
+          use-public-rspm: true # USE PRE-COMPILED BINARIES!
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
@@ -90,11 +95,13 @@ jobs:
       - name: Install R dependencies
         run: |
           cd analysis
+          # Use Posit Package Manager for pre-compiled Linux binaries
           R -e "install.packages(c('rmarkdown', 'tidyverse', 'jsonlite', 'here'), repos='https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
 
       - name: Build Notebook
         run: pnpm run build-notebook
 
+      # ===== Commit Changes =====
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'github-actions[bot]'
