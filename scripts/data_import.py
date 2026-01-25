@@ -240,65 +240,51 @@ def import_to_d1(batch_files, db_mode='local', db_name=None):
 
     return True
 
-def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.json", limit=20):
-    """Generate recent updates JSON from git diff."""
-    print("Generating recent updates from git diff...")
+def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.json", limit=100, days=21):
+    """Generate recent updates JSON from films certified in the past X days."""
+    print(f"Generating recent updates from past {days} days...")
 
     try:
-        # Get the diff of the last commit for data/data.csv
-        result = subprocess.run(
-            ['git', 'log', '-1', '-p', '--', 'data/data.csv'],
-            cwd=repo_dir,
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        diff_output = result.stdout
+        from datetime import datetime, timedelta
 
-        new_lines = []
-        for line in diff_output.splitlines():
-            if line.startswith('+') and not line.startswith('+++'):
-                content = line[1:]
-                if content.startswith('id,certificate_id') or content.startswith('id,movie_name'):
-                    continue
-                if content.strip():
-                    new_lines.append(content)
+        # Calculate cutoff date
+        cutoff_date = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
+        print(f"Cutoff date: {cutoff_date}")
 
-        if not new_lines:
-            print("No new lines found in the last commit.")
+        # Read the full CSV
+        data_csv_path = os.path.join(repo_dir, 'data', 'data.csv')
+
+        if not os.path.exists(data_csv_path):
+            print(f"CSV file not found: {data_csv_path}")
             return
 
-        print(f"Found {len(new_lines)} new lines.")
-
-        # Parse CSV lines
-        data_csv_path = os.path.join(repo_dir, 'data', 'data.csv')
         with open(data_csv_path, 'r') as f:
-            header_line = f.readline().strip()
+            reader = csv.DictReader(f)
 
-        header = header_line.split(',')
+            new_films = []
+            seen_ids = set()
 
-        csv_io = io.StringIO("\n".join(new_lines))
-        reader = csv.reader(csv_io)
+            for row in reader:
+                cert_date = row.get('cert_date', '')
+                film_id = row.get('id')
 
-        new_films = []
-        seen_ids = set()
-        for row in reader:
-            if len(row) == len(header):
-                film_data = dict(zip(header, row))
-                film_id = film_data.get('id')
-
-                if film_id and film_id not in seen_ids:
+                # Filter by cert_date (only films from past X days)
+                if cert_date and cert_date >= cutoff_date and film_id and film_id not in seen_ids:
                     # Clean name
-                    film_data['movie_name'] = clean_name(film_data.get('movie_name', ''))
+                    row['movie_name'] = clean_name(row.get('movie_name', ''))
                     # Extract year
-                    year = extract_year(film_data.get('cert_date'), film_data.get('cert_no'))
-                    film_data['year'] = year
+                    year = extract_year(row.get('cert_date'), row.get('cert_no'))
+                    row['year'] = year
                     # Generate slug
-                    film_data['slug'] = make_slug(film_data['movie_name'], year)
-                    new_films.append(film_data)
+                    row['slug'] = make_slug(row['movie_name'], year)
+                    new_films.append(row)
                     seen_ids.add(film_id)
 
-        # Sort by cert_date descending
+        print(f"Found {len(new_films)} films certified since {cutoff_date}")
+
+        if not new_films:
+            print("No recent films found.")
+            return
 
         # Sort initially by date to ensure we pick latest from each language
         def get_date(x):
@@ -492,7 +478,7 @@ def generate_rss_feed(films, output_path="static/rss.xml"):
     except Exception as e:
         print(f"Error saving RSS feed: {e}")
 
-def fetch_remote_data(output_path="src/lib/data/data.csv", limit=50):
+def fetch_remote_data(output_path="src/lib/data/data.csv", limit=100):
     """Fetch latest data from remote source by cloning the repo."""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -501,8 +487,8 @@ def fetch_remote_data(output_path="src/lib/data/data.csv", limit=50):
     with tempfile.TemporaryDirectory() as temp_dir:
         print(f"Cloning {repo_url}...")
         try:
-            # Clone with depth 2 to ensure we have at least one parent for diff if needed,
-            subprocess.run(['git', 'clone', '--depth', '2', repo_url, temp_dir], check=True)
+            # Clone full repo to access all data (not just recent commits)
+            subprocess.run(['git', 'clone', repo_url, temp_dir], check=True)
 
             # Copy data.csv
             source_csv = os.path.join(temp_dir, 'data', 'data.csv')
@@ -510,7 +496,7 @@ def fetch_remote_data(output_path="src/lib/data/data.csv", limit=50):
                 shutil.copy2(source_csv, output_path)
                 print(f"Data copied to {output_path}")
 
-                # Generate recent updates
+                # Generate recent updates (past 21 days)
                 generate_recent_updates(temp_dir, limit=limit)
 
                 return output_path
@@ -531,7 +517,8 @@ def main():
     parser.add_argument('--batch-size', type=int, default=DEFAULT_BATCH_SIZE, help='Batch size')
     parser.add_argument('--db-mode', choices=['local', 'remote'], default='local', help='Database mode')
     parser.add_argument('--fetch', action='store_true', help='Fetch data from remote source')
-    parser.add_argument('--limit', type=int, default=20, help='Number of recent updates to track')
+    parser.add_argument('--limit', type=int, default=100, help='Maximum number of recent updates to include in JSON')
+    parser.add_argument('--days', type=int, default=21, help='Number of days to look back for recent updates')
 
     args = parser.parse_args()
 
