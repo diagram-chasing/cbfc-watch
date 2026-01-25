@@ -17,7 +17,7 @@ export function generateExternalLinks(film: Film) {
 			return 'https://archive.org/details/cbfc-ecinepramaan-' + certId;
 		} else {
 			// Otherwise, use the regular ecinepramaan.gov.in link
-			return `https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i=${encodeURIComponent(certId)}`;
+			return `https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i=${certId}`;
 		}
 	};
 
