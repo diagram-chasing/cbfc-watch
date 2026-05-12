@@ -16,6 +16,11 @@
 		return sortColumn === columnKey && sortDirection !== 'none' ? 1 : 0.4;
 	}
 
+	// Per-column sort opt-out: column.sortable === false disables sort for that column
+	function isColumnSortable(column) {
+		return sortEnabled && column.sortable !== false;
+	}
+
 	// Calculate group spans and positions
 	let groupInfo = $derived.by(() => {
 		if (!columnGroups) return null;
@@ -61,23 +66,24 @@
 	<!-- Individual Column Headers -->
 	<tr class="column-header-row">
 		{#each columns as column}
+			{@const sortable = isColumnSortable(column)}
 			<th
 				class="table-header-cell"
-				class:sortable={sortEnabled}
+				class:sortable
 				class:numeric={column.type === 'number' || column.type === 'percentage'}
 				class:grouped={column.group !== undefined}
 				class:first-in-group={column.group !== undefined &&
 					columns.findIndex((/** @type {any} */ c) => c.group === column.group) ===
 						columns.indexOf(column)}
-				class:active={sortEnabled && sortColumn === column.key}
-				role={sortEnabled ? 'button' : null}
-				tabindex={sortEnabled ? '0' : null}
-				onclick={sortEnabled ? () => onSort(column.key) : null}
-				onkeydown={sortEnabled ? (e) => e.key === 'Enter' && onSort(column.key) : null}
+				class:active={sortable && sortColumn === column.key}
+				role={sortable ? 'button' : null}
+				tabindex={sortable ? '0' : null}
+				onclick={sortable ? () => onSort(column.key) : null}
+				onkeydown={sortable ? (e) => e.key === 'Enter' && onSort(column.key) : null}
 			>
 				<div class="header-content">
 					<span class="header-label">{column.label}</span>
-					{#if sortEnabled}
+					{#if sortable}
 						{@const Icon = getSortIcon(column.key)}
 						<Icon size={10} class="sort-icon" style="opacity: {getSortOpacity(column.key)}" />
 					{/if}

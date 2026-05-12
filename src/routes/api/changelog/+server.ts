@@ -1,66 +1,41 @@
-
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ platform, url }) => {
-  const page = Number(url.searchParams.get('page')) || 1;
-  const limit = 100;
-  const offset = (page - 1) * limit;
+export const GET: RequestHandler = async ({ platform }) => {
+	try {
+		const db = platform?.env?.DB;
 
-  try {
-    const db = platform?.env?.DB;
+		if (!db) {
+			return json({ films: [], totalCount: 0 }, { status: 404 });
+		}
 
-    if (!db) {
-      return json({ films: [], hasNext: false, totalCount: 0, pagination: null }, { status: 404 });
-    }
+		const results = await db
+			.prepare(
+				`
+			SELECT slug, name, year, language, rating, cert_date
+			FROM films
+			WHERE cert_date IS NOT NULL
+			ORDER BY cert_date DESC
+			LIMIT 1000
+		`
+			)
+			.all();
 
-    // Get total count
-    const countResult = await db.prepare(`
-      SELECT COUNT(*) as count
-      FROM films
-      WHERE cert_date IS NOT NULL
-    `).first();
+		const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		const formatDate = (iso: unknown) => {
+			const m = String(iso ?? '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+			if (!m) return '';
+			return `${parseInt(m[3], 10)} ${MONTHS[parseInt(m[2], 10) - 1]} ${m[1]}`;
+		};
 
-    const totalCount = countResult?.count || 0;
-    const totalPages = Math.ceil(totalCount / limit);
+		const films = (results.results || []).map((f: any) => ({
+			...f,
+			date: formatDate(f.cert_date)
+		}));
 
-    // Fetch films sorted by cert_date DESC
-    const results = await db.prepare(`
-            SELECT
-                slug,
-                name,
-                year,
-                language,
-                rating,
-                cert_date,
-                imdb_rating
-            FROM films
-            WHERE cert_date IS NOT NULL
-            ORDER BY cert_date DESC
-            LIMIT ? OFFSET ?
-        `).bind(limit + 1, offset).all();
-
-    const films = results.results || [];
-    const hasNext = films.length > limit;
-    if (hasNext) {
-      films.pop();
-    }
-
-    return json({
-      films,
-      page,
-      hasNext,
-      totalCount,
-      pagination: {
-        currentPage: page,
-        perPage: limit,
-        totalPages,
-        totalCount
-      }
-    });
-
-  } catch (e) {
-    console.error("Error fetching changelog:", e);
-    return json({ error: "Failed to load data" }, { status: 500 });
-  }
+		return json({ films, totalCount: films.length });
+	} catch (e) {
+		console.error('Error fetching changelog:', e);
+		return json({ error: 'Failed to load data' }, { status: 500 });
+	}
 };
