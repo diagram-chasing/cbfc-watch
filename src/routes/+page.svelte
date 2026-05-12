@@ -53,7 +53,7 @@
 
 	onMount(async () => {
 		try {
-			const response = await fetch('/recent_updates.json');
+			const response = await fetch('/api/recent');
 			if (response.ok) {
 				const rawData = await response.json();
 				newAdditions = rawData

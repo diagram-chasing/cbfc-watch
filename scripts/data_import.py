@@ -13,11 +13,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from film_utils import *
 from film_analysis import run_analysis
-from film_analysis import run_analysis
 import pandas as pd
-import json
-import csv
-import io
 import subprocess
 
 def generate_sql_batches(csv_path, output_dir, batch_size=DEFAULT_BATCH_SIZE):
@@ -240,245 +236,7 @@ def import_to_d1(batch_files, db_mode='local', db_name=None):
 
     return True
 
-def generate_recent_updates(repo_dir, output_json_path="static/recent_updates.json", limit=100, days=21):
-    """Generate recent updates JSON from films certified in the past X days."""
-    print(f"Generating recent updates from past {days} days...")
-
-    try:
-        from datetime import datetime, timedelta
-
-        # Calculate cutoff date
-        cutoff_date = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
-        print(f"Cutoff date: {cutoff_date}")
-
-        # Read the full CSV
-        data_csv_path = os.path.join(repo_dir, 'data', 'data.csv')
-
-        if not os.path.exists(data_csv_path):
-            print(f"CSV file not found: {data_csv_path}")
-            return
-
-        with open(data_csv_path, 'r') as f:
-            reader = csv.DictReader(f)
-
-            new_films = []
-            seen_ids = set()
-
-            for row in reader:
-                cert_date = row.get('cert_date', '')
-                film_id = row.get('id')
-
-                # Filter by cert_date (only films from past X days)
-                if cert_date and cert_date >= cutoff_date and film_id and film_id not in seen_ids:
-                    # Clean name
-                    row['movie_name'] = clean_name(row.get('movie_name', ''))
-                    # Extract year
-                    year = extract_year(row.get('cert_date'), row.get('cert_no'))
-                    row['year'] = year
-                    # Generate slug
-                    row['slug'] = make_slug(row['movie_name'], year)
-                    new_films.append(row)
-                    seen_ids.add(film_id)
-
-        print(f"Found {len(new_films)} films certified since {cutoff_date}")
-
-        if not new_films:
-            print("No recent films found.")
-            return
-
-        # Sort initially by date to ensure we pick latest from each language
-        def get_date(x):
-            try:
-                return x.get('cert_date', '')
-            except:
-                return ''
-
-        new_films.sort(key=get_date, reverse=True)
-
-        # Deduplicate same movie across different languages (keep most recent version)
-        seen_movie_names = {}
-        deduplicated_films = []
-
-        for film in new_films:
-            movie_name = film.get('movie_name', '').strip().lower()
-            if not movie_name:
-                continue
-
-            if movie_name not in seen_movie_names:
-                seen_movie_names[movie_name] = film
-                deduplicated_films.append(film)
-
-        new_films = deduplicated_films
-
-        # Priority Diversity Selection
-        # User requested to prioritize: English, Hindi, Telugu, Kannada, Malayalam (and Tamil implicitly as major)
-        PRIORITY_LANGS = {'English', 'Hindi', 'Telugu', 'Kannada', 'Malayalam', 'Tamil'}
-
-        priority_groups = {lang: [] for lang in PRIORITY_LANGS}
-        other_films = []
-
-        for film in new_films:
-            # Simple normalization
-            lang_raw = film.get('language', '').strip()
-            # Handle cases like "Hindi (3D)" or leading/trailing spaces
-            lang_base = lang_raw.split('(')[0].strip()
-
-            if lang_base in PRIORITY_LANGS:
-                priority_groups[lang_base].append(film)
-            else:
-                other_films.append(film)
-
-        # Round-Robin Selection from Priority Groups
-        selected_films = []
-
-        # While we have space and priority films available
-        while len(selected_films) < limit:
-            added_in_round = False
-            for lang in sorted(PRIORITY_LANGS): # Deterministic order
-                if priority_groups[lang]:
-                    selected_films.append(priority_groups[lang].pop(0))
-                    added_in_round = True
-                    if len(selected_films) >= limit:
-                        break
-
-            if not added_in_round:
-                # Exhausted all priority films
-                break
-
-        # Fill remaining slots with Other films (sorted by date)
-        if len(selected_films) < limit:
-            remaining_slots = limit - len(selected_films)
-            # others are already sorted by date due to initial sort
-            selected_films.extend(other_films[:remaining_slots])
-
-        # Re-sort final diverse selection by date
-        selected_films.sort(key=get_date, reverse=True)
-        recent_updates = selected_films
-
-        os.makedirs(os.path.dirname(output_json_path), exist_ok=True)
-        with open(output_json_path, 'w') as f:
-            json.dump(recent_updates, f, indent=2)
-
-        print(f"Saved {len(recent_updates)} recent updates to {output_json_path}")
-
-        # GENERATE RSS
-        generate_rss_feed(recent_updates)
-
-    except Exception as e:
-        print(f"Error generating recent updates: {e}")
-
-def generate_rss_feed(films, output_path="static/rss.xml"):
-    """Generate RSS feed from recent films list."""
-    from html import escape
-    import base64
-
-    print("Generating static RSS feed...")
-
-    rss_items = []
-
-    for film in films:
-        title = escape(f"CBFC Watch: {film.get('movie_name', 'Unknown')} ({film.get('year', '')}) - {film.get('language', '')}")
-        link = f"https://cbfc.watch/film/{film.get('slug', '')}"
-
-        try:
-            date_obj = datetime.strptime(film.get('cert_date', ''), '%Y-%m-%d')
-            pub_date = date_obj.strftime("%a, %d %b %Y 00:00:00 GMT")
-        except:
-            pub_date = ""
-
-        # Description Construction
-        desc_html = ""
-
-        # Poster
-        if film.get('imdb_poster_url'):
-            desc_html += f'<img src="{escape(film.get("imdb_poster_url"))}" alt="{escape(film.get("movie_name", ""))}" style="width: 150px; height: 225px; object-fit: cover;" /><br/>'
-
-        # Rating & IMDb
-        if film.get('imdb_rating') or film.get('rating'):
-            meta_parts = []
-            if film.get('rating'): meta_parts.append(f"Certificate: {film.get('rating')}")
-            if film.get('imdb_rating'): meta_parts.append(f"IMDb: {film.get('imdb_rating')}/10")
-            desc_html += f'<p><strong>Rating:</strong> {escape(" | ".join(meta_parts))}</p>'
-
-        # Overview
-        if film.get('imdb_overview'):
-            desc_html += f'<p>{escape(film.get("imdb_overview"))}</p>'
-
-        # Credits
-        credits = []
-        if film.get('imdb_directors'):
-            d = ", ".join(film.get('imdb_directors').split('|')[:3])
-            credits.append(f"<strong>Director:</strong> {escape(d)}")
-        if film.get('imdb_actors'):
-            a = ", ".join(film.get('imdb_actors').split('|')[:4])
-            credits.append(f"<strong>Cast:</strong> {escape(a)}")
-        if credits:
-            desc_html += f'<p>{" | ".join(credits)}</p>'
-
-        desc_html += "<hr/>"
-
-        # Modifications
-        mod_desc = film.get('ai_cleaned_description') or film.get('description') or 'No description'
-        cut_no = film.get('cut_no') or '1'
-
-        desc_html += "<h3><strong>Modifications</strong></h3><ul>"
-        desc_html += f"<li><strong>#{cut_no}:</strong> {escape(mod_desc)}</li>"
-        desc_html += "</ul>"
-
-        # Footer Links
-        links = []
-        links.append(f'<a href="{link}">View on CBFC Watch</a>')
-        if film.get('imdb_id'):
-            imdb_clean = film.get('imdb_id', '').split('.')[0].zfill(7)
-            links.append(f'<a href="https://www.imdb.com/title/tt{imdb_clean}/">IMDb</a>')
-
-        if film.get('id'):
-             links.append(f'<a href="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i={escape(film.get("id"))}">E-Cinepramaan</a>')
-
-        if film.get('cbfc_file_no'):
-             try:
-                encoded = base64.b64encode(film.get('cbfc_file_no').encode('utf-8')).decode('utf-8')
-                links.append(f'<a href="https://www.cbfcindia.gov.in/cbfcAdmin/search-result.php?recid={encoded}">CBFC Listing</a>')
-             except:
-                pass
-
-        desc_html += f'<p>{" | ".join(links)}</p>'
-
-        if film.get('id'):
-             desc_html += f'<p><em>For original modifications, refer to <a href="https://www.ecinepramaan.gov.in/cbfc/?a=Certificate_Detail&i={escape(film.get("id"))}">E-Cinepramaan</a></em></p>'
-
-        rss_items.append(f"""    <item>
-      <title>{title}</title>
-      <link>{link}</link>
-      <pubDate>{pub_date}</pubDate>
-      <guid isPermaLink="false">{film.get('slug', 'unknown')}</guid>
-      <description><![CDATA[{desc_html}]]></description>
-      <media:content url="{escape(film.get('imdb_poster_url', ''))}" medium="image" />
-    </item>""")
-
-    rss_xml = f"""<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <channel>
-    <title>CBFC Watch - Recent Certifications</title>
-    <link>https://cbfc.watch</link>
-    <description>Latest film certifications and censorship records from the Central Board of Film Certification, India.</description>
-    <language>en</language>
-    <lastBuildDate>{datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")}</lastBuildDate>
-    <atom:link href="https://cbfc.watch/rss.xml" rel="self" type="application/rss+xml" />
-"""
-    rss_xml += "\n".join(rss_items)
-    rss_xml += """
-  </channel>
-</rss>"""
-
-    try:
-        with open(output_path, 'w', encoding='utf-8') as f:
-            f.write(rss_xml)
-        print(f"Saved static RSS feed to {output_path}")
-    except Exception as e:
-        print(f"Error saving RSS feed: {e}")
-
-def fetch_remote_data(output_path="src/lib/data/data.csv", limit=100):
+def fetch_remote_data(output_path="src/lib/data/data.csv"):
     """Fetch latest data from remote source by cloning the repo."""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -487,18 +245,12 @@ def fetch_remote_data(output_path="src/lib/data/data.csv", limit=100):
     with tempfile.TemporaryDirectory() as temp_dir:
         print(f"Cloning {repo_url}...")
         try:
-            # Clone full repo to access all data (not just recent commits)
-            subprocess.run(['git', 'clone', repo_url, temp_dir], check=True)
+            subprocess.run(['git', 'clone', '--depth', '1', repo_url, temp_dir], check=True)
 
-            # Copy data.csv
             source_csv = os.path.join(temp_dir, 'data', 'data.csv')
             if os.path.exists(source_csv):
                 shutil.copy2(source_csv, output_path)
                 print(f"Data copied to {output_path}")
-
-                # Generate recent updates (past 21 days)
-                generate_recent_updates(temp_dir, limit=limit)
-
                 return output_path
             else:
                 print(f"data/data.csv not found in cloned repo")
@@ -517,14 +269,12 @@ def main():
     parser.add_argument('--batch-size', type=int, default=DEFAULT_BATCH_SIZE, help='Batch size')
     parser.add_argument('--db-mode', choices=['local', 'remote'], default='local', help='Database mode')
     parser.add_argument('--fetch', action='store_true', help='Fetch data from remote source')
-    parser.add_argument('--limit', type=int, default=100, help='Maximum number of recent updates to include in JSON')
-    parser.add_argument('--days', type=int, default=21, help='Number of days to look back for recent updates')
 
     args = parser.parse_args()
 
     # Handle data source
     if args.fetch or not args.csv_file:
-        csv_path = fetch_remote_data(limit=args.limit)
+        csv_path = fetch_remote_data()
         if not csv_path:
             sys.exit(1)
     else:
