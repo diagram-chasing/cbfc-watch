@@ -7,11 +7,42 @@ Streamlined search indexing with comprehensive field mapping
 import sys
 import os
 import json
+import random
+import time
 import requests
 
 # Add scripts directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from film_utils import *
+
+RETRYABLE_STATUS_CODES = {500, 502, 503, 504, 520, 521, 522, 523, 524}
+
+
+def _request_with_retry(method, url, *, max_attempts=5, base_delay=2.0, timeout=60, **kwargs):
+    """Issue an HTTP request with retries on transient Cloudflare/origin 5xx and network errors."""
+    last_exc = None
+    for attempt in range(max_attempts):
+        try:
+            response = requests.request(method, url, timeout=timeout, **kwargs)
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as exc:
+            last_exc = exc
+            if attempt == max_attempts - 1:
+                raise
+            delay = min(base_delay * (2 ** attempt) + random.uniform(0, 1), 60)
+            print(f"⏳ {method} {url} raised {type(exc).__name__}; retrying in {delay:.1f}s (attempt {attempt + 2}/{max_attempts})")
+            time.sleep(delay)
+            continue
+
+        if response.status_code not in RETRYABLE_STATUS_CODES or attempt == max_attempts - 1:
+            return response
+
+        delay = min(base_delay * (2 ** attempt) + random.uniform(0, 1), 60)
+        print(f"⏳ {method} {url} returned {response.status_code}; retrying in {delay:.1f}s (attempt {attempt + 2}/{max_attempts})")
+        time.sleep(delay)
+
+    if last_exc is not None:
+        raise last_exc
+    return response
 
 def create_search_schema():
     """Define Typesense schema for film search."""
@@ -281,11 +312,11 @@ def sync_to_typesense(documents, protocol, host, api_key):
     base_url = f"{protocol}://{host}"
 
     # Delete existing collection
-    requests.delete(f"{base_url}/collections/films", headers=headers)
+    _request_with_retry("DELETE", f"{base_url}/collections/films", headers=headers)
 
     # Create new collection
     schema = create_search_schema()
-    response = requests.post(f"{base_url}/collections", json=schema, headers=headers)
+    response = _request_with_retry("POST", f"{base_url}/collections", json=schema, headers=headers)
 
     if response.status_code != 201:
         print(f"Failed to create collection: {response.status_code} - {response.text}")
@@ -300,7 +331,8 @@ def sync_to_typesense(documents, protocol, host, api_key):
         batch = documents[i:i+batch_size]
         data = '\n'.join(json.dumps(doc, ensure_ascii=False) for doc in batch)
 
-        response = requests.post(
+        response = _request_with_retry(
+            "POST",
             f"{base_url}/collections/films/documents/import",
             data=data.encode('utf-8'),
             headers={'X-TYPESENSE-API-KEY': api_key, 'Content-Type': 'text/plain'}
@@ -323,7 +355,8 @@ def sync_to_typesense(documents, protocol, host, api_key):
     ]
 
     for i, query in enumerate(test_queries, 1):
-        response = requests.get(
+        response = _request_with_retry(
+            "GET",
             f"{base_url}/collections/films/documents/search",
             params=query, headers=headers
         )
