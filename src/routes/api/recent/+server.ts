@@ -1,7 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import type { D1Database } from '@cloudflare/workers-types';
 
-const RECENT_DAYS = 21;
 const LIMIT = 100;
 const EDGE_TTL_SECONDS = 600;
 
@@ -13,9 +12,9 @@ WITH recent AS (
     imdb_genres, imdb_directors, imdb_actors,
     ROW_NUMBER() OVER (PARTITION BY LOWER(name) ORDER BY cert_date DESC) AS rn
   FROM films
-  WHERE cert_date >= date('now', ?1)
+  WHERE cert_date IS NOT NULL AND cert_date != ''
 )
-SELECT * FROM recent WHERE rn = 1 ORDER BY cert_date DESC LIMIT ?2
+SELECT * FROM recent WHERE rn = 1 ORDER BY cert_date DESC LIMIT ?1
 `;
 
 export const GET: RequestHandler = async ({ platform, request }) => {
@@ -37,7 +36,7 @@ export const GET: RequestHandler = async ({ platform, request }) => {
 
 	const { results } = await db
 		.prepare(SELECT_RECENT)
-		.bind(`-${RECENT_DAYS} days`, LIMIT)
+		.bind(LIMIT)
 		.all<Record<string, unknown>>();
 
 	const films = (results ?? []).map((row) => ({
