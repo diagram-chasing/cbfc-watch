@@ -36,8 +36,50 @@
 	let itemsPerPage = $derived(isMobile.current ? 5 : 9);
 	let siblingCount = $derived(isMobile.current ? 0 : 1);
 
-	let newAdditions = $state([]);
+	let newAdditions = $state<any[]>([]);
 	let newAdditionsPage = $state(1);
+
+	function seededRng(seed: number) {
+		let s = seed >>> 0;
+		return () => {
+			s = (s + 0x6d2b79f5) >>> 0;
+			let t = Math.imul(s ^ (s >>> 15), 1 | s);
+			t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+			return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+		};
+	}
+
+	function getNewlyAddedSeed(): number {
+		if (typeof window === 'undefined') return 1;
+		let raw = sessionStorage.getItem('newly-added-seed');
+		if (!raw) {
+			raw = String(Math.floor(Math.random() * 1e9) || 1);
+			sessionStorage.setItem('newly-added-seed', raw);
+		}
+		return parseInt(raw, 10) || 1;
+	}
+
+	// Group by cert_date (same-day films shuffle together), preserve newest-first across dates.
+	function stratifyByDate(items: any[], seed: number) {
+		const byDate = new Map<string, any[]>();
+		for (const m of items) {
+			const key = m.cert_date || '';
+			if (!byDate.has(key)) byDate.set(key, []);
+			byDate.get(key)!.push(m);
+		}
+		const keys = [...byDate.keys()].sort((a, b) => b.localeCompare(a));
+		const rand = seededRng(seed);
+		const out: any[] = [];
+		for (const k of keys) {
+			const group = byDate.get(k)!;
+			for (let i = group.length - 1; i > 0; i--) {
+				const j = Math.floor(rand() * (i + 1));
+				[group[i], group[j]] = [group[j], group[i]];
+			}
+			out.push(...group);
+		}
+		return out;
+	}
 
 	let newAdditionsGrid = $derived(newAdditions.slice(0, isMobile.current ? 9 : 12));
 	let newAdditionsRemaining = $derived(newAdditions.slice(isMobile.current ? 9 : 12));
@@ -56,28 +98,25 @@
 			const response = await fetch('/api/recent');
 			if (response.ok) {
 				const rawData = await response.json();
-				newAdditions = rawData
-					.map((m) => ({
-						...m,
-						name: m.movie_name,
-						year: m.imdb_year
-							? parseInt(m.imdb_year)
-							: m.cert_date
-								? new Date(m.cert_date).getFullYear()
-								: '',
-						posterUrl: m.imdb_poster_url,
-						languages: m.language ? [m.language] : []
-					}))
-					.sort((a, b) => {
-						// Primary sort: movies with posters first
-						const aHasPoster = !!a.posterUrl?.trim();
-						const bHasPoster = !!b.posterUrl?.trim();
-						if (aHasPoster !== bHasPoster) {
-							return aHasPoster ? -1 : 1;
-						}
-						// Secondary sort: by date (most recent first)
-						return (b.cert_date || '').localeCompare(a.cert_date || '');
-					});
+				const mapped = rawData.map((m: any) => ({
+					...m,
+					name: m.movie_name,
+					year: m.imdb_year
+						? parseInt(m.imdb_year)
+						: m.cert_date
+							? new Date(m.cert_date).getFullYear()
+							: '',
+					posterUrl: m.imdb_poster_url,
+					languages: m.language ? [m.language] : []
+				}));
+
+				const withPoster = mapped.filter((m: any) => !!m.posterUrl?.toString().trim());
+				const withoutPoster = mapped.filter((m: any) => !m.posterUrl?.toString().trim());
+				const seed = getNewlyAddedSeed();
+				newAdditions = [
+					...stratifyByDate(withPoster, seed),
+					...stratifyByDate(withoutPoster, seed + 1)
+				];
 			}
 		} catch (e) {
 			console.error('Failed to load recent updates', e);

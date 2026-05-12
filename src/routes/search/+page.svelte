@@ -145,6 +145,66 @@
 		};
 	}
 
+	// Mulberry32 — deterministic RNG seeded per session
+	function seededRng(seed) {
+		let s = seed >>> 0;
+		return () => {
+			s = (s + 0x6d2b79f5) >>> 0;
+			let t = Math.imul(s ^ (s >>> 15), 1 | s);
+			t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+			return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+		};
+	}
+
+	function getSessionSeed() {
+		if (!browser) return 1;
+		let raw = sessionStorage.getItem('search-default-seed');
+		if (!raw) {
+			raw = String(Math.floor(Math.random() * 1e9) || 1);
+			sessionStorage.setItem('search-default-seed', raw);
+		}
+		return parseInt(raw, 10) || 1;
+	}
+
+	// Fisher-Yates within a slice [start, end), using a seeded RNG
+	function shuffleInPlace(arr, start, end, rand) {
+		for (let i = end - 1; i > start; i--) {
+			const j = start + Math.floor(rand() * (i - start + 1));
+			[arr[i], arr[j]] = [arr[j], arr[i]];
+		}
+	}
+
+	// Stratified shuffle: top-5, next-5, next-5, last-5
+	// Preserves rough quality ordering while varying within tiers each session.
+	function stratifiedShuffle(hits, seed) {
+		const out = hits.slice();
+		const rand = seededRng(seed);
+		const tier = 5;
+		for (let i = 0; i < out.length; i += tier) {
+			shuffleInPlace(out, i, Math.min(i + tier, out.length), rand);
+		}
+		return out;
+	}
+
+	function isDefaultView(results) {
+		if (!results) return false;
+		if ((results.query || '').trim() !== '') return false;
+		if ((results.page || 0) !== 0) return false;
+		const params = results._state?.disjunctiveFacetsRefinements || {};
+		for (const key of Object.keys(params)) {
+			if (Array.isArray(params[key]) && params[key].length > 0) return false;
+		}
+		const facets = results._state?.facetsRefinements || {};
+		for (const key of Object.keys(facets)) {
+			if (Array.isArray(facets[key]) && facets[key].length > 0) return false;
+		}
+		const filters = results._state?.filters || '';
+		if (filters && String(filters).trim() !== '') return false;
+		const indexName = results._state?.index;
+		if (indexName && indexName !== 'films') return false;
+		return true;
+	}
+
 	function transformSearchHit(hit) {
 		const highlights = hit._highlightResult || {};
 		const { variant, searchMatch } = determineSearchMatch(hit, highlights);
@@ -220,7 +280,11 @@
 					searchResults = [];
 					return;
 				}
-				searchResults = (results.hits || []).map(transformSearchHit);
+				const rawHits = results.hits || [];
+				const ordered = isDefaultView(results)
+					? stratifiedShuffle(rawHits, getSessionSeed())
+					: rawHits;
+				searchResults = ordered.map(transformSearchHit);
 			}
 		});
 
