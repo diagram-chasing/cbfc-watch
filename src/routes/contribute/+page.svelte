@@ -12,14 +12,9 @@
 	import type { PageData } from './$types.js';
 	import { toast } from 'svelte-sonner';
 	import { fly, scale, slide } from 'svelte/transition';
-	import { onMount, onDestroy } from 'svelte';
-	import { Html5Qrcode, type Html5QrcodeResult } from 'html5-qrcode';
-	import {
-		isValidCBFCUrl,
-		selectBackCamera,
-		shouldProcessScan,
-		getCameraErrorMessage
-	} from '$lib/utils/qrScanner';
+	import { onMount } from 'svelte';
+	import CertificateScanner from '$lib/scanner/CertificateScanner.svelte';
+	import { isValidCBFCUrl, shouldProcessScan } from '$lib/utils/qrScanner';
 
 	import ClearPicture from '$lib/assets/demo.jpg';
 	import Certificates from '$lib/assets/censor-certificate.jpg';
@@ -43,10 +38,7 @@
 
 	// QR Mode state management
 	let scannedUrls = $state<string[]>([]);
-	let isScanning = $state(false);
 	let isBulkSubmitting = $state(false);
-	let html5QrCode: Html5Qrcode | null = null;
-	let scannerReaderElement: HTMLElement | null = null;
 	let isUrlListExpanded = $state(false);
 
 	// Track which URLs are currently being submitted (for individual feedback)
@@ -97,63 +89,14 @@
 
 	// ===== BULK QR MODE FUNCTIONS =====
 
-	/**
-	 * Initialize and start the QR scanner
-	 * The scanner continuously scans without stopping after each successful read
-	 */
-	async function startScanner() {
-		if (!scannerReaderElement || isScanning) return;
-
-		try {
-			// Initialize Html5Qrcode instance
-			html5QrCode = new Html5Qrcode('qr-reader', { verbose: false });
-			isScanning = true;
-
-			// Get the best camera (back camera on mobile)
-			const cameraId = await selectBackCamera();
-
-			// Configure scanner with continuous scanning enabled
-			const config = {
-				fps: 30, // Higher FPS for faster scanning
-				qrbox: 250, // Scanner viewfinder size
-				aspectRatio: 1.0
-			};
-
-			// Start scanning - onScanSuccess will be called for each successful scan
-			await html5QrCode.start(cameraId, config, onScanSuccess, onScanError);
-
-			console.log('[Scanner] Started successfully');
-		} catch (err: any) {
-			console.error('[Scanner] Error starting:', err);
-			isScanning = false;
-			const errorMsg = getCameraErrorMessage(err);
-			toast.error('Camera Error', {
-				description: errorMsg,
-				duration: 5000
-			});
-		}
-	}
-
-	/**
-	 * Handle successful QR code scan
-	 * This is called continuously for each detected QR code
-	 */
 	function onScanSuccess(decodedText: string) {
-		console.log('[Scanner] QR detected:', decodedText);
-
-		// Check cooldown to prevent rapid re-scanning
 		if (!shouldProcessScan(decodedText, lastScannedUrl, lastScanTime, 2000)) {
-			console.log('[Scanner] Cooldown active, ignoring');
 			return;
 		}
-
-		// Update last scan tracking
 		lastScannedUrl = decodedText;
 		lastScanTime = Date.now();
 
-		// Validate CBFC URL using utility function
 		if (!isValidCBFCUrl(decodedText)) {
-			console.log('[Scanner] Invalid CBFC URL');
 			toast.error('Invalid QR Code', {
 				description: 'This is not a valid CBFC certificate URL',
 				duration: 2000,
@@ -166,9 +109,7 @@
 			return;
 		}
 
-		// Check for duplicates
 		if (scannedUrls.includes(decodedText)) {
-			console.log('[Scanner] Duplicate URL');
 			toast.warning('Duplicate URL', {
 				description: 'This certificate has already been scanned',
 				duration: 2000
@@ -176,19 +117,13 @@
 			return;
 		}
 
-		// Add the URL to our collection
 		scannedUrls = [...scannedUrls, decodedText];
 		submissionStates[decodedText] = 'pending';
 
-		console.log('[Scanner] URL added successfully. Total:', scannedUrls.length);
-
-		// Vibrate to indicate successful scan (if supported)
 		if ('vibrate' in navigator) {
-			// Short double-pulse vibration pattern: vibrate 100ms, pause 50ms, vibrate 100ms
 			navigator.vibrate([100, 50, 100]);
 		}
 
-		// Show success toast with URL count
 		toast.success(`Certificate ${scannedUrls.length} added`, {
 			description: 'Point camera at next QR code',
 			duration: 1500,
@@ -200,30 +135,8 @@
 		});
 	}
 
-	/**
-	 * Handle scan errors (most are just "no QR code in view" - we can ignore these)
-	 */
-	function onScanError(errorMessage: string) {
-		// Silently ignore NotFoundException errors - they just mean no QR code is visible
-		if (!errorMessage.includes('NotFoundException')) {
-			console.warn('[Scanner] Error:', errorMessage);
-		}
-	}
-
-	/**
-	 * Stop the QR scanner and clean up resources
-	 */
-	async function stopScanner() {
-		if (html5QrCode && isScanning) {
-			try {
-				await html5QrCode.stop();
-				html5QrCode.clear();
-			} catch (err) {
-				console.error('Error stopping scanner:', err);
-			}
-		}
-		isScanning = false;
-		html5QrCode = null;
+	function onScannerError(message: string) {
+		toast.error('Camera Error', { description: message, duration: 5000 });
 	}
 
 	/**
@@ -348,55 +261,24 @@
 		}
 	}
 
-	/**
-	 * Handle tab change
-	 */
-	async function handleTabChange(value: string) {
+	function handleTabChange(value: string) {
 		activeTab = value as 'qr' | 'manual';
-
 		if (activeTab === 'qr') {
-			// Reset scan tracking
 			lastScannedUrl = '';
 			lastScanTime = 0;
-			// Wait for the scanner element to render before starting
-			setTimeout(() => {
-				startScanner();
-			}, 300);
-		} else {
-			await stopScanner();
 		}
 	}
 
-	// Detect mobile device and set default mode
 	onMount(() => {
-		// Detect mobile using media query (more reliable than user agent)
 		const mediaQuery = window.matchMedia('(max-width: 768px)');
 		isMobile = mediaQuery.matches;
+		if (isMobile) activeTab = 'qr';
 
-		// Set QR mode as default for mobile devices
-		if (isMobile) {
-			activeTab = 'qr';
-			// Start scanner after DOM is ready
-			setTimeout(() => {
-				startScanner();
-			}, 300);
-		}
-
-		// Listen for viewport changes
 		const handleResize = (e: MediaQueryListEvent | MediaQueryList) => {
 			isMobile = e.matches;
 		};
-
 		mediaQuery.addEventListener('change', handleResize);
-
-		return () => {
-			mediaQuery.removeEventListener('change', handleResize);
-		};
-	});
-
-	// Clean up scanner when component is destroyed
-	onDestroy(() => {
-		stopScanner();
+		return () => mediaQuery.removeEventListener('change', handleResize);
 	});
 
 	interface Step {
@@ -564,32 +446,23 @@
 				<!-- QR Scanner Tab Content -->
 				<Tabs.Content value="qr" class="mt-0 space-y-4">
 					<!-- Scanner Container -->
-					<div class="qr-scanner-container border-sepia-dark bg-sepia-dark relative overflow-hidden border">
-						<div id="qr-reader" bind:this={scannerReaderElement} class="aspect-square w-full"></div>
-
-						{#if !isScanning}
-							<div class="bg-sepia-dark absolute inset-0 flex items-center justify-center p-4">
-								<div class="text-center">
-									<div class="relative mx-auto mb-3 h-12 w-12">
-										<Camera class="text-sepia-light absolute inset-0 h-12 w-12 animate-pulse" />
-									</div>
-									<p class="font-atkinson text-sepia-light text-sm font-medium">Initializing camera...</p>
-								</div>
-							</div>
+					<div class="border-sepia-dark relative aspect-square w-full overflow-hidden border bg-black">
+						{#if activeTab === 'qr'}
+							<CertificateScanner
+								onScan={onScanSuccess}
+								onError={onScannerError}
+								paused={activeTab !== 'qr'}
+							/>
 						{/if}
 					</div>
 
 					<!-- Scanner Status & Controls - Ultra compact -->
 					<div class="bg-sepia-light border-sepia-dark flex items-center border p-2 sm:p-3">
 						<div class="flex flex-1 items-center justify-between">
-							{#if isScanning}
-								<div class="border-sepia-brown flex h-6 items-center gap-1.5 rounded-full border px-2.5">
-									<div class="bg-sepia-brown h-2 w-2 animate-pulse rounded-full"></div>
-									<span class="font-atkinson text-[10px] font-medium text-gray-700">Active</span>
-								</div>
-							{:else}
-								<div></div>
-							{/if}
+							<div class="border-sepia-brown flex h-6 items-center gap-1.5 rounded-full border px-2.5">
+								<div class="bg-sepia-brown h-2 w-2 animate-pulse rounded-full"></div>
+								<span class="font-atkinson text-[10px] font-medium text-gray-700">Active</span>
+							</div>
 
 							{#if scannedUrls.length > 0}
 								<Button
@@ -898,25 +771,3 @@
 	</section>
 </div>
 
-<style>
-	/* Ensure QR scanner video fills the container properly */
-	:global(#qr-reader video) {
-		width: 100% !important;
-		height: 100% !important;
-		object-fit: cover !important;
-		display: block;
-	}
-
-	:global(#qr-reader__dashboard_section) {
-		display: none !important;
-	}
-
-	:global(#qr-reader__header_message) {
-		display: none !important;
-	}
-
-	/* Hide the default scanning box animation */
-	:global(#qr-reader__scan_region) {
-		border: none !important;
-	}
-</style>
