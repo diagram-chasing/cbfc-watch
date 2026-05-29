@@ -15,7 +15,7 @@ export function createTypesenseAdapter() {
 			timeoutSeconds: 10
 		},
 		additionalSearchParameters: {
-			query_by: 'name,imdb_overview,ai_cleaned_descriptions,embeddings',
+			query_by: 'name,imdb_overview,ai_cleaned_descriptions',
 			query_by_weights: '10,4,3,1',
 			drop_tokens_threshold: 2,
 			typo_tokens_threshold: 2,
@@ -24,7 +24,6 @@ export function createTypesenseAdapter() {
 			highlight_affix_num_tokens: 3,
 			snippet_threshold: 30,
 			rerank_hybrid_matches: true,
-			vector_query: 'embeddings:([], k: 20)',
 			group_by: 'name,year',
 			group_limit: 1
 		}

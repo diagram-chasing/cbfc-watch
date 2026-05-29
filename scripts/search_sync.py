@@ -86,9 +86,6 @@ def create_search_schema():
             {'name': 'click_count', 'type': 'int32', 'facet': True, 'optional': True},
             {'name': 'has_poster', 'type': 'bool', 'facet': True},
             {'name': 'cert_date_timestamp', 'type': 'int64', 'facet': True},
-
-            # Embeddings
-            {'name': 'embeddings', 'type': 'float[]', 'embed': {'from': ['ai_cleaned_descriptions'], 'model_config': {'model_name': 'openai/gemini-embedding-001', 'api_key': os.environ.get('GEMINI_API_KEY'), 'url': 'https://generativelanguage.googleapis.com', 'path': '/v1beta/openai/embeddings'}}}
         ],
         'default_sorting_field': 'popularity_score'
     }
