@@ -16,7 +16,7 @@ export function createTypesenseAdapter() {
 		},
 		additionalSearchParameters: {
 			query_by: 'name,imdb_overview,ai_cleaned_descriptions',
-			query_by_weights: '10,4,3,1',
+			query_by_weights: '10,4,3',
 			drop_tokens_threshold: 2,
 			typo_tokens_threshold: 2,
 			num_typos: 1,
