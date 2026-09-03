@@ -51,6 +51,26 @@ CREATE TABLE IF NOT EXISTS modifications (
   FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
 );
 
+-- Scratch set of film ids first seen in the current import run. Modification
+-- rows are only inserted for these films, so re-importing the full CSV every
+-- cron run no longer duplicates every cut (modifications has no natural key).
+CREATE TABLE IF NOT EXISTS import_new_films (
+  id TEXT PRIMARY KEY
+);
+
+-- Precomputed certification-date histograms for the browse timeseries chart,
+-- rebuilt from the CSV by data_import.py. The AI categories have <10 values
+-- each but every value matches hundreds of thousands of modification rows;
+-- computing the histogram live read ~500k rows per page view.
+CREATE TABLE IF NOT EXISTS category_timeseries (
+  category_type TEXT NOT NULL,   -- CATEGORY_MAPPING id, e.g. 'aiContentTypes'
+  category_slug TEXT NOT NULL,   -- value slug as used in /browse/<type>/<slug>
+  period TEXT NOT NULL,          -- 'yearly' | 'monthly' | 'weekly'
+  bucket TEXT NOT NULL,          -- date_period string in the API's format
+  count INTEGER NOT NULL,
+  PRIMARY KEY (category_type, category_slug, period, bucket)
+);
+
 -- Simplified Film-Category Mapping
 CREATE TABLE IF NOT EXISTS film_categories (
   film_id TEXT NOT NULL,

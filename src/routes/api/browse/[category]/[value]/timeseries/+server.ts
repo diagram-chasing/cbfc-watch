@@ -1,10 +1,18 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import type { D1Database } from '@cloudflare/workers-types';
+import { cachedJson } from '$lib/server/edge-cache';
 import {
 	isValidUrlPath,
 	getCategoryFromUrlPath,
 	getCategoryQuery
 } from '../../../../../browse/categories';
+
+const EDGE_TTL_SECONDS = 86400;
+
+// Categories whose histograms are rebuilt into category_timeseries by
+// scripts/db/003-timeseries.sql. Their values each match hundreds of thousands
+// of modification rows, so the live query is far too expensive to run per hit.
+const PRECOMPUTED_CATEGORIES = new Set(['aiContentTypes', 'aiActionTypes', 'aiMediaElements']);
 
 interface TimeseriesDataPoint {
 	date: string;
@@ -12,7 +20,8 @@ interface TimeseriesDataPoint {
 	rollingAverage?: number;
 }
 
-export const GET: RequestHandler = async ({ params, url, platform }) => {
+export const GET: RequestHandler = async (event) => {
+	const { params, url, platform } = event;
 	const { category: urlPath, value } = params;
 	const db = platform?.env?.DB as D1Database;
 
@@ -57,27 +66,18 @@ export const GET: RequestHandler = async ({ params, url, platform }) => {
 		});
 	}
 
-	try {
-		const decodedValue = decodeURIComponent(value);
-		const data = await fetchTimeseriesData(db, categoryId, decodedValue, period, rollingWindow);
+	return cachedJson(event, EDGE_TTL_SECONDS, async () => {
+		try {
+			const decodedValue = decodeURIComponent(value);
+			const data = await fetchTimeseriesData(db, categoryId, decodedValue, period, rollingWindow);
 
-		const response = {
-			data,
-			category: urlPath,
-			value: decodedValue,
-			period,
-			rollingWindow
-		};
-
-		return new Response(JSON.stringify(response), {
-			headers: { 'Content-Type': 'application/json' }
-		});
-	} catch (error) {
-		return new Response(JSON.stringify({ error: 'Server error' }), {
-			status: 500,
-			headers: { 'Content-Type': 'application/json' }
-		});
-	}
+			return {
+				body: { data, category: urlPath, value: decodedValue, period, rollingWindow }
+			};
+		} catch (error) {
+			return { body: { error: 'Server error' }, status: 500 };
+		}
+	});
 };
 
 async function fetchTimeseriesData(
@@ -106,6 +106,10 @@ async function fetchTimeseriesData(
 			? 'SUBSTR(date_period, 1, 4), CAST(SUBSTR(date_period, 7) AS INTEGER)'
 			: 'date_period';
 
+	const precomputed = PRECOMPUTED_CATEGORIES.has(category)
+		? await fetchPrecomputed(db, category, searchParam, period, orderBy)
+		: null;
+
 	const query = `
 		SELECT
 			${dateGroup} as date_period,
@@ -120,7 +124,7 @@ async function fetchTimeseriesData(
 		ORDER BY ${orderBy}
 	`;
 
-	const result = await db.prepare(query).bind(searchParam).all();
+	const result = precomputed ?? (await db.prepare(query).bind(searchParam).all());
 
 	if (!result.success || !result.results) {
 		return [];
@@ -144,4 +148,29 @@ async function fetchTimeseriesData(
 	}
 
 	return data;
+}
+
+// Falls back to the live query when the table is missing (import not yet
+// re-run) or has no rows for this value.
+async function fetchPrecomputed(
+	db: D1Database,
+	category: string,
+	slug: string,
+	period: string,
+	orderBy: string
+) {
+	try {
+		const result = await db
+			.prepare(
+				`SELECT bucket AS date_period, count
+				 FROM category_timeseries
+				 WHERE category_type = ?1 AND category_slug = ?2 AND period = ?3
+				 ORDER BY ${orderBy}`
+			)
+			.bind(category, slug, period)
+			.all();
+		return result.success && result.results?.length ? result : null;
+	} catch {
+		return null;
+	}
 }

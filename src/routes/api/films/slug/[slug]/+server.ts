@@ -1,5 +1,8 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import type { D1Database } from '@cloudflare/workers-types';
+import { cachedJson } from '$lib/server/edge-cache';
+
+const EDGE_TTL_SECONDS = 86400;
 
 interface Modification {
 	id: number;
@@ -61,9 +64,9 @@ interface FilmDetail {
 	categories: Record<string, string[]>;
 }
 
-export const GET: RequestHandler = async ({ params, platform }) => {
-	const { slug } = params;
-	const db = platform?.env?.DB as D1Database;
+export const GET: RequestHandler = async (event) => {
+	const { slug } = event.params;
+	const db = event.platform?.env?.DB as D1Database;
 
 	if (!slug || !db) {
 		return new Response(JSON.stringify({ error: 'Missing slug or database' }), {
@@ -72,20 +75,14 @@ export const GET: RequestHandler = async ({ params, platform }) => {
 		});
 	}
 
-	try {
-		const film = await fetchFilmData(db, slug);
-		return film
-			? new Response(JSON.stringify(film), { headers: { 'Content-Type': 'application/json' } })
-			: new Response(JSON.stringify({ error: 'Film not found' }), {
-					status: 404,
-					headers: { 'Content-Type': 'application/json' }
-				});
-	} catch (error) {
-		return new Response(JSON.stringify({ error: 'Server error' }), {
-			status: 500,
-			headers: { 'Content-Type': 'application/json' }
-		});
-	}
+	return cachedJson(event, EDGE_TTL_SECONDS, async () => {
+		try {
+			const film = await fetchFilmData(db, slug);
+			return film ? { body: film } : { body: { error: 'Film not found' }, status: 404 };
+		} catch (error) {
+			return { body: { error: 'Server error' }, status: 500 };
+		}
+	});
 };
 
 async function fetchFilmData(db: D1Database, slug: string): Promise<FilmDetail | null> {

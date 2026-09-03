@@ -1,0 +1,5 @@
+# Every /api/ hit runs D1 queries; crawlers should index the pages, not the JSON.
+User-agent: *
+Disallow: /api/
+Disallow: /browse/*?page=
+Crawl-delay: 10

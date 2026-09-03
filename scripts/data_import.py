@@ -15,6 +15,8 @@ from film_utils import *
 from film_analysis import run_analysis
 import pandas as pd
 import subprocess
+from collections import defaultdict
+from datetime import datetime
 
 def generate_sql_batches(csv_path, output_dir, batch_size=DEFAULT_BATCH_SIZE):
     """Generate SQL batch files from CSV data."""
@@ -33,6 +35,7 @@ def generate_sql_batches(csv_path, output_dir, batch_size=DEFAULT_BATCH_SIZE):
     batch_file = os.path.join(output_dir, f"tmp_import_batch_{current_batch}.sql")
     sqlfile = open(batch_file, 'w', encoding='utf-8')
     batch_files.append(batch_file)
+    sqlfile.write("DELETE FROM import_new_films;\n")
 
     for group_key, film_rows in groups.items():
         # Handle both old format (name, year) and new format (name, year, film_id)
@@ -99,7 +102,10 @@ def generate_sql_batches(csv_path, output_dir, batch_size=DEFAULT_BATCH_SIZE):
             imdb_languages = sql_value(best_row.get('imdb_languages'))
             imdb_studios = sql_value(best_row.get('imdb_studios'))
 
-            sqlfile.write(f"""INSERT OR IGNORE INTO films (id, slug, name, year, language, duration, rating, cert_date, cert_no, cbfc_file_no, applicant, certifier, poster_url, imdb_id, imdb_rating, imdb_votes, imdb_overview, imdb_genres, imdb_directors, imdb_actors, imdb_countries, imdb_languages, imdb_studios)
+            # Mark the film as new *before* inserting it, so every one of its
+            # cuts below passes the import_new_films check.
+            sqlfile.write(f"""INSERT OR IGNORE INTO import_new_films (id) SELECT {film_id} WHERE NOT EXISTS (SELECT 1 FROM films WHERE id = {film_id});
+INSERT OR IGNORE INTO films (id, slug, name, year, language, duration, rating, cert_date, cert_no, cbfc_file_no, applicant, certifier, poster_url, imdb_id, imdb_rating, imdb_votes, imdb_overview, imdb_genres, imdb_directors, imdb_actors, imdb_countries, imdb_languages, imdb_studios)
 VALUES ({film_id}, {sql_value(slug)}, {name}, {sql_value(year, True)}, {language}, {duration}, {rating}, {cert_date}, {cert_no}, {cbfc_file_no}, {applicant}, {certifier}, {poster_url}, {imdb_id}, {imdb_rating}, {imdb_votes}, {overview}, {imdb_genres}, {imdb_directors}, {imdb_actors}, {imdb_countries}, {imdb_languages}, {imdb_studios});
 """)
 
@@ -116,8 +122,9 @@ VALUES ({film_id}, {sql_value(slug)}, {name}, {sql_value(year, True)}, {language
                 ai_media_elements = sql_value(row.get('ai_media_element'))
                 ai_references = sql_value(row.get('ai_reference'))
 
-                sqlfile.write(f"""INSERT OR IGNORE INTO modifications (film_id, cut_no, description, ai_description, deleted_secs, replaced_secs, inserted_secs, ai_action_types, ai_content_types, ai_media_elements, ai_references)
-VALUES ({film_id}, {cut_no}, {description}, {ai_desc}, {deleted_secs}, {replaced_secs}, {inserted_secs}, {ai_action_types}, {ai_content_types}, {ai_media_elements}, {ai_references});
+                sqlfile.write(f"""INSERT INTO modifications (film_id, cut_no, description, ai_description, deleted_secs, replaced_secs, inserted_secs, ai_action_types, ai_content_types, ai_media_elements, ai_references)
+SELECT {film_id}, {cut_no}, {description}, {ai_desc}, {deleted_secs}, {replaced_secs}, {inserted_secs}, {ai_action_types}, {ai_content_types}, {ai_media_elements}, {ai_references}
+WHERE EXISTS (SELECT 1 FROM import_new_films WHERE id = {film_id});
 """)
 
             rows_written += 1
@@ -130,11 +137,81 @@ VALUES ({film_id}, {cut_no}, {description}, {ai_desc}, {deleted_secs}, {replaced
         f.write("""CREATE INDEX IF NOT EXISTS idx_films_slug ON films(slug);
 CREATE INDEX IF NOT EXISTS idx_films_year ON films(year);
 CREATE INDEX IF NOT EXISTS idx_modifications_film_id ON modifications(film_id);
-ANALYZE;
+DELETE FROM import_new_films;
 """)
     batch_files.append(index_file)
 
     return batch_files
+
+
+# Slug rules mirror scripts/db/001-normalize.sql section 6 and the URL slugs in
+# src/routes/browse/categories.ts.
+TIMESERIES_CATEGORIES = [
+    # (category_type, csv column, slug overrides)
+    ('aiContentTypes', 'ai_content_types', {
+        'sexual_suggestive': 'sexual-content',
+        'sexual_explicit': 'explicit-sexual',
+        'substance': 'substance-use',
+        'identity_reference': 'identity-references',
+    }),
+    ('aiActionTypes', 'ai_action', {}),
+    ('aiMediaElements', 'ai_media_element', {}),
+]
+
+
+def _timeseries_buckets(cert_date):
+    """(yearly, monthly, weekly) bucket strings in the timeseries API's format."""
+    try:
+        week = int(datetime.strptime(cert_date, '%Y-%m-%d').strftime('%W'))
+    except ValueError:
+        week = 0  # SQLite's STRFTIME returns NULL here, which PRINTF renders as 00
+    return cert_date[:4], cert_date[:7], f"{int(cert_date[:4]):04d}-W{week:02d}"
+
+
+def generate_timeseries_sql(csv_path, output_dir):
+    """Rebuild category_timeseries from the CSV.
+
+    Doing this in Python instead of D1 costs zero rows_read; the equivalent
+    INSERT ... SELECT over the modification tables reads tens of millions of rows.
+    """
+    df = pd.read_csv(csv_path, dtype=str, keep_default_na=False)
+    if 'id' not in df.columns or 'cert_date' not in df.columns:
+        print("Timeseries: CSV missing id/cert_date columns, skipping")
+        return None
+
+    # First row wins per film, matching INSERT OR IGNORE INTO films.
+    film_dates = df.drop_duplicates('id').set_index('id')['cert_date']
+    film_dates = film_dates[
+        (film_dates.str.len() >= 10) & (film_dates >= '2017-01-01')
+    ]
+
+    counts = defaultdict(int)  # (category_type, slug, period, bucket) -> films
+    for category_type, column, overrides in TIMESERIES_CATEGORIES:
+        if column not in df.columns:
+            continue
+        pairs = df[['id', column]][df[column] != '']
+        pairs = pairs.assign(value=pairs[column].str.split('|')).explode('value')
+        pairs['value'] = pairs['value'].str.strip()
+        pairs = pairs[pairs['value'] != ''].drop_duplicates(['id', 'value'])
+        pairs = pairs[pairs['id'].isin(film_dates.index)]
+        for film_id, value in zip(pairs['id'], pairs['value']):
+            slug = overrides.get(value, value.lower().replace('_', '-'))
+            for period, bucket in zip(('yearly', 'monthly', 'weekly'), _timeseries_buckets(film_dates[film_id])):
+                counts[(category_type, slug, period, bucket)] += 1
+
+    output = os.path.join(output_dir, "tmp_import_timeseries.sql")
+    with open(output, 'w', encoding='utf-8') as f:
+        f.write("DELETE FROM category_timeseries;\n")
+        rows = [
+            f"({sql_value(ct)}, {sql_value(slug)}, {sql_value(period)}, {sql_value(bucket)}, {n})"
+            for (ct, slug, period, bucket), n in sorted(counts.items())
+        ]
+        for i in range(0, len(rows), 500):
+            f.write("INSERT INTO category_timeseries (category_type, category_slug, period, bucket, count) VALUES\n"
+                    + ",\n".join(rows[i:i + 500]) + ";\n")
+
+    print(f"Timeseries: {len(rows)} rows")
+    return output
 
 def generate_analysis_sql(analysis_csv_path, output_dir):
     """Generate SQL for analysis results from the analysis CSV."""
@@ -197,8 +274,9 @@ def import_to_d1(batch_files, db_mode='local', db_name=None):
                 print(f"Schema application failed for {schema_file.name}: {stderr}")
 
     # Import batches
-    data_files = [f for f in batch_files if 'final_indexes' not in f]
+    data_files = [f for f in batch_files if 'final_indexes' not in f and 'timeseries' not in f]
     index_file = next((f for f in batch_files if 'final_indexes' in f), None)
+    timeseries_file = next((f for f in batch_files if 'timeseries' in f), None)
 
     for i, batch_file in enumerate(data_files, 1):
         print(f"Importing batch {i}/{len(data_files)}: {os.path.basename(batch_file)}")
@@ -224,6 +302,18 @@ def import_to_d1(batch_files, db_mode='local', db_name=None):
             os.remove(index_file)
         else:
             print(f"Index creation failed: {stderr}")
+
+    # Rebuild the precomputed browse timeseries (~9k rows)
+    if timeseries_file:
+        print("Rebuilding category_timeseries...")
+        success, _, stderr = run_command([
+            'npx', 'wrangler', 'd1', 'execute', db_name, wrangler_flag,
+            f'--file={timeseries_file}', '-y'
+        ], timeout=300)
+        if success:
+            os.remove(timeseries_file)
+        else:
+            print(f"Timeseries rebuild failed: {stderr}")
 
     # Verify import
     print("Verifying import...")
@@ -300,6 +390,10 @@ def main():
         analysis_sql = generate_analysis_sql(analysis_csv, temp_dir)
         if analysis_sql:
             batch_files.append(analysis_sql)
+
+        timeseries_sql = generate_timeseries_sql(csv_path, temp_dir)
+        if timeseries_sql:
+            batch_files.append(timeseries_sql)
 
         # Import to database
         success = import_to_d1(batch_files, args.db_mode)

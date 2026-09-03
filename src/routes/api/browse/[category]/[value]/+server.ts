@@ -1,11 +1,14 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import type { D1Database } from '@cloudflare/workers-types';
+import { cachedJson } from '$lib/server/edge-cache';
 import {
 	isValidUrlPath,
 	getCategoryFromUrlPath,
 	getCategoryQuery,
 	convertValueToDisplayName
 } from '../../../../browse/categories';
+
+const EDGE_TTL_SECONDS = 86400;
 
 interface Film {
 	id: string;
@@ -16,7 +19,8 @@ interface Film {
 	poster_url: string | null;
 }
 
-export const GET: RequestHandler = async ({ params, platform, url }) => {
+export const GET: RequestHandler = async (event) => {
+	const { params, platform, url } = event;
 	const { category: urlPath, value } = params;
 	const db = platform?.env?.DB as D1Database;
 
@@ -45,35 +49,32 @@ export const GET: RequestHandler = async ({ params, platform, url }) => {
 	const page = Math.max(1, parseInt(url.searchParams.get('page') || '1'));
 	const perPage = 50;
 
-	try {
-		const decodedValue = decodeURIComponent(value);
-		const { films, totalCount } = await fetchFilms(db, categoryId, decodedValue, page, perPage);
-		const totalPages = Math.ceil(totalCount / perPage);
+	return cachedJson(event, EDGE_TTL_SECONDS, async () => {
+		try {
+			const decodedValue = decodeURIComponent(value);
+			const { films, totalCount } = await fetchFilms(db, categoryId, decodedValue, page, perPage);
+			const totalPages = Math.ceil(totalCount / perPage);
 
-		const response = {
-			films,
-			category: urlPath,
-			value: decodedValue,
-			totalCount,
-			displayName: convertValueToDisplayName(categoryId, decodedValue),
-			pagination: {
-				currentPage: page,
-				perPage,
-				totalPages,
-				hasNextPage: page < totalPages,
-				hasPreviousPage: page > 1
-			}
-		};
-
-		return new Response(JSON.stringify(response), {
-			headers: { 'Content-Type': 'application/json' }
-		});
-	} catch (error) {
-		return new Response(JSON.stringify({ error: 'Server error' }), {
-			status: 500,
-			headers: { 'Content-Type': 'application/json' }
-		});
-	}
+			return {
+				body: {
+					films,
+					category: urlPath,
+					value: decodedValue,
+					totalCount,
+					displayName: convertValueToDisplayName(categoryId, decodedValue),
+					pagination: {
+						currentPage: page,
+						perPage,
+						totalPages,
+						hasNextPage: page < totalPages,
+						hasPreviousPage: page > 1
+					}
+				}
+			};
+		} catch (error) {
+			return { body: { error: 'Server error' }, status: 500 };
+		}
+	});
 };
 
 async function fetchFilms(
